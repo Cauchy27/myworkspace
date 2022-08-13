@@ -1,0 +1,31 @@
+version: '3.9'
+
+networks:
+  react_express:
+    driver: bridge
+
+services:
+  frontend:
+    build: ./app
+    container_name: front
+    tty: true
+    volumes:
+      - ./app:/app:cached
+    command: sh -c "cd tell-me && yarn start"
+    ports:
+      - "3001:3000"
+    networks:
+      - react_express
+
+  backend:
+    build: ./backend
+    container_name: back
+    tty: true
+    volumes:
+      - ./backend:/backend
+    command: sh -c "node index.js"
+    working_dir: "/backend"
+    ports:
+      - 3002:3000
+    networks:
+      - react_express
