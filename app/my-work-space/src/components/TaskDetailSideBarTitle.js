@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react';
 
+import TaskDetailSideBar from"./TaskDetailSideBar";
 import Images from "./getImagePath";
 
 const TaskDetailSideBarTitle = (props) => {
+
+  let memos = props.memos;
 
   const taskDetailSideBarTitleStyle = {
     "backgroundColor": "#FF99FF",
@@ -10,8 +13,8 @@ const TaskDetailSideBarTitle = (props) => {
     // "paddingBottom":"3%",
     // "paddingLeft":"2%",
     // "paddingRight":"2%",
-    "border":"solid 5px #555555",
-    "width":"100%",
+    "border":"solid 2px #555555",
+    "width":"98%",
     // "height":"30px",
     "marginLeft":"auto",
     "marginRight":"auto",
@@ -29,6 +32,19 @@ const TaskDetailSideBarTitle = (props) => {
     "marginLeft":"5px",
   }
 
+  const changeDisplayStatus = () => {
+    {
+      memos.map((memo, index) => {
+        if(arrow == "under_arrow1"){
+          memo.displayStatus = true;
+        }
+        else{
+          memo.displayStatus = false;
+        }
+      }
+    )}
+  }
+
   const clickAction = () =>{
     // 矢印の向きを切り替え
     if(arrow == "under_arrow1"){
@@ -39,21 +55,32 @@ const TaskDetailSideBarTitle = (props) => {
     }
 
     // 折りたたみ状態の切り替え
+    changeDisplayStatus();
   }
 
   return (
-    <div style={taskDetailSideBarTitleStyle}>
-      <h2>
-        {props.title}
-        <img src={Images[arrow]}
-          style={iconStyle}
-          onClick ={
-            ()=>{
-              clickAction();
+    <div style={{"width":"100%"}}>
+      <div style={taskDetailSideBarTitleStyle}>
+        <h2>
+          {props.title}
+          <img src={Images[arrow]}
+            style={iconStyle}
+            onClick ={
+              ()=>{
+                clickAction();
+              }
             }
-          }
-        ></img>
-      </h2>
+          ></img>
+        </h2>
+      </div>
+      {memos.map((memo, index) =>
+        <TaskDetailSideBar 
+          index = {index}
+          title = {memo.title}
+          text = {memo.text}
+          displayStatus = {memo.displayStatus}
+        />
+      )}
     </div>
   );
 }

@@ -8,11 +8,12 @@ const TaskDetailSideBar = (props) => {
     "backgroundColor": "#FFFFFF",
     // "paddingTop":"3%",
     // "paddingBottom":"3%",
-    "paddingLeft":"2%",
-    "paddingRight":"2%",
+    // "paddingLeft":"2%",
+    // "paddingRight":"2%",
     "border":"solid 2px #555555",
-    "width":"100%",
+    "width":"98%",
     // "height":"20%",
+    // "marginBottom":"2px",
     "marginLeft":"auto",
     "marginRight":"auto",
     "justifyContent": "center",
@@ -23,6 +24,8 @@ const TaskDetailSideBar = (props) => {
     "height":"20px",
     "marginLeft":"5px",
   }
+
+  let displayStatus = props.displayStatus;
 
   const clickAction = () =>{
     // ピン状態の切り替え
@@ -38,7 +41,9 @@ const TaskDetailSideBar = (props) => {
   const [pin, setPin] = useState(["pin1"]);
 
   return (
-    <div style={taskDetailSideStyle}>
+    <div style={taskDetailSideStyle}
+      id={props.index}
+    >
       <h3>
         {props.index}：{props.title}
         <img src={Images[pin]}
@@ -50,7 +55,9 @@ const TaskDetailSideBar = (props) => {
           }
         ></img>
       </h3>
-      <p>{props.text}</p>
+      {((!displayStatus && pin == "pin2") || displayStatus ) &&
+        <p>{props.text}</p>
+      }
     </div>
   );
 }

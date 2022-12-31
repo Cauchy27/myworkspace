@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 
 import TaskDetail from "./components/TastDetail";
-import TaskDetailSideBar from"./components/TaskDetailSideBar";
 import TaskDetailSideBarTitle from"./components/TaskDetailSideBarTitle";
 import LoginForm from "./components/LoginForm";
 import MainScreen from "./components/MainScreen";
@@ -15,6 +14,7 @@ const App = () => {
     .then(res => res.json())
     .then(data => {
       setMemos(data);
+      console.log("effect!!!")
     }).catch(err => {
       console.log(err);
     });
@@ -136,16 +136,8 @@ const App = () => {
           >
             <TaskDetailSideBarTitle
               title = "タスク一覧"
-            >
-            </TaskDetailSideBarTitle>
-            {memos.map((memo, index) =>
-              <TaskDetailSideBar 
-                index = {index}
-                title = {memo.title}
-                text = {memo.text}
-              >
-              </TaskDetailSideBar>
-            )}
+              memos = {memos}
+            />
           </div>
         </div>
 
