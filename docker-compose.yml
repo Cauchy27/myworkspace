@@ -1,8 +1,13 @@
 version: '3.9'
 
 networks:
-  react_express:
+  app_network:
     driver: bridge
+  backend_network:
+    driver: bridge
+
+volumes:
+  mysql_mws_data:
 
 services:
   frontend:
@@ -11,11 +16,13 @@ services:
     tty: true
     volumes:
       - ./app:/app:cached
-    command: sh -c "cd tell-me && yarn start"
+    command: sh -c "cd my-work-space && yarn start"
     ports:
       - "3001:3000"
     networks:
-      - react_express
+      - app_network
+    depends_on:
+        - backend
 
   backend:
     build: ./backend
@@ -28,4 +35,28 @@ services:
     ports:
       - 3002:3000
     networks:
-      - react_express
+      - app_network
+      - backend_network
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8.0
+    volumes:
+      - ./db/conf:/etc/mysql/conf.d/:ro
+      - ./db/logs:/var/log/mysql
+      - ./db/initdb.d:/docker-entrypoint-initdb.d
+      - mysql_mws_data:/var/lib/mysql
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+      - MYSQL_ROOT_HOST=${DB_ROOT_HOST}
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASS}
+      - MYSQL_ROOT_PASSWORD=${DB_PASS}
+      - TZ=${TZ}
+    ports:
+      - '3306:3306'
+    networks:
+      - backend_network
