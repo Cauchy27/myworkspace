@@ -45,7 +45,12 @@ const TaskDetailSideBarTitle = (props) => {
     )}
   }
 
+  // 折りたたみ状態の切り替え
+  changeDisplayStatus();
+
   const clickAction = () =>{
+    // 折りたたみ状態の切り替え
+    changeDisplayStatus();
     // 矢印の向きを切り替え
     if(arrow == "under_arrow1"){
       setArrow("upper_arrow1");
@@ -53,9 +58,6 @@ const TaskDetailSideBarTitle = (props) => {
     else{
       setArrow("under_arrow1");
     }
-
-    // 折りたたみ状態の切り替え
-    changeDisplayStatus();
   }
 
   return (
