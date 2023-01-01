@@ -38,8 +38,11 @@ const App = () => {
     // console.log('dragIndex', dragIndex);
     if (index === dragIndex) return;
     setMemos((prevState) => {
+      // 前の状況
       let newMemos = JSON.parse(JSON.stringify(prevState));
+      // 移動元のコンポーネントを削除
       const deleteElement = newMemos.splice(dragIndex, 1)[0];
+      // 移動先のindexでコンポーネントを追加
       newMemos.splice(index, 0, deleteElement);
       return newMemos;
     });
@@ -56,34 +59,51 @@ const App = () => {
       }}
     >
       <div
-      style={{
-        "backgroundColor": "#00FF00",
-        "position": "relative",
-        "height":"10%",
-        "width":"75%",
-      }}
-      ></div>
+        style={{
+          "backgroundColor": "#00FF00",
+          "position": "absolute",
+          "top":"0",
+          "left":"0",
+          "height":"10%",
+          "width":"50%",
+        }}
+      >
+        <p>※前日からのメッセージ欄</p>
+      </div>
       <div
-      style={{
-        "backgroundColor": "#FF0000",
-        "position": "absolute",
-        "top":"10%",
-        "height":"90%",
-        "width":"75%",
-        "display":"flex",
-        "justifyContent":"center",
-      }}
+        style={{
+          "backgroundColor": "#FF9900",
+          "position": "absolute",
+          "top":"0%",
+          "left":"50%",
+          "height":"10%",
+          "width":"50%",
+        }}
+      >
+        <p>※メニュー欄</p>
+      </div>
+
+      <div
+        style={{
+          "backgroundColor": "#FF0000",
+          "position": "absolute",
+          "top":"10%",
+          "height":"90%",
+          "width":"75%",
+          "display":"flex",
+          "justifyContent":"center",
+        }}
       >
         <div
           style={{
             "backgroundColor": "#FFFF00",
             "position": "relative",
-            "height":"95%",
+            "height":"90%",
             "width":"95%",
             "marginLeft":"auto",
             "marginRight":"auto",
-            "marginTop":"auto",
-            "marginBottom":"auto",
+            "marginTop":"5%",
+            "marginBottom":"5%",
             "alignItems":"center",
             "overflow":"scroll",
           }}
@@ -93,7 +113,7 @@ const App = () => {
               "display":"flex",
               "justifyContent":"center",
               "alignItems":"center",
-              "flexWrap":"wrap-reverse",
+              "flexWrap":"wrap",
               "overflow":"scroll"
             }}
           >
@@ -124,8 +144,8 @@ const App = () => {
           "backgroundColor": "#808080",
           "position": "absolute",
           "left":"75%",
-          "top":"0%",
-          "height":"100%",
+          "top":"10%",
+          "height":"90%",
           "width":"25%",
           "display":"flex",
           "justifyContent":"center",
