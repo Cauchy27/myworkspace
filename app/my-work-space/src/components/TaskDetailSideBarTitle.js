@@ -14,7 +14,7 @@ const TaskDetailSideBarTitle = (props) => {
     // "paddingLeft":"2%",
     // "paddingRight":"2%",
     "border":"solid 2px #555555",
-    "width":"98%",
+    "width":"99%",
     // "height":"30px",
     "marginLeft":"auto",
     "marginRight":"auto",
@@ -76,11 +76,13 @@ const TaskDetailSideBarTitle = (props) => {
         </h2>
       </div>
       {memos.map((memo, index) =>
+      
         <TaskDetailSideBar 
           index = {index}
           title = {memo.title}
           text = {memo.text}
           displayStatus = {memo.displayStatus}
+          key = {index}
         />
       )}
     </div>

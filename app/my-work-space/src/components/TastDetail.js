@@ -15,7 +15,14 @@ const TaskDetail = (props) => {
   }
 
   return (
-    <div style={taskDetailStyle}>
+    <div 
+      style={taskDetailStyle}
+      id={props.index}
+      draggable={true}
+      onDragStart={() => props.dragStart()}
+      onDragEnter={()=>props.dragEnter()}
+      onDragOver={(event) => event.preventDefault()}
+    >
       <h3>{props.index}：{props.title}</h3>
       <p>{props.text}</p>
     </div>

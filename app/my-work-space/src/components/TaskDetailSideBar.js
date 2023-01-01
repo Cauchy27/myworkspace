@@ -11,7 +11,7 @@ const TaskDetailSideBar = (props) => {
     // "paddingLeft":"2%",
     // "paddingRight":"2%",
     "border":"solid 2px #555555",
-    "width":"98%",
+    "width":"99%",
     // "height":"20%",
     // "marginBottom":"2px",
     "marginLeft":"auto",
@@ -41,8 +41,9 @@ const TaskDetailSideBar = (props) => {
   const [pin, setPin] = useState(["pin1"]);
 
   return (
-    <div style={taskDetailSideStyle}
-      id={props.index}
+    <div 
+      style={taskDetailSideStyle}
+      id={props.index} 
     >
       <h3>
         {props.index}：{props.title}

@@ -14,11 +14,37 @@ const App = () => {
     .then(res => res.json())
     .then(data => {
       setMemos(data);
-      console.log("effect!!!")
     }).catch(err => {
       console.log(err);
     });
   }, []);
+
+  const [dragIndex, setDragIndex] = useState(null);
+
+  // ドラッグ開始の検知
+  useEffect(()=>{
+    console.log(dragIndex);
+  },[dragIndex]);
+
+
+  // ドラッグ開始時
+  const dragStart = (index) => {
+    setDragIndex(index);
+  }
+
+  // ドラッグ移動先
+  const dragEnter = (index) => {
+    // console.log('index', index);
+    // console.log('dragIndex', dragIndex);
+    if (index === dragIndex) return;
+    setMemos((prevState) => {
+      let newMemos = JSON.parse(JSON.stringify(prevState));
+      const deleteElement = newMemos.splice(dragIndex, 1)[0];
+      newMemos.splice(index, 0, deleteElement);
+      return newMemos;
+    });
+    setDragIndex(index);
+  }
 
   return (
     <div
@@ -76,6 +102,17 @@ const App = () => {
                 index = {index}
                 title = {memo.title}
                 text = {memo.text}
+                dragStart = {
+                  ()=>{
+                    dragStart(index);
+                  }
+                }
+                dragEnter = {
+                  ()=>{
+                    dragEnter(index);
+                  }
+                }
+                key = {index}
               >
               </TaskDetail>
             )}
@@ -87,8 +124,8 @@ const App = () => {
           "backgroundColor": "#808080",
           "position": "absolute",
           "left":"75%",
-          "top":"10%",
-          "height":"90%",
+          "top":"0%",
+          "height":"100%",
           "width":"25%",
           "display":"flex",
           "justifyContent":"center",
@@ -98,8 +135,8 @@ const App = () => {
         style={{
           "backgroundColor": "#CCFFFF",
           "position": "relative",
-          "height":"95%",
-          "width":"90%",
+          "height":"100%",
+          "width":"100%",
           "marginLeft":"auto",
           "marginRight":"auto",
           "marginTop":"auto",
@@ -110,9 +147,9 @@ const App = () => {
           style={{
             "backgroundColor": "#FFFF00",
             "position": "relative",
-            "height":"95%",
-            "width":"95%",
-            "top":"3%",
+            "height":"100%",
+            "width":"100%",
+            // "top":"3%",
             "marginLeft":"auto",
             "marginRight":"auto",
             "marginTop":"auto",
