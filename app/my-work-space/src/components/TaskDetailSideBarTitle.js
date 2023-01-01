@@ -5,7 +5,18 @@ import Images from "./getImagePath";
 
 const TaskDetailSideBarTitle = (props) => {
 
-  let memos = props.memos;
+  let [memos, setMemos] = useState([]);
+
+  // 読み込み時の動作
+  useEffect(() => {
+    fetch('/memoTest')
+    .then(res => res.json())
+    .then(data => {
+      setMemos(data);
+    }).catch(err => {
+      console.log(err);
+    });
+  }, []);
 
   const taskDetailSideBarTitleStyle = {
     "backgroundColor": "#FF99FF",
