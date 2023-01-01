@@ -79,4 +79,34 @@ app.get('/memoTest', (req, res) => {
   ]);
 });
 
+app.get('/menuTest', (req, res) => {
+  res.json([
+    {
+      id: 1,
+      title:"業務日誌",
+      url: "test1"
+    }, 
+    {
+      id: 2,
+      title:"タスク管理",
+      url: "test2"
+    }, 
+    {
+      id: 3,
+      title:"集計・分析",
+      url: "test3"
+    }, 
+    {
+      id: 4,
+      title:"設定",
+      url: "test4"
+    }, 
+    {
+      id: 5,
+      title:"アカウント",
+      url: "test5"
+    }, 
+  ]);
+});
+
 app.listen(port, () => console.log(`Server running on port ${port}`));

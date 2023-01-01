@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import TaskScreen from "./components/screen/TaskScreen";
+import MenuBar from "./components/MenuBar"
 import TaskDetailSideBarTitle from"./components/TaskDetailSideBarTitle";
 import LoginForm from "./components/LoginForm";
 import MainScreen from "./components/screen/MainScreen";
@@ -36,9 +37,12 @@ const App = () => {
           "left":"50%",
           "height":"10%",
           "width":"50%",
+          "display":"flex",
+          "justifyContent":"center",
+          "verticalAlign":"middle",
         }}
       >
-        <p>※メニュー欄</p>
+        <MenuBar/>
       </div>
 
       <div
@@ -75,7 +79,7 @@ const App = () => {
           "position": "absolute",
           "left":"75%",
           "top":"10%",
-          "height":"90%",
+          "height":"45%",
           "width":"25%",
           "display":"flex",
           "justifyContent":"center",
@@ -107,28 +111,85 @@ const App = () => {
             "alignItems":"center",
             "overflow":"scroll",
           }}
-        >
-          <div 
-            style={{
-              "display":"flex",
-              "justifyContent":"center",
-              "alignItems":"center",
-              "flexWrap":"wrap",
-              "overflow":"scroll",
-              "marginLeft":"auto",
-              "marginRight":"auto",
-              "marginTop":"auto",
-              "marginBottom":"auto",
-            }}
           >
-            <TaskDetailSideBarTitle
-              title = "タスク一覧"
-            />
+            <div 
+              style={{
+                "display":"flex",
+                "justifyContent":"center",
+                "alignItems":"center",
+                "flexWrap":"wrap",
+                "overflow":"scroll",
+                "marginLeft":"auto",
+                "marginRight":"auto",
+                "marginTop":"auto",
+                "marginBottom":"auto",
+              }}
+            >
+              <TaskDetailSideBarTitle
+                title = "タスク一覧"
+              />
+            </div>
           </div>
         </div>
-
+      </div>
+      <div
+        style={{
+          "backgroundColor": "#808080",
+          "position": "absolute",
+          "left":"75%",
+          "top":"55%",
+          "height":"45%",
+          "width":"25%",
+          "display":"flex",
+          "justifyContent":"center",
+        }}
+      >
+        <div
+        style={{
+          "backgroundColor": "#CCFFFF",
+          "position": "relative",
+          "height":"100%",
+          "width":"100%",
+          "marginLeft":"auto",
+          "marginRight":"auto",
+          "marginTop":"auto",
+          "marginBottom":"auto",
+        }}
+        >
+          <div
+          style={{
+            "backgroundColor": "#FFFF00",
+            "position": "relative",
+            "height":"100%",
+            "width":"100%",
+            // "top":"3%",
+            "marginLeft":"auto",
+            "marginRight":"auto",
+            "marginTop":"auto",
+            "marginBottom":"auto",
+            "alignItems":"center",
+            "overflow":"scroll",
+          }}
+          >
+            <div 
+              style={{
+                "display":"flex",
+                "justifyContent":"center",
+                "alignItems":"center",
+                "flexWrap":"wrap",
+                "overflow":"scroll",
+                "marginLeft":"auto",
+                "marginRight":"auto",
+                "marginTop":"auto",
+                "marginBottom":"auto",
+              }}
+            >
+              <TaskDetailSideBarTitle
+                title = "メモ一覧"
+              />
+            </div>
+          </div>
         </div>
-
       </div>
     </div>
   );

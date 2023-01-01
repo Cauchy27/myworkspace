@@ -86,16 +86,18 @@ const TaskDetailSideBarTitle = (props) => {
           ></img>
         </h2>
       </div>
-      {memos.map((memo, index) =>
-      
-        <TaskDetailSideBar 
-          index = {index}
-          title = {memo.title}
-          text = {memo.text}
-          displayStatus = {memo.displayStatus}
-          key = {index}
-        />
-      )}
+      <div style={{"overflow":"scroll",}}>
+        {memos.map((memo, index) =>
+        
+          <TaskDetailSideBar 
+            index = {index}
+            title = {memo.title}
+            text = {memo.text}
+            displayStatus = {memo.displayStatus}
+            key = {index}
+          />
+        )}
+      </div>
     </div>
   );
 }
