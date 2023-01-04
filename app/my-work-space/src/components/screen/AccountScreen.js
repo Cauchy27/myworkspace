@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 
-const MainScreen = (props) => {
+const AccountScreen = (props) => {
   
-  const mainStyle ={
+  const accountStyle ={
     "backgroundColor": "antiquewhite",
     "position": "relative",
     "width":"100%",
@@ -11,10 +11,10 @@ const MainScreen = (props) => {
   }
 
   return (
-    <div class="main" style={mainStyle}>
-      <p>※トップ画面（ただいま開発中）</p>
+    <div class="account" style={accountStyle}>
+      <p>※アカウント 管理画面（ただいま開発中）</p>
     </div>
   );
 }
 
-export default MainScreen;
+export default AccountScreen;

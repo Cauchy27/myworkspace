@@ -6,6 +6,8 @@ const MenuBar = (props) => {
 
   let [menus, setMenus] = useState([]);
 
+  const [page, setPage] = useState([props.pageStatus]);
+
   // 読み込み時の動作
   useEffect(() => {
     fetch('/menuTest')
@@ -16,6 +18,12 @@ const MenuBar = (props) => {
       console.log(err);
     });
   }, [menus]);
+
+  // ページ選択
+  useEffect(() => {
+    props.setPageStatus(page);
+    console.log(page)
+  }, [page]);
 
   const menuBarStyle = {
     "backgroundColor": "#FFFFFF",
@@ -62,6 +70,7 @@ const MenuBar = (props) => {
       {menus.map((menu, index) =>
         <div
           style={menuBarStyle}
+          onClick={()=>setPage(menu.title)}
           key = {index}
         >
           <h3>{menu.title}</h3>
