@@ -1,6 +1,26 @@
 const express = require('express');
 const app = express();
 
+const mysql = require('mysql');
+
+const db = mysql.createConnection({
+  host: 'DB',
+  user: 'root',
+  password: '',
+  database: 'mws'
+});
+db.connect(function(err) {
+  if (err) throw err;
+  console.log('Connected');
+
+  const sql = "select * from task left join task_detail using(task_id);";
+  db.query(sql, function (err, result, fields) {  
+    if (err) throw err;  
+    console.log(result)
+  });
+
+});
+
 const port = 3000;
 
 // api用
