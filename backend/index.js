@@ -9,22 +9,55 @@ const db = mysql.createConnection({
   password: '',
   database: 'mws'
 });
-db.connect(function(err) {
-  if (err) throw err;
-  console.log('Connected');
+// db.connect(function(err) {
+//   // if (err) throw err;
+//   if(err){
+//     console.log("error");
+//   }
+//   console.log('Connected');
 
-  const sql = "select * from task left join task_detail using(task_id);";
-  db.query(sql, function (err, result, fields) {  
-    if (err) throw err;  
-    console.log(result)
-  });
+//   const sql = "select * from task left join task_detail using(task_id);";
+//   db.query(sql, function (err, result, fields) {  
+//     if (err) throw err;  
+//     console.log(result)
+//   });
 
-});
+// });
 
 const port = 3000;
 
 // api用
-app.get('/memoTest', (req, res) => {
+
+// test
+app.get('/taskQueryTest', (req, res) => {
+  db.connect(function(err) {
+    // if (err) throw err;
+    if(err){
+      console.log("error");
+    }
+    console.log('Connected');
+  
+    const sql = "select * from task left join task_detail using(task_id);";
+    db.query(sql, function (err, result, fields) {  
+      if (err) throw err;  
+      if(result.length % 2 != 0){
+        result.push(
+          {
+            id: "",
+            title:"（タイトル）",
+            text: "(内容)"
+          }
+        )
+      }
+      console.log(result);
+      res.json(result);
+    });
+  
+  });
+});
+
+
+app.get('/taskTest', (req, res) => {
   res.json([
     {
       id: 1,

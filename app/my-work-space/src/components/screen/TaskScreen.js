@@ -9,10 +9,11 @@ const TaskScreen = (props) => {
 
   // 読み込み時の動作
   useEffect(() => {
-    fetch('/memoTest')
+    fetch('/taskQueryTest')
     .then(res => res.json())
     .then(data => {
       setTasks(data);
+      console.log(data)
     }).catch(err => {
       console.log(err);
     });
@@ -58,24 +59,26 @@ const TaskScreen = (props) => {
               "overflow":"scroll"
       }}
     >
-      {tasks.map((task, index) =>
-        <TaskDetail 
-          index = {index}
-          title = {task.title}
-          text = {task.text}
-          dragStart = {
-            ()=>{
-              dragStart(index);
+      {
+        tasks.map((task, index) =>
+          <TaskDetail 
+            index = {index}
+            title = {task.task_name}
+            text = {task.task_detail}
+            dragStart = {
+              ()=>{
+                dragStart(index);
+              }
             }
-          }
-          dragEnter = {
-            ()=>{
-              dragEnter(index);
+            dragEnter = {
+              ()=>{
+                dragEnter(index);
+              }
             }
-          }
-          key = {index}
-        />
-      )}
+            key = {index}
+          />
+        ) 
+      }
     </div>
   );
 }

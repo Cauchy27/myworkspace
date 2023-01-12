@@ -9,7 +9,7 @@ const TaskDetailSideBarTitle = (props) => {
 
   // 読み込み時の動作
   useEffect(() => {
-    fetch('/memoTest')
+    fetch('/taskTest')
     .then(res => res.json())
     .then(data => {
       setMemos(data);
