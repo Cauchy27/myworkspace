@@ -13,7 +13,7 @@ import AccountScreen from "./components/screen/AccountScreen";
 const App = () => {
 
   const [menus, setMenus] = useState([]);
-  const [pageStatus, setPageStatus] = useState(["top"]);
+  const [pageStatus, setPageStatus] = useState(["タスク管理"]);
 
   // 読み込み時の動作
   useEffect(() => {

@@ -1,5 +1,9 @@
 import { useEffect, useState } from 'react';
+
 import Button from '@material-ui/core/Button';
+import { Box, CircularProgress, FormHelperText, Grid, Typography } from '@material-ui/core';
+import Images from "./getImagePath";
+// import styled from 'styled-components'
 
 const TaskDetail = (props) => {
   
@@ -14,7 +18,7 @@ const TaskDetail = (props) => {
     "width":"40%",
     "height":"30%",
     "display":"flex",
-    "flex-direction": "row"
+    "flexDirection": "row"
   }
   const subButton = {
     "marginTop":"3%",
@@ -22,14 +26,42 @@ const TaskDetail = (props) => {
   }
   const statusContents = {
     "width":"25%",
-    // "border": "2px solid #000000",
-    // "padding":"3%",
+    "display": "flex",
+    "flexDirection":"column",
     "justifyContent":"center",
   }
   const mainContents = {
     "width":"75%",
     "flex-grow":"1"
   }
+  const subGraph = {
+    "height":"80px"
+  }
+  const CircularInternalContent = {
+    "position": "relative",
+    "textAlign":"center",
+    "justifyContent":"center",
+    "width":"100%",
+    "height":"100%"
+  }
+  const ProbabilitySuffix = {
+    "marginBottom": "4px",
+  }
+  const CircularBackground = {
+    "color": "#bfbfbf",
+    // "width":"90%",
+    "marginTop":"1%",
+    "marginLeft":"auto",
+    // "margin": "auto",
+    "position": "absolute",
+  }
+  const CircularBar = {
+    "position": "absolute",
+    // "top":"-100",
+    // "width":"90%",
+    "marginTop":"1%",
+  }
+  const value = 80;
 
   return (
     <div 
@@ -48,11 +80,46 @@ const TaskDetail = (props) => {
         <Button style={subButton} variant="contained" color="primary">
           編集
         </Button>
+        <Button 
+          style={subButton}  
+          variant="contained" 
+          color="primary"
+          onClick = {()=>{props.taskDelete()}}
+        >
+          削除
+        </Button>
         <Button style={subButton}  variant="contained" color="primary">
           完了
         </Button>
-        <div style={subButton} >
-          [達成率]
+
+        {/* 後でここはうまいことする */}
+        <div style={subGraph} >
+          {/* 背景用のCircularProgress */}
+          <CircularProgress 
+            variant="determinate" 
+            size={70} 
+            value={100} 
+            style={CircularBackground}
+          />
+          {/* バロメーター用のCircularProgress */}
+          <CircularProgress
+            variant="determinate" 
+            size={70} 
+            value={value} 
+            style={CircularBar}
+          />
+          {/* ここは後で */}
+          <div style={CircularInternalContent}>
+            {/* <Typography 
+              variant="h5">{value}
+            </Typography>
+            <Typography 
+              variant="caption"
+              style={ProbabilitySuffix}
+            >
+              %
+             </Typography> */}
+          </div>
         </div>
       </div>
     </div>

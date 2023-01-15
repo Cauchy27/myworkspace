@@ -45,7 +45,7 @@ const TaskDetailSideBar = (props) => {
       style={taskDetailSideStyle}
       id={props.index} 
     >
-      <h3>
+      <h4>
         {props.index}：{props.title}
         <img src={Images[pin]}
           style={iconStyle}
@@ -55,7 +55,7 @@ const TaskDetailSideBar = (props) => {
             }
           }
         ></img>
-      </h3>
+      </h4>
       {((!displayStatus && pin == "pin2") || displayStatus ) &&
         <p>{props.text}</p>
       }

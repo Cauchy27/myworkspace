@@ -23,6 +23,8 @@ CREATE TABLE task
   `team_id` int unsigned,
   `user_id` int unsigned,
   `task_name` VARCHAR(50),
+  `position_index` int unsigned NOT NULL,
+
   PRIMARY KEY (`task_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
@@ -62,9 +64,9 @@ INSERT INTO user (user_id, first_name, last_name, g_account) VALUES (1, "Kohei",
 INSERT INTO user (user_id, first_name, last_name, g_account) VALUES (2, "Test_First_Name", "Test_Last_Name", "(Google_Account_Test)");
 
 /*タスク*/
-INSERT INTO task (task_id, team_id, user_id,task_name) VALUES (1, NULL, 1, "タスクテスト１");
-INSERT INTO task (task_id, team_id, user_id, task_name) VALUES (2, NULL, 1, "タスクテスト２");
-INSERT INTO task (task_id, team_id, user_id, task_name) VALUES (3, NULL, 1, "タスクテスト３");
+INSERT INTO task (task_id, team_id, user_id,task_name,position_index) VALUES (1, NULL, 1, "タスクテスト１", 1);
+INSERT INTO task (task_id, team_id, user_id, task_name,position_index) VALUES (2, NULL, 1, "タスクテスト２", 2);
+INSERT INTO task (task_id, team_id, user_id, task_name,position_index) VALUES (3, NULL, 1, "タスクテスト３", 3);
 
 INSERT INTO task_detail (task_id, task_detail) VALUES (1, "これはタスクテスト１の内容です。\n 明日までには完了したいです。");
 INSERT INTO task_detail (task_id, task_detail) VALUES (2, "これはタスクテスト２の内容です。\n 明後日までには完了したいです。 \n 優先度的には２番目です。");
