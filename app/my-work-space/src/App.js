@@ -42,7 +42,6 @@ const App = () => {
     "marginBottom":"1px",
     "marginLeft":"1px",
     "marginRight":"1px",
-    "justifyContent": "center",
     "textAlign":"center",
     "justifyContent":"center",
   }
@@ -66,7 +65,8 @@ const App = () => {
           "width":"50%",
         }}
       >
-        <p>※前日からのメッセージ欄</p>
+        {/* <p>※前日からのメッセージ欄</p> */}
+        <p>千羽さんテスト版</p>
       </div>
 
       {/* メニューバー */}

@@ -50,35 +50,42 @@ const TaskScreen = (props) => {
   }
 
   return (
-    <div 
-      style={{
-              "display":"flex",
-              "justifyContent":"center",
-              "alignItems":"center",
-              "flexWrap":"wrap",
-              "overflow":"scroll"
-      }}
-    >
-      {
-        tasks.map((task, index) =>
-          <TaskDetail 
-            index = {index}
-            title = {task.task_name}
-            text = {task.task_detail}
-            dragStart = {
-              ()=>{
-                dragStart(index);
+    <div style={{"margin":"3%"}}>
+
+      <div>
+        検索欄を置く予定
+      </div>
+      <div 
+        style={{
+                "display":"flex",
+                "justifyContent":"center",
+                "alignItems":"center",
+                "flexWrap":"wrap",
+                "overflow":"scroll",
+                "top":"10%"
+        }}
+      >
+        {
+          tasks.map((task, index) =>
+            <TaskDetail 
+              index = {index}
+              title = {task.task_name}
+              text = {task.task_detail}
+              dragStart = {
+                ()=>{
+                  dragStart(index);
+                }
               }
-            }
-            dragEnter = {
-              ()=>{
-                dragEnter(index);
+              dragEnter = {
+                ()=>{
+                  dragEnter(index);
+                }
               }
-            }
-            key = {index}
-          />
-        ) 
-      }
+              key = {index}
+            />
+          ) 
+        }
+      </div>
     </div>
   );
 }

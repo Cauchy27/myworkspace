@@ -46,7 +46,7 @@ services:
       - ./db/conf:/etc/mysql/conf.d/:ro
       - ./db/logs:/var/log/mysql
       - ./db/initdb.d:/docker-entrypoint-initdb.d
-      - ./db/mysql_mws_data:/var/lib/mysql
+      - mysql_mws_data:/var/lib/mysql
     command: --default-authentication-plugin=mysql_native_password
     environment:
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes

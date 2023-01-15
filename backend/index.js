@@ -9,20 +9,8 @@ const db = mysql.createConnection({
   password: '',
   database: 'mws'
 });
-// db.connect(function(err) {
-//   // if (err) throw err;
-//   if(err){
-//     console.log("error");
-//   }
-//   console.log('Connected');
 
-//   const sql = "select * from task left join task_detail using(task_id);";
-//   db.query(sql, function (err, result, fields) {  
-//     if (err) throw err;  
-//     console.log(result)
-//   });
-
-// });
+const user_id = 1;
 
 const port = 3000;
 
@@ -37,15 +25,15 @@ app.get('/taskQueryTest', (req, res) => {
     }
     console.log('Connected');
   
-    const sql = "select * from task left join task_detail using(task_id);";
+    const sql = `select * from task left join task_detail using(task_id) where user_id = ${user_id};`;
     db.query(sql, function (err, result, fields) {  
-      if (err) throw err;  
+      // if (err) throw err;  
       if(result.length % 2 != 0){
         result.push(
           {
             id: "",
-            title:"（タイトル）",
-            text: "(内容)"
+            task_name:"（タイトル）",
+            task_detail: "(内容)"
           }
         )
       }
