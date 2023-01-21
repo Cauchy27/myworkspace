@@ -32,7 +32,8 @@ const TaskDetail = (props) => {
   }
   const mainContents = {
     "width":"75%",
-    "flexGrow":"1"
+    "flexGrow":"1",
+    "whiteSpace": 'pre-line'
   }
   const subGraph = {
     "height":"80px"
@@ -73,7 +74,7 @@ const TaskDetail = (props) => {
       onDragOver={(event) => event.preventDefault()}
     >
       <div style={mainContents}>
-        <h3>{props.task.task_id}：{props.task.task_name} </h3>
+        <h3>{props.task.task_name} </h3>
         <p>{props.task.task_detail}</p>
       </div>
       <div style={statusContents}>

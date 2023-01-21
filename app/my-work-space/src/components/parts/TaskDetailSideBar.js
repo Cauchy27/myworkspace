@@ -43,10 +43,10 @@ const TaskDetailSideBar = (props) => {
   return (
     <div 
       style={taskDetailSideStyle}
-      id={props.index} 
+      id={props.memo.task_id} 
     >
       <h4>
-        {props.index}：{props.title}
+        {props.memo.task_name} - 進捗 {props.memo.task_point}％
         <img src={Images[pin]}
           style={iconStyle}
           onClick ={
@@ -57,7 +57,9 @@ const TaskDetailSideBar = (props) => {
         ></img>
       </h4>
       {((!displayStatus && pin == "pin2") || displayStatus ) &&
-        <p>{props.text}</p>
+        <div style={{"whiteSpace": 'pre-line'}}>
+          {props.memo.task_detail}
+        </div>
       }
     </div>
   );

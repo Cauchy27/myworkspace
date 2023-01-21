@@ -18,7 +18,7 @@ const TaskEdit = (props) => {
   const [name ,setName] = useState([props.task.task_name]);
   const [detail, setDetail] = useState([props.task.task_detail]);
   const [taskDate, setTaskDate] = useState([props.task.task_date]);
-  const [point, setPoint] = useState([props.task.task_tag_point]);
+  const [point, setPoint] = useState([props.task.task_point]);
 
   // フォームの内容を更新するメソッドをここに
   const taskEditPost = async(data) => {
@@ -79,45 +79,92 @@ const TaskEdit = (props) => {
     "width":"75%",
     "flexGrow":"1"
   }
+  const subContents = {
+    "width":"40%",
+    // "border": "2px solid #000000",
+    "padding":"3%",
+    "display":"flex",
+    "flexDirection": "column",
+  }
 
   return (
     <div style={overflowScreen}>
       <div style={taskDetailStyle}>
-      <div style={mainContents}>
-        <h3>{props.task.task_name} </h3>
-        <p>{props.task.task_detail}</p>
-      </div>
-      <div>
-        <Button 
-          variant="contained" 
-          color="primary"
-          onClick = {()=>{
-            taskEditPost()
-            .then(
-              ()=>{
-                props.taskEditClose();
+        <div style={mainContents}>
+          <h3><TextField
+              // style = {searchDateForm}
+              type="text"
+              defaultValue={props.task.task_name}
+              // value = {props.task.task_point}
+              margin="normal"
+              // id="task_tag_point"
+              label="タスク名"
+              // name="task_tag_point"
+              onChange = {
+                (event) => {
+                  setName(event.target.value)
+                }
               }
-            );
-          }}
-        >
-          保存
-        </Button>
-        <TextField
-            // style = {searchDateForm}
-            type="number"
-            defaultValue={props.task.task_point}
-            // value = {props.task.task_point}
-            margin="normal"
-            // id="task_tag_point"
-            label="進捗"
-            // name="task_tag_point"
-            onChange = {
-              (event) => {
-                setPoint(event.target.value)
+          /></h3>
+          <TextField
+              label="タスク内容"
+              fullWidth
+              margin="normal"
+              minRows={10}
+              multiline
+              variant="outlined"
+              defaultValue={props.task.task_detail}
+              placeholder="タスクの詳細を記載してください。"
+              onChange = {
+                (event) => {
+                  setDetail(event.target.value)
+                }
               }
-            }
           />
-      </div>
+        </div>
+        <div style={subContents}>
+          <Button 
+            variant="contained" 
+            color="primary"
+            onClick = {()=>{
+              taskEditPost()
+              .then(
+                ()=>{
+                  props.taskEditClose();
+                }
+              );
+            }}
+          >
+            保存
+          </Button>
+          <TextField
+              type="date"
+              // defaultValue={taskDate}
+              value = {taskDate}
+              margin="normal"
+              label="タスク日付"
+              onChange = {
+                (event) => {
+                  setTaskDate(event.target.value);
+                  console.log(taskDate)
+                }
+              }
+          />
+          <TextField
+              type="number"
+              // defaultValue={props.task.task_point}
+              value = {point}
+              margin="normal"
+              // id="task_tag_point"
+              label="進捗 [％]"
+              // name="task_tag_point"
+              onChange = {
+                (event) => {
+                  setPoint(event.target.value)
+                }
+              }
+          />
+        </div>
       </div>
     </div>
   );

@@ -170,9 +170,7 @@ const TaskDetailSideBarTitle = (props) => {
               {memos.map((memo, index) =>
               
                 <TaskDetailSideBar 
-                  index = {memo.task_id}
-                  title = {memo.task_name}
-                  text = {memo.task_detail}
+                  memo = {memo}
                   displayStatus = {memo.displayStatus}
                   key = {index}
                 />

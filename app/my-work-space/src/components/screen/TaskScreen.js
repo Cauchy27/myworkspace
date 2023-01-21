@@ -50,10 +50,10 @@ const TaskScreen = (props) => {
       data = {
         task_id:null,
         team_id:null,
-        task_name:"（ここにタスク名が入ります）",
+        task_name:"",
         position_index:Math.max.apply(null, tasks_position_index),
         task_date:null,
-        task_detail:"（ここに本文を入ります）",
+        task_detail:"",
         task_point:10,
       };
     }

@@ -10,7 +10,8 @@ const db = mysql.createConnection({
   host: 'DB',
   user: 'root',
   password: '',
-  database: 'mws'
+  database: 'mws',
+  timezone: 'jst'
 });
 
 const user_id = 1;
@@ -163,6 +164,7 @@ app.post('/taskQuerySearch',(req, res) => {
         const search_sql = `select t.task_id, t.team_id, t.task_name, t.position_index, CAST(t.task_date AS DATE) as task_date, td.task_detail, td.task_point, tg.task_tag_id, tg.task_tag_name, tg.task_tag_point from task t left join task_detail td using(task_id) left join task_tag tg using(task_id) where t.user_id = ? and t.task_date = ?;`;
         db.query(search_sql, data,(err, response) => {
           if(err) console.log(err);
+          console.log(response);
           res.json(response);
         });
       }
@@ -170,6 +172,7 @@ app.post('/taskQuerySearch',(req, res) => {
         const search_sql = `select t.task_id, t.team_id, t.task_name, t.position_index, CAST(t.task_date AS DATE) as task_date, td.task_detail, td.task_point, tg.task_tag_id, tg.task_tag_name, tg.task_tag_point from task t left join task_detail td using(task_id) left join task_tag tg using(task_id) where t.user_id = ?;`;
         db.query(search_sql,user_id,(err, response) => {
           if(err) console.log(err);
+          console.log(response);
           res.json(response);
         });
       }
