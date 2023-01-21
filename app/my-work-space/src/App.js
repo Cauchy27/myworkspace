@@ -17,6 +17,11 @@ const App = () => {
 
   // 読み込み時の動作
   useEffect(() => {
+    getMenus();
+  }, [menus]);
+
+  // メニュー取得
+  const getMenus = () => {
     fetch('/menuTest')
     .then(res => res.json())
     .then(data => {
@@ -24,8 +29,8 @@ const App = () => {
     }).catch(err => {
       console.log(err);
     });
-  }, [menus]);
-
+  }
+  
   // メニュー選択時のコンテンツ切り替え
   useEffect(()=>{
     console.log("pageStatus:" + pageStatus);

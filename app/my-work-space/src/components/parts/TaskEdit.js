@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState} from 'react';
 
 import Button from '@material-ui/core/Button';
 import TextField from "@material-ui/core/TextField";
@@ -14,6 +14,16 @@ const TaskEdit = (props) => {
     var d = ('00' + dt.getDate()).slice(-2);
     return (y + '-' + m + '-' + d);
   }
+
+  const closeWithClickOutSideMethod = (e) => {
+    // console.log("e.target", e.target);
+    // console.log("e.currentTarget", e.currentTarget);
+    if (e.target === e.currentTarget) {
+      //メニューの外側をクリックしたときだけモーダルを閉じる
+      props.taskEditClose();
+    } else {
+    }
+  };
 
   const [name ,setName] = useState(props.task.task_name);
   const [detail, setDetail] = useState(props.task.task_detail);
@@ -88,7 +98,12 @@ const TaskEdit = (props) => {
   }
 
   return (
-    <div style={overflowScreen}>
+    <div 
+      style={overflowScreen}
+      onClick = {
+        (event)=>{closeWithClickOutSideMethod(event)}
+      }
+    >
       <div style={taskDetailStyle}>
         <div style={mainContents}>
           <h3><TextField
@@ -164,6 +179,15 @@ const TaskEdit = (props) => {
                 }
               }
           />
+          <Button 
+            variant="contained" 
+            color="inherit"
+            onClick = {()=>{
+              props.taskEditClose();
+            }}
+          >
+            保存せずに閉じる
+          </Button>
         </div>
       </div>
     </div>
