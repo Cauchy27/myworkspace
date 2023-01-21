@@ -8,6 +8,18 @@ import Images from "../parts/getImagePath";
 const TaskDetail = (props) => {
 
   const [point, setPoint] = useState(props.task.task_point);
+  const [backgroundColor, setBackGroundColor] = useState("#FFFFFF")
+
+  // 完了済みの場合に背景色を変更
+  useEffect(()=>{
+    if(props.task.task_point >= 100){
+      setBackGroundColor("#CCFFFF");
+    }
+    else{
+      setBackGroundColor("#FFFFFF");
+    }
+    console.log("BGC");
+  },[props.task.task_point]);
 
   // フォームの内容を更新するメソッドをここに
   const taskCompletePost = async(data) => {
@@ -41,7 +53,7 @@ const TaskDetail = (props) => {
   }
   
   const taskDetailStyle = {
-    "backgroundColor": "#FFFFFF",
+    "backgroundColor": backgroundColor,
     "paddingTop":"1%",
     "paddingBottom":"1%",
     "paddingLeft":"2%",
