@@ -16,6 +16,8 @@ services:
     tty: true
     volumes:
       - ./app:/app:cached
+    environment:
+      - TZ=${TZ}
     command: sh -c "cd my-work-space && yarn start"
     ports:
       - "3001:3000"
@@ -30,6 +32,8 @@ services:
     tty: true
     volumes:
       - ./backend:/backend
+    environment:
+      - TZ=${TZ}
     command: sh -c "node index.js"
     working_dir: "/backend"
     ports:

@@ -34,6 +34,7 @@ CREATE TABLE task_detail
 (
   `task_id` int unsigned NOT NULL COMMENT 'タスクID',
   `task_detail` VARCHAR(1023) COMMENT 'タスク内容',
+  `task_point` INT(3) NOT NULL DEFAULT 0,
 
   PRIMARY KEY (`task_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
@@ -69,6 +70,6 @@ INSERT INTO task (task_id, team_id, user_id,task_name,position_index,task_date) 
 INSERT INTO task (task_id, team_id, user_id, task_name,position_index,task_date) VALUES (2, NULL, 1, "タスクテスト２", 2,NOW());
 INSERT INTO task (task_id, team_id, user_id, task_name,position_index,task_date) VALUES (3, NULL, 1, "タスクテスト３", 3,NOW());
 
-INSERT INTO task_detail (task_id, task_detail) VALUES (1, "これはタスクテスト１の内容です。\n 明日までには完了したいです。");
-INSERT INTO task_detail (task_id, task_detail) VALUES (2, "これはタスクテスト２の内容です。\n 明後日までには完了したいです。 \n 優先度的には２番目です。");
-INSERT INTO task_detail (task_id, task_detail) VALUES (3, "これはタスクテスト３の内容です。\n 明日までには完了したいです。\n\n明日も晴れるといいですね。");
+INSERT INTO task_detail (task_id, task_detail, task_point) VALUES (1, "これはタスクテスト１の内容です。\n 明日までには完了したいです。",0);
+INSERT INTO task_detail (task_id, task_detail, task_point) VALUES (2, "これはタスクテスト２の内容です。\n 明後日までには完了したいです。 \n 優先度的には２番目です。",0);
+INSERT INTO task_detail (task_id, task_detail, task_point) VALUES (3, "これはタスクテスト３の内容です。\n 明日までには完了したいです。\n\n明日も晴れるといいですね。",0);

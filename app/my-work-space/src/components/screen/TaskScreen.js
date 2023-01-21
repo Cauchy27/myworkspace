@@ -5,11 +5,11 @@ import TextField from "@material-ui/core/TextField";
 
 import TaskDetail from "../parts/TastDetail";
 import Images from "../parts/getImagePath";
-
+import TaskEdit from "../parts/TaskEdit";
 
 const TaskScreen = (props) => {
-  const today = new Date();
 
+  const today = new Date();
   // 日付をYYYY-MM-DDの書式で返すメソッド
   const formatDate = (dt) => {
     var y = dt.getFullYear();
@@ -18,22 +18,27 @@ const TaskScreen = (props) => {
     return (y + '-' + m + '-' + d);
   }
 
-  let [tasks, setTasks] = useState([]);
-  let [edit, setEdit] = useState([]);
-  let [date , setDate] = useState([formatDate(today)]);
+  const [tasks, setTasks] = useState([]);
+  const [edit, setEdit] = useState([]);
+  const [date , setDate] = useState([formatDate(today)]);
+
+  const [dragIndex, setDragIndex] = useState(null);
 
   const taskPost = (data) => {
     if(!data){
+      // ここの改善は後で
       let tasks_position_index = tasks.map((value)=>{
         return value.position_index;
       });
+      console.log(tasks_position_index);
       data = {
         task_id:null,
         team_id:null,
-        user_id:1,
         task_name:"（ここにタスク名が入ります）",
         position_index:Math.max.apply(null, tasks_position_index),
-        task_detail:"（ここに本文を入ります）"
+        task_date:null,
+        task_detail:"（ここに本文を入ります）",
+        task_point:10,
       };
     }
     console.log(data);
@@ -54,7 +59,6 @@ const TaskScreen = (props) => {
   }
 
   const taskDelete = (index) => {
-    // console.log(tasks[index]);
     const data = tasks[index];
     console.log(JSON.stringify(data));
     fetch('/taskQueryDeletePostTest',{
@@ -73,7 +77,9 @@ const TaskScreen = (props) => {
   }
 
   const taskSearch = (search_date) => {
-    const data = {task_date:search_date};
+    const data = {
+      task_date:search_date
+    };
     console.log(JSON.stringify(data));
     fetch('/taskQuerySearch',{
       method: 'POST',
@@ -90,19 +96,7 @@ const TaskScreen = (props) => {
     })
   }
 
-  // 日付変更時にタスクを検索
-  useEffect(() => {
-    console.log("date",date);
-    taskSearch(date);
-  }, [date]);
-
-  const [dragIndex, setDragIndex] = useState(null);
-
-  // ドラッグ開始の検知
-  useEffect(()=>{
-    console.log(dragIndex);
-  },[dragIndex]);
-
+  // ドラッグでのposition_indexの更新は後で実装
 
   // ドラッグ開始時
   const dragStart = (index) => {
@@ -128,13 +122,26 @@ const TaskScreen = (props) => {
 
   // タスク編集画面
   const taskEditOn = (index) => {
-    // 
+    setEdit(index);
+    console.log(edit);
   }
 
   // タスク保存
-  const taskEditSave = (index) => {
-    // 
+  const taskEditClose = (index) => {
+    setEdit();
+    taskSearch(date);
   }
+
+  // 日付変更時にタスクを検索
+  useEffect(() => {
+    console.log("date",date);
+    taskSearch(date);
+  }, [date]);
+
+  // ドラッグ開始の検知
+  useEffect(()=>{
+    console.log(dragIndex);
+  },[dragIndex]);
  
   const searchBar={
     "display":"flex",
@@ -220,9 +227,7 @@ const TaskScreen = (props) => {
         {
           tasks.map((task, index) =>
             <TaskDetail 
-              index = {task.task_id}
-              title = {task.task_name}
-              text = {task.task_detail}
+              task = {task}
               dragStart = {
                 ()=>{
                   dragStart(index);
@@ -253,6 +258,17 @@ const TaskScreen = (props) => {
           ) 
         }
       </div>
+      { Number.isInteger(edit) &&
+        <TaskEdit
+         index={edit}
+         task={tasks[edit]}
+         taskEditClose={
+           ()=>{
+            taskEditClose(edit)
+           }
+         }
+        />
+      }
     </div>
   );
 }

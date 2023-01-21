@@ -73,11 +73,16 @@ const TaskDetail = (props) => {
       onDragOver={(event) => event.preventDefault()}
     >
       <div style={mainContents}>
-        <h3>{props.index}：{props.title} </h3>
-        <p>{props.text}</p>
+        <h3>{props.task.task_id}：{props.task.task_name} </h3>
+        <p>{props.task.task_detail}</p>
       </div>
       <div style={statusContents}>
-        <Button style={subButton} variant="contained" color="primary">
+        <Button 
+          style={subButton} 
+          variant="contained" 
+          color="primary"
+          onClick = {()=>{props.taskEditOn()}}
+        >
           編集
         </Button>
         <Button 
@@ -105,7 +110,7 @@ const TaskDetail = (props) => {
           <CircularProgress
             variant="determinate" 
             size={70} 
-            value={value} 
+            value={props.task.task_point} 
             style={CircularBar}
           />
           {/* ここは後で */}

@@ -166,117 +166,45 @@ const App = () => {
           "position": "absolute",
           "left":"75%",
           "top":"10%",
-          "height":"45%",
+          "height":"90%",
           "width":"25%",
           "display":"flex",
-          "justifyContent":"center",
+          "flexDirection": "column",
         }}
       >
         <div
         style={{
           "backgroundColor": "#CCFFFF",
           "position": "relative",
-          "height":"100%",
+          "height":"100%",//一旦メモを非表示にするので100
           "width":"100%",
           "marginLeft":"auto",
           "marginRight":"auto",
           "marginTop":"auto",
           "marginBottom":"auto",
+          "flexGrow":"1",
         }}
         >
-          <div
-          style={{
-            "backgroundColor": "#FFFF00",
-            "position": "relative",
-            "height":"100%",
-            "width":"100%",
-            // "top":"3%",
-            "marginLeft":"auto",
-            "marginRight":"auto",
-            "marginTop":"auto",
-            "marginBottom":"auto",
-            "alignItems":"center",
-            "overflow":"scroll",
-          }}
-          >
-            <div 
-              style={{
-                "display":"flex",
-                "justifyContent":"center",
-                "alignItems":"center",
-                "flexWrap":"wrap",
-                "overflow":"scroll",
-                "marginLeft":"auto",
-                "marginRight":"auto",
-                "marginTop":"auto",
-                "marginBottom":"auto",
-              }}
-            >
               <TaskDetailSideBarTitle
                 title = "タスク一覧"
               />
-            </div>
-          </div>
         </div>
-      </div>
-      <div
-        style={{
-          "backgroundColor": "#808080",
-          "position": "absolute",
-          "left":"75%",
-          "top":"55%",
-          "height":"45%",
-          "width":"25%",
-          "display":"flex",
-          "justifyContent":"center",
-        }}
-      >
-        <div
-        style={{
-          "backgroundColor": "#CCFFFF",
-          "position": "relative",
-          "height":"100%",
-          "width":"100%",
-          "marginLeft":"auto",
-          "marginRight":"auto",
-          "marginTop":"auto",
-          "marginBottom":"auto",
-        }}
-        >
-          <div
+        {/* <div
           style={{
-            "backgroundColor": "#FFFF00",
+            "backgroundColor": "#808080",
             "position": "relative",
-            "height":"100%",
+            // "left":"75%",
+            // "top":"55%",
+            "height":"50%",
             "width":"100%",
-            // "top":"3%",
-            "marginLeft":"auto",
-            "marginRight":"auto",
-            "marginTop":"auto",
-            "marginBottom":"auto",
-            "alignItems":"center",
-            "overflow":"scroll",
+            "display":"flex",
+            "flexGrow":"1",
           }}
-          >
-            <div 
-              style={{
-                "display":"flex",
-                "justifyContent":"center",
-                "alignItems":"center",
-                "flexWrap":"wrap",
-                "overflow":"scroll",
-                "marginLeft":"auto",
-                "marginRight":"auto",
-                "marginTop":"auto",
-                "marginBottom":"auto",
-              }}
-            >
-              <TaskDetailSideBarTitle
-                title = "メモ一覧"
-              />
-            </div>
-          </div>
-        </div>
+        >
+          <TaskDetailSideBarTitle
+            title = "メモ一覧"
+          />
+        </div> */}
       </div>
     </div>
   );

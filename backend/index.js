@@ -38,17 +38,33 @@ app.get('/taskQueryTest', (req, res) => {
   });
 });
 
-// タスク追加
+// タスク追加・更新
+// task, detail への実装のみで、tagへの実装はまだ
 app.post('/taskQueryPostTest',(req, res) => {
+  // 日付の設定
+  const today = new Date();
+  // 日付をYYYY-MM-DDの書式で返すメソッド
+  const formatDate = (dt) => {
+    var y = dt.getFullYear();
+    var m = ('00' + (dt.getMonth()+1)).slice(-2);
+    var d = ('00' + dt.getDate()).slice(-2);
+    return (y + '-' + m + '-' + d);
+  }
+
   try {
     if(!req.body){
       console.log("req.body.error");
       // throw err;
     }
     else{
+      if(!req.body.task_date){
+        req.body.task_date = formatDate(today);
+        console.log("insert:",req.body.task_date)
+      }
+
       // タスクの更新・Insert
-      data = [req.body.task_id, req.body.team_id, req.body.user_id, req.body.task_name, req.body.position_index];
-      const update_sql = "INSERT INTO task ( task_id, team_id, user_id, task_name, position_index) values (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE team_id = VALUES(team_id), task_name = VALUES(task_name), position_index = VALUES(position_index);";
+      data = [req.body.task_id, req.body.team_id, user_id, req.body.task_name, req.body.position_index,req.body.task_date];
+      const update_sql = "INSERT INTO task ( task_id, team_id, user_id, task_name, position_index,task_date) values (?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE team_id = VALUES(team_id), task_name = VALUES(task_name), position_index = VALUES(position_index), task_date = VALUES(task_date);";
 
       console.log(data);
 
@@ -57,15 +73,15 @@ app.post('/taskQueryPostTest',(req, res) => {
         if(err) console.log(err);
 
         // タスク詳細の更新・Insert
-        detail_data =[req.body.task_id, req.body.task_detail];
-        const update_detail_sql = "INSERT INTO task_detail ( task_id, task_detail) values (?, ?) ON DUPLICATE KEY UPDATE task_id = VALUES(task_id), task_detail = VALUES(task_detail);";
+        detail_data =[req.body.task_id, req.body.task_detail,req.body.task_point];
+        const update_detail_sql = "INSERT INTO task_detail ( task_id, task_detail, task_point) values (?, ?, ?) ON DUPLICATE KEY UPDATE task_id = VALUES(task_id), task_detail = VALUES(task_detail), task_point = VALUES(task_point);";
         db.query(update_detail_sql,detail_data,(error, response) => {
           // if(err) throw err;
           if(error) console.log(error);
 
           // リストを返す
-          const list_sql = `select * from task left join task_detail using(task_id) where user_id = ? ;`;
-            db.query(list_sql,req.body.user_id,(error, response) => {
+          const list_sql = `select t.task_id, t.team_id, t.task_name, t.position_index, CAST(t.task_date AS DATE) as task_date, td.task_detail, td.task_point, tg.task_tag_id, tg.task_tag_name, tg.task_tag_point from task t left join task_detail td using(task_id) left join task_tag tg using(task_id) where t.user_id = ? ;`;
+            db.query(list_sql,user_id,(error, response) => {
               // if(err) throw err;
               if(error) console.log(error);
               res.json(response);
@@ -100,8 +116,8 @@ app.post('/taskQueryDeletePostTest',(req, res) => {
           if(err) console.log(err);
   
           // リストを返す
-          const list_sql = `select * from task left join task_detail using(task_id) where user_id = ? ;`;
-          db.query(list_sql,req.body.user_id,(error, response) => {
+          const list_sql = `select t.task_id, t.team_id, t.task_name, t.position_index, CAST(t.task_date AS DATE) as task_date, td.task_detail, td.task_point, tg.task_tag_id, tg.task_tag_name, tg.task_tag_point from task t left join task_detail td using(task_id) left join task_tag tg using(task_id) where t.user_id = ? ;`;
+          db.query(list_sql,user_id,(error, response) => {
             // if(err) throw err;
             if(error) console.log(error);
             res.json(response);
@@ -114,7 +130,7 @@ app.post('/taskQueryDeletePostTest',(req, res) => {
   }
 });
 
-// タスク検索
+// タスク検索・未完了タスクの日付を今日に伸ばす
 app.post('/taskQuerySearch',(req, res) => {
   try {
     if(!req.body){
@@ -122,18 +138,37 @@ app.post('/taskQuerySearch',(req, res) => {
       // throw err;
     }
     else{
-      // タスクの削除
-      data = [req.body.task_date];
+
+      const today = new Date();
+      // 日付をYYYY-MM-DDの書式で返すメソッド
+      const formatDate = (dt) => {
+        var y = dt.getFullYear();
+        var m = ('00' + (dt.getMonth()+1)).slice(-2);
+        var d = ('00' + dt.getDate()).slice(-2);
+        return (y + '-' + m + '-' + d);
+      }
+      console.log(formatDate(today))
+
+      // 未完了タスクの日付を今日に伸ばす
+      date_data=[formatDate(today),formatDate(today)];
+      const task_date_update = `update task left join task_detail using(task_id) set task_date = ? where task_date < ? and ( task_point < 100 or task_point is null);`;
+      db.query(task_date_update, date_data,(error, update_task) => {
+        if(error) console.log(error);
+        console.log(update_task);
+      });
+
+      // タスク検索
       if(req.body.task_date){
-        const search_sql = "select * from task left join task_detail using(task_id) left join task_tag using(task_id) where task_date = ?";
+        data = [user_id,req.body.task_date];
+        const search_sql = `select t.task_id, t.team_id, t.task_name, t.position_index, CAST(t.task_date AS DATE) as task_date, td.task_detail, td.task_point, tg.task_tag_id, tg.task_tag_name, tg.task_tag_point from task t left join task_detail td using(task_id) left join task_tag tg using(task_id) where t.user_id = ? and t.task_date = ?;`;
         db.query(search_sql, data,(err, response) => {
           if(err) console.log(err);
           res.json(response);
         });
       }
       else{
-        const search_sql = "select * from task left join task_detail using(task_id) left join task_tag using(task_id)";
-        db.query(search_sql,(err, response) => {
+        const search_sql = `select t.task_id, t.team_id, t.task_name, t.position_index, CAST(t.task_date AS DATE) as task_date, td.task_detail, td.task_point, tg.task_tag_id, tg.task_tag_name, tg.task_tag_point from task t left join task_detail td using(task_id) left join task_tag tg using(task_id) where t.user_id = ?;`;
+        db.query(search_sql,user_id,(err, response) => {
           if(err) console.log(err);
           res.json(response);
         });

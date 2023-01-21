@@ -6,6 +6,15 @@ import Images from "../parts/getImagePath";
 
 const TaskDetailSideBarTitle = (props) => {
 
+  const today = new Date();
+  // 日付をYYYY-MM-DDの書式で返すメソッド
+  const formatDate = (dt) => {
+    var y = dt.getFullYear();
+    var m = ('00' + (dt.getMonth()+1)).slice(-2);
+    var d = ('00' + dt.getDate()).slice(-2);
+    return (y + '-' + m + '-' + d);
+  }
+
   let [memos, setMemos] = useState([]);
 
   // 読み込み時の動作
@@ -14,13 +23,23 @@ const TaskDetailSideBarTitle = (props) => {
   }, []);
 
   const fetchData = () => {
-    fetch('/taskQueryTest')
+    const data = {
+      task_date:formatDate(today),
+    };
+    console.log(JSON.stringify(data));
+    fetch('/taskQuerySearch',{
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
     .then(res => res.json())
-    .then(data => {
-      setMemos(data);
-    }).catch(err => {
-      console.log(err);
-    });
+    .then((res_data)=>{
+      setMemos(res_data);
+      console.log(res_data)
+      return res_data;
+    })
   }
 
   const taskDetailSideBarTitleStyle = {
@@ -83,39 +102,84 @@ const TaskDetailSideBarTitle = (props) => {
   }
 
   return (
-    <div style={{"width":"100%"}}>
-      <div style={taskDetailSideBarTitleStyle}>
-        <h2>
-          {props.title}
-          <img src={Images[arrow]}
-            style={iconStyle}
-            onClick ={
-              ()=>{
-                clickAction();
-              }
-            }
-          />
-          <Button 
-          style={subButton} 
-          variant="contained" 
-          color="primary"
-          onClick = {()=>{fetchData()}}
-          >
-            更新
-          </Button>
-        </h2>
-      </div>
-      <div style={{"overflow":"scroll",}}>
-        {memos.map((memo, index) =>
-        
-          <TaskDetailSideBar 
-            index = {memo.task_id}
-            title = {memo.task_name}
-            text = {memo.task_detail}
-            displayStatus = {memo.displayStatus}
-            key = {index}
-          />
-        )}
+    <div
+        style={{
+          "backgroundColor": "#CCFFFF",
+          "position": "relative",
+          "height":"100%",
+          "width":"100%",
+          "marginLeft":"auto",
+          "marginRight":"auto",
+          "marginTop":"auto",
+          "marginBottom":"auto",
+        }}
+    >
+
+      <div
+            style={{
+              "backgroundColor": "#FFFF00",
+              "position": "relative",
+              "height":"100%",
+              "width":"100%",
+              // "top":"3%",
+              "marginLeft":"auto",
+              "marginRight":"auto",
+              "marginTop":"auto",
+              "marginBottom":"auto",
+              "alignItems":"center",
+              "overflow":"scroll",
+            }}
+      >
+
+        <div 
+          style={{
+            "display":"flex",
+            "justifyContent":"center",
+            "alignItems":"center",
+            "flexWrap":"wrap",
+            "overflow":"scroll",
+            "marginLeft":"auto",
+            "marginRight":"auto",
+            "marginTop":"auto",
+            "marginBottom":"auto",
+          }}
+        >
+          <div style={{"width":"100%"}}>
+            <div style={taskDetailSideBarTitleStyle}>
+              <h2>
+                {props.title}
+                <img src={Images[arrow]}
+                  style={iconStyle}
+                  onClick ={
+                    ()=>{
+                      clickAction();
+                    }
+                  }
+                />
+                <Button 
+                style={subButton} 
+                variant="contained" 
+                color="primary"
+                onClick = {()=>{fetchData()}}
+                >
+                  更新
+                </Button>
+              </h2>
+            </div>
+            <div style={{"overflow":"scroll",}}>
+              {memos.map((memo, index) =>
+              
+                <TaskDetailSideBar 
+                  index = {memo.task_id}
+                  title = {memo.task_name}
+                  text = {memo.task_detail}
+                  displayStatus = {memo.displayStatus}
+                  key = {index}
+                />
+              )}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
