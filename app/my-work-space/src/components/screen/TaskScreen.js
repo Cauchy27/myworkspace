@@ -19,10 +19,26 @@ const TaskScreen = (props) => {
   }
 
   const [tasks, setTasks] = useState([]);
-  const [edit, setEdit] = useState([]);
-  const [date , setDate] = useState([formatDate(today)]);
+  const [edit, setEdit] = useState();
+  const [date , setDate] = useState(formatDate(today));
+
+  const [deleteLock, setDeleteLock] = useState("無効");
+  const [deleteButtonColor, setDeleteButtonColor] = useState("inherit");
 
   const [dragIndex, setDragIndex] = useState(null);
+
+  // 削除ロック切り替え
+  const changeDeleteLock = () => {
+    if(deleteLock === "無効"){
+          setDeleteLock("有効");
+          setDeleteButtonColor("secondary");
+    }
+    else{
+      setDeleteLock("無効");
+      setDeleteButtonColor("inherit");
+    }
+    console.log(deleteLock);
+  }
 
   const taskPost = (data) => {
     if(!data){
@@ -59,21 +75,23 @@ const TaskScreen = (props) => {
   }
 
   const taskDelete = (index) => {
-    const data = tasks[index];
-    console.log(JSON.stringify(data));
-    fetch('/taskQueryDeletePostTest',{
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    })
-    .then(res => res.json())
-    .then((res_data)=>{
-      setTasks(res_data);
-      console.log(res_data)
-      return res_data;
-    })
+    if(deleteLock === "有効"){
+      const data = tasks[index];
+      console.log(JSON.stringify(data));
+      fetch('/taskQueryDeletePostTest',{
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+      .then(res => res.json())
+      .then((res_data)=>{
+        setTasks(res_data);
+        console.log(res_data)
+        return res_data;
+      })
+    }
   }
 
   const taskSearch = (search_date) => {
@@ -148,14 +166,14 @@ const TaskScreen = (props) => {
     "flexDirection": "row",
   }
   const subContents = {
-    "width":"20%",
+    "width":"40%",
     // "border": "2px solid #000000",
     // "padding":"3%",
     "display":"flex",
     "flexDirection": "row",
   }
   const mainContents = {
-    "width":"80%",
+    "width":"60%",
     "flexGrow":"1",
     "display":"flex",
     "flexDirection": "row",
@@ -204,6 +222,14 @@ const TaskScreen = (props) => {
           >全件表示</Button>
         </div>
         <div style={subContents} >
+        <Button 
+            style={searchButton}
+            variant="contained" 
+            color={deleteButtonColor}
+            onClick = {()=>{changeDeleteLock()}}
+          >
+            削除：{deleteLock}
+          </Button>
           <Button 
             style={searchButton}
             variant="contained" 
@@ -228,6 +254,7 @@ const TaskScreen = (props) => {
           tasks.map((task, index) =>
             <TaskDetail 
               task = {task}
+              deleteButtonColor={deleteButtonColor}
               dragStart = {
                 ()=>{
                   dragStart(index);

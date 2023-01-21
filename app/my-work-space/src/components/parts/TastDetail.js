@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 
 import Button from '@material-ui/core/Button';
-import { Box, CircularProgress, FormHelperText, Grid, Typography } from '@material-ui/core';
+import { Box, CircularProgress } from '@material-ui/core';
+
 import Images from "../parts/getImagePath";
-// import styled from 'styled-components'
 
 const TaskDetail = (props) => {
   
@@ -88,7 +88,7 @@ const TaskDetail = (props) => {
         <Button 
           style={subButton}  
           variant="contained" 
-          color="primary"
+          color={props.deleteButtonColor}
           onClick = {()=>{props.taskDelete()}}
         >
           削除
