@@ -70,6 +70,6 @@ INSERT INTO task (task_id, team_id, user_id,task_name,position_index,task_date) 
 INSERT INTO task (task_id, team_id, user_id, task_name,position_index,task_date) VALUES (2, NULL, 1, "タスクテスト２", 2,NOW());
 INSERT INTO task (task_id, team_id, user_id, task_name,position_index,task_date) VALUES (3, NULL, 1, "タスクテスト３", 3,NOW());
 
-INSERT INTO task_detail (task_id, task_detail, task_point) VALUES (1, "これはタスクテスト１の内容です。\n 明日までには完了したいです。",0);
-INSERT INTO task_detail (task_id, task_detail, task_point) VALUES (2, "これはタスクテスト２の内容です。\n 明後日までには完了したいです。 \n 優先度的には２番目です。",0);
-INSERT INTO task_detail (task_id, task_detail, task_point) VALUES (3, "これはタスクテスト３の内容です。\n 明日までには完了したいです。\n\n明日も晴れるといいですね。",0);
+INSERT INTO task_detail (task_id, task_detail, task_point) VALUES (1, "現在の開発状況をまとめる",0);
+INSERT INTO task_detail (task_id, task_detail, task_point) VALUES (2, "フロントエンドのタスク管理部分のデザインを調整する。\n 明後日までには完了したいです。 \n 優先度的には２番目です。",0);
+INSERT INTO task_detail (task_id, task_detail, task_point) VALUES (3, "ログイン画面の実装をする。\n 数日で完了予定。\n\n Googleアカウントを使いたいです。",0);
