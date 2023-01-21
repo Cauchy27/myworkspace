@@ -1,25 +1,26 @@
 import { useEffect, useState } from 'react';
-import Button from '@material-ui/core/Button';
 
-import TaskDetail from "../TastDetail";
-import Images from "../getImagePath";
+import Button from '@material-ui/core/Button';
+import TextField from "@material-ui/core/TextField";
+
+import TaskDetail from "../parts/TastDetail";
+import Images from "../parts/getImagePath";
+
 
 const TaskScreen = (props) => {
+  const today = new Date();
+
+  // 日付をYYYY-MM-DDの書式で返すメソッド
+  const formatDate = (dt) => {
+    var y = dt.getFullYear();
+    var m = ('00' + (dt.getMonth()+1)).slice(-2);
+    var d = ('00' + dt.getDate()).slice(-2);
+    return (y + '-' + m + '-' + d);
+  }
 
   let [tasks, setTasks] = useState([]);
   let [edit, setEdit] = useState([]);
-
-  // 読み込み時の動作
-  useEffect(() => {
-    fetch('/taskQueryTest')
-    .then(res => res.json())
-    .then(data => {
-      setTasks(data);
-      console.log(data)
-    }).catch(err => {
-      console.log(err);
-    });
-  }, []);
+  let [date , setDate] = useState([formatDate(today)]);
 
   const taskPost = (data) => {
     if(!data){
@@ -71,6 +72,30 @@ const TaskScreen = (props) => {
     })
   }
 
+  const taskSearch = (search_date) => {
+    const data = {task_date:search_date};
+    console.log(JSON.stringify(data));
+    fetch('/taskQuerySearch',{
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then((res_data)=>{
+      setTasks(res_data);
+      console.log(res_data)
+      return res_data;
+    })
+  }
+
+  // 日付変更時にタスクを検索
+  useEffect(() => {
+    console.log("date",date);
+    taskSearch(date);
+  }, [date]);
+
   const [dragIndex, setDragIndex] = useState(null);
 
   // ドラッグ開始の検知
@@ -113,34 +138,74 @@ const TaskScreen = (props) => {
  
   const searchBar={
     "display":"flex",
-    "flex-direction": "row"
+    "flexDirection": "row",
   }
   const subContents = {
     "width":"20%",
     // "border": "2px solid #000000",
     // "padding":"3%",
-    "justifyContent":"center",
+    "display":"flex",
+    "flexDirection": "row",
   }
   const mainContents = {
     "width":"80%",
-    "flex-grow":"1"
+    "flexGrow":"1",
+    "display":"flex",
+    "flexDirection": "row",
+  }
+  const searchButton = {
+    "margin":"3%",
+    "flexGrow":"1",
+  }
+  const searchDateForm = {
+    "margin":"3%",
+    "flexGrow":"1",
+    "height":"100%"
   }
 
   return (
     <div style={{"margin":"3%"}}>
 
       <div style={searchBar}>
-        <p style={mainContents}>
-          検索欄を置く予定
-        </p>
-        <Button 
-          style={subContents} 
-          variant="contained" 
-          color="primary"
-          onClick = {()=>{taskPost()}}
-        >
-          新規タスク作成
-        </Button>
+        <div style={mainContents}>
+          <TextField
+            style = {searchDateForm}
+            type="date"
+            // defaultValue={date}
+            value = {date}
+            // margin="normal"
+            id="searchDate"
+            // label="表示する日付"
+            name="searchDate"
+            onChange = {
+              (event) => {
+                setDate(event.target.value)
+              }
+            }
+          />
+          <Button 
+            style={searchButton} 
+            variant="contained" 
+            color="primary"
+            onClick = {()=>{setDate(formatDate(today))}}
+          >当日表示</Button>
+          <Button 
+            style={searchButton} 
+            variant="contained" 
+            color="primary"
+            onClick = {()=>{setDate("")}}
+          >全件表示</Button>
+        </div>
+        <div style={subContents} >
+          <Button 
+            style={searchButton}
+            variant="contained" 
+            color="primary"
+            onClick = {()=>{taskPost()}}
+          >
+            新規タスク作成
+          </Button>
+        </div>
       </div>
       <div 
         style={{

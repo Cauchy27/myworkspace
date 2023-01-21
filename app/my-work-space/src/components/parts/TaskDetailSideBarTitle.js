@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Button from '@material-ui/core/Button';
 
 import TaskDetailSideBar from"./TaskDetailSideBar";
-import Images from "./getImagePath";
+import Images from "../parts/getImagePath";
 
 const TaskDetailSideBarTitle = (props) => {
 

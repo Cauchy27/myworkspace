@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import Images from "./getImagePath";
+import Images from "../parts/getImagePath";
 
 const TaskDetailSideBar = (props) => {
   

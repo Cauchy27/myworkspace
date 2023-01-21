@@ -38,7 +38,7 @@ app.get('/taskQueryTest', (req, res) => {
   });
 });
 
-// post_test
+// タスク追加
 app.post('/taskQueryPostTest',(req, res) => {
   try {
     if(!req.body){
@@ -78,7 +78,7 @@ app.post('/taskQueryPostTest',(req, res) => {
   }
 });
 
-// task_delete
+// タスク削除
 app.post('/taskQueryDeletePostTest',(req, res) => {
   try {
     if(!req.body){
@@ -108,6 +108,36 @@ app.post('/taskQueryDeletePostTest',(req, res) => {
           });
         });
       });
+    }
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+// タスク検索
+app.post('/taskQuerySearch',(req, res) => {
+  try {
+    if(!req.body){
+      console.log("req.body.error");
+      // throw err;
+    }
+    else{
+      // タスクの削除
+      data = [req.body.task_date];
+      if(req.body.task_date){
+        const search_sql = "select * from task left join task_detail using(task_id) left join task_tag using(task_id) where task_date = ?";
+        db.query(search_sql, data,(err, response) => {
+          if(err) console.log(err);
+          res.json(response);
+        });
+      }
+      else{
+        const search_sql = "select * from task left join task_detail using(task_id) left join task_tag using(task_id)";
+        db.query(search_sql,(err, response) => {
+          if(err) console.log(err);
+          res.json(response);
+        });
+      }
     }
   } catch (err) {
     console.log(err);

@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 
 import TaskScreen from "./components/screen/TaskScreen";
 // import MenuBar from "./components/MenuBar"
-import TaskDetailSideBarTitle from"./components/TaskDetailSideBarTitle";
-import LoginForm from "./components/LoginForm";
+import TaskDetailSideBarTitle from"./components/parts/TaskDetailSideBarTitle";
+import LoginForm from "./components/parts/LoginForm";
 import MainScreen from "./components/screen/MainScreen";
 import DiaryScreen from "./components/screen/DiaryScreen";
 import CompileScreen from "./components/screen/CompileScreen";

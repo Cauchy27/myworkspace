@@ -11,7 +11,7 @@ CREATE TABLE user
   `first_name` VARCHAR(40),
   `last_name` VARCHAR(40),
   `g_account` VARCHAR(50),
-
+  `last_login_date` DATE NOT NULL,
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
@@ -24,6 +24,7 @@ CREATE TABLE task
   `user_id` int unsigned,
   `task_name` VARCHAR(50),
   `position_index` int unsigned NOT NULL,
+  `task_date` DATE NOT NULL,
 
   PRIMARY KEY (`task_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
@@ -60,13 +61,13 @@ CREATE TABLE task_index
 
 /*データ挿入*/
 /*ユーザー*/
-INSERT INTO user (user_id, first_name, last_name, g_account) VALUES (1, "Kohei", "Matsukawa", "k.matsukawa@dual.tokyo");
-INSERT INTO user (user_id, first_name, last_name, g_account) VALUES (2, "Test_First_Name", "Test_Last_Name", "(Google_Account_Test)");
+INSERT INTO user (user_id, first_name, last_name, g_account, last_login_date) VALUES (1, "Kohei", "Matsukawa", "k.matsukawa@dual.tokyo",NOW());
+INSERT INTO user (user_id, first_name, last_name, g_account, last_login_date) VALUES (2, "Test_First_Name", "Test_Last_Name", "(Google_Account_Test)",NOW());
 
 /*タスク*/
-INSERT INTO task (task_id, team_id, user_id,task_name,position_index) VALUES (1, NULL, 1, "タスクテスト１", 1);
-INSERT INTO task (task_id, team_id, user_id, task_name,position_index) VALUES (2, NULL, 1, "タスクテスト２", 2);
-INSERT INTO task (task_id, team_id, user_id, task_name,position_index) VALUES (3, NULL, 1, "タスクテスト３", 3);
+INSERT INTO task (task_id, team_id, user_id,task_name,position_index,task_date) VALUES (1, NULL, 1, "タスクテスト１", 1,NOW());
+INSERT INTO task (task_id, team_id, user_id, task_name,position_index,task_date) VALUES (2, NULL, 1, "タスクテスト２", 2,NOW());
+INSERT INTO task (task_id, team_id, user_id, task_name,position_index,task_date) VALUES (3, NULL, 1, "タスクテスト３", 3,NOW());
 
 INSERT INTO task_detail (task_id, task_detail) VALUES (1, "これはタスクテスト１の内容です。\n 明日までには完了したいです。");
 INSERT INTO task_detail (task_id, task_detail) VALUES (2, "これはタスクテスト２の内容です。\n 明後日までには完了したいです。 \n 優先度的には２番目です。");

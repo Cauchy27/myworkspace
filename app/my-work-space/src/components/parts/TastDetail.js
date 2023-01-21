@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import Button from '@material-ui/core/Button';
 import { Box, CircularProgress, FormHelperText, Grid, Typography } from '@material-ui/core';
-import Images from "./getImagePath";
+import Images from "../parts/getImagePath";
 // import styled from 'styled-components'
 
 const TaskDetail = (props) => {
@@ -32,7 +32,7 @@ const TaskDetail = (props) => {
   }
   const mainContents = {
     "width":"75%",
-    "flex-grow":"1"
+    "flexGrow":"1"
   }
   const subGraph = {
     "height":"80px"
