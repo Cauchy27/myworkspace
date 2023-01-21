@@ -6,6 +6,39 @@ import { Box, CircularProgress } from '@material-ui/core';
 import Images from "../parts/getImagePath";
 
 const TaskDetail = (props) => {
+
+  const [point, setPoint] = useState(props.task.task_point);
+
+  // フォームの内容を更新するメソッドをここに
+  const taskCompletePost = async(data) => {
+    if(!data){
+      data = {
+        task_id:props.task.task_id,
+        team_id:props.task.team_id,
+        user_id:props.task.user_id,
+        task_name:props.task.task_name,
+        position_index:props.task.position_index,
+        task_date:props.task.task_date,
+        task_detail:props.task.task_detail,
+        task_point:100
+      }
+    }
+    console.log(data);
+    console.log(JSON.stringify(data));
+    await fetch('/taskQueryPostTest',{
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then((res_data)=>{
+      // setTasks(res_data);
+      console.log(res_data)
+      return res_data;
+    })
+  }
   
   const taskDetailStyle = {
     "backgroundColor": "#FFFFFF",
@@ -94,7 +127,12 @@ const TaskDetail = (props) => {
         >
           削除
         </Button>
-        <Button style={subButton}  variant="contained" color="primary">
+        <Button 
+          style={subButton} 
+          variant="contained" 
+          color="primary"
+          onClick = {()=>{props.taskCompletePost()}}
+        >
           完了
         </Button>
 

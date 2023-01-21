@@ -74,6 +74,35 @@ const TaskScreen = (props) => {
     })
   }
 
+  // フォームの内容を更新するメソッドをここに
+  const taskCompletePost = async(index) => {
+    const data = {
+      task_id:tasks[index].task_id,
+      team_id:tasks[index].team_id,
+      user_id:tasks[index].user_id,
+      task_name:tasks[index].task_name,
+      position_index:tasks[index].position_index,
+      task_date:tasks[index].task_date,
+      task_detail:tasks[index].task_detail,
+      task_point:100
+    }
+    console.log(data);
+    console.log(JSON.stringify(data));
+    await fetch('/taskQueryPostTest',{
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then((res_data)=>{
+      setTasks(res_data);
+      console.log(res_data)
+      return res_data;
+    })
+  }
+
   const taskDelete = (index) => {
     if(deleteLock === "有効"){
       const data = tasks[index];
@@ -278,6 +307,11 @@ const TaskScreen = (props) => {
               taskEditSave = {
                 ()=>{
                   taskEditSave(index);
+                }
+              }
+              taskCompletePost = {
+                ()=>{
+                  taskCompletePost(index)
                 }
               }
               key = {index}

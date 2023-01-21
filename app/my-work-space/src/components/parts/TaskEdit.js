@@ -15,10 +15,10 @@ const TaskEdit = (props) => {
     return (y + '-' + m + '-' + d);
   }
 
-  const [name ,setName] = useState([props.task.task_name]);
-  const [detail, setDetail] = useState([props.task.task_detail]);
-  const [taskDate, setTaskDate] = useState([props.task.task_date]);
-  const [point, setPoint] = useState([props.task.task_point]);
+  const [name ,setName] = useState(props.task.task_name);
+  const [detail, setDetail] = useState(props.task.task_detail);
+  const [taskDate, setTaskDate] = useState(props.task.task_date);
+  const [point, setPoint] = useState(props.task.task_point);
 
   // フォームの内容を更新するメソッドをここに
   const taskEditPost = async(data) => {
