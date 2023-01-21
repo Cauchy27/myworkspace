@@ -18,7 +18,6 @@ const TaskDetail = (props) => {
     else{
       setBackGroundColor("#FFFFFF");
     }
-    console.log("BGC");
   },[props.task.task_point]);
 
   // フォームの内容を更新するメソッドをここに
