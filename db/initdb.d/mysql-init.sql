@@ -10,7 +10,8 @@ CREATE TABLE user
   `user_id` int unsigned NOT NULL AUTO_INCREMENT COMMENT 'ユーザーID',
   `first_name` VARCHAR(40),
   `last_name` VARCHAR(40),
-  `g_account` VARCHAR(50),
+  `login_id` VARCHAR(50),
+  `login_pwd` VARCHAR(50),
   `last_login_date` DATE NOT NULL,
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
@@ -62,8 +63,8 @@ CREATE TABLE task_index
 
 /*データ挿入*/
 /*ユーザー*/
-INSERT INTO user (user_id, first_name, last_name, g_account, last_login_date) VALUES (1, "Kohei", "Matsukawa", "k.matsukawa@dual.tokyo",NOW());
-INSERT INTO user (user_id, first_name, last_name, g_account, last_login_date) VALUES (2, "Test_First_Name", "Test_Last_Name", "(Google_Account_Test)",NOW());
+INSERT INTO user (user_id, first_name, last_name, login_id, login_pwd, last_login_date) VALUES (1, "Kohei", "Matsukawa", "k.matsukawa@dual.tokyo","abcd1234",NOW());
+INSERT INTO user (user_id, first_name, last_name, login_id, login_pwd, last_login_date) VALUES (2, "Test_First_Name", "Test_Last_Name", "test_id", "abcd1234",NOW());
 
 /*タスク*/
 INSERT INTO task (task_id, team_id, user_id,task_name,position_index,task_date) VALUES (1, NULL, 1, "タスクテスト１", 1,NOW());

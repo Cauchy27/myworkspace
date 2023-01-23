@@ -9,16 +9,32 @@ import DiaryScreen from "./components/screen/DiaryScreen";
 import CompileScreen from "./components/screen/CompileScreen";
 import ConfigScreen from "./components/screen/ConfigScreen";
 import AccountScreen from "./components/screen/AccountScreen";
+import { useWindowDimensions } from './components/parts/useWindowDimensions';
 
 const App = () => {
 
   const [menus, setMenus] = useState([]);
   const [pageStatus, setPageStatus] = useState(["タスク管理"]);
+  const [taskBarWidth, setTaskBarWidth] = useState(25);
+
 
   // 読み込み時の動作
   useEffect(() => {
     getMenus();
   }, [menus]);
+
+  const { width, height } = useWindowDimensions();
+
+  // 画面リサイズ時に表示モード切り替え
+  useEffect(() => {
+    console.log(width);
+    if(width>900){
+      setTaskBarWidth(25);
+    }
+    else{
+      setTaskBarWidth(0);
+    }
+  }, [width]);
 
   // メニュー取得
   const getMenus = () => {
@@ -123,7 +139,7 @@ const App = () => {
           "position": "absolute",
           "top":"10%",
           "height":"90%",
-          "width":"75%",
+          "width":`${100 - taskBarWidth}%`,
           "display":"flex",
           "justifyContent":"center",
         }}
@@ -172,7 +188,7 @@ const App = () => {
           "left":"75%",
           "top":"10%",
           "height":"90%",
-          "width":"25%",
+          "width":`${taskBarWidth}%`,
           "display":"flex",
           "flexDirection": "column",
         }}

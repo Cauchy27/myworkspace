@@ -32,6 +32,7 @@ services:
     tty: true
     volumes:
       - ./backend:/backend
+    restart: always
     environment:
       - TZ=${TZ}
     command: sh -c "node index.js"
