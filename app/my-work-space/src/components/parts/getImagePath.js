@@ -5,6 +5,7 @@ const Images = {
   pin2: require('../images/pin2.png'),
   under_arrow1: require('../images/under_arrow1.png'),
   upper_arrow1: require('../images/upper_arrow1.png'),
+  gear1:require('../images/gear1.png'),
 }
 
 export default Images;

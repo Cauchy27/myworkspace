@@ -6,6 +6,7 @@ import TextField from "@material-ui/core/TextField";
 import TaskDetail from "../parts/TastDetail";
 import Images from "../parts/getImagePath";
 import TaskEdit from "../parts/TaskEdit";
+import TagEdit from "../parts/TagEdit";
 
 const TaskScreen = (props) => {
 
@@ -21,6 +22,9 @@ const TaskScreen = (props) => {
   const [tasks, setTasks] = useState([]);
   const [edit, setEdit] = useState();
   const [date , setDate] = useState(formatDate(today));
+  const [tag, setTag] = useState("");
+  const [taskTags, setTaskTags] = useState([]);
+  const [tagEdit, setTagEdit] = useState(false);
 
   const [deleteLock, setDeleteLock] = useState("無効");
   const [deleteButtonColor, setDeleteButtonColor] = useState("inherit");
@@ -123,9 +127,10 @@ const TaskScreen = (props) => {
     }
   }
 
-  const taskSearch = (search_date) => {
+  const taskSearch = (search_date,search_tag_id) => {
     const data = {
-      task_date:search_date
+      task_date:search_date,
+      task_tag_id:search_tag_id,
     };
     console.log(JSON.stringify(data));
     fetch('/taskQuerySearch',{
@@ -138,6 +143,25 @@ const TaskScreen = (props) => {
     .then(res => res.json())
     .then((res_data)=>{
       setTasks(res_data);
+      console.log(res_data)
+      return res_data;
+    })
+  }
+  const taskTagSearch = () => {
+    const data = {
+      request:"search"
+    }
+    console.log(JSON.stringify(data));
+    fetch('/tagPost',{
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then((res_data)=>{
+      setTaskTags(res_data);
       console.log(res_data)
       return res_data;
     })
@@ -178,12 +202,30 @@ const TaskScreen = (props) => {
     setEdit();
     taskSearch(date);
   }
+  // タスクタグ保存
+  const taskTagEditClose = () => {
+    setTagEdit(false);
+    taskTagSearch();
+  }
 
   // 日付変更時にタスクを検索
   useEffect(() => {
     console.log("date",date);
     taskSearch(date);
   }, [date]);
+
+  // 日付変更時にタスクを検索
+  useEffect(() => {
+    console.log("tag",tag);
+    taskSearch("",tag);
+  }, [tag]);
+
+  // タグの更新
+  useEffect(() => {
+    console.log("task_tags");
+    console.log(taskTags);
+    taskTagSearch();
+  }, []);
 
   // ドラッグ開始の検知
   useEffect(()=>{
@@ -209,12 +251,20 @@ const TaskScreen = (props) => {
   }
   const searchButton = {
     "margin":"3%",
-    "flexGrow":"1",
+    "flexGrow":"1"
   }
   const searchDateForm = {
     "margin":"3%",
     "flexGrow":"1",
     "height":"100%"
+  }
+  const tagBar = {
+    "display":"flex",
+    "flexDirection": "row",
+  }
+  const tagButton = {
+    "margin":"3%",
+    "flexGrow":"1"
   }
 
   return (
@@ -248,7 +298,7 @@ const TaskScreen = (props) => {
             variant="contained" 
             color="primary"
             onClick = {()=>{setDate("")}}
-          >全件表示</Button>
+          >全日表示</Button>
         </div>
         <div style={subContents} >
         <Button 
@@ -268,6 +318,37 @@ const TaskScreen = (props) => {
             新規タスク作成
           </Button>
         </div>
+      </div>
+      <div style={tagBar}>
+        <Button 
+          style={tagButton} 
+          variant="contained" 
+          color={tag == "" ? "primary" : "inherit"}
+          onClick = {()=>{setTag("")}}
+        >
+          全タグ表示 
+        </Button>
+        {
+          taskTags.map((taskTag, index) =>
+          <Button 
+            style={tagButton} 
+            variant="contained" 
+            color={tag == taskTag.task_tag_id ? "primary" : "inherit"}
+            onClick = {()=>{setTag(taskTag.task_tag_id)}}
+            key = {index}
+          >
+            {taskTag.task_tag_name}
+          </Button>
+          ) 
+        }
+        <Button 
+          style={tagButton} 
+          variant="contained" 
+          color="primary"
+          onClick = {()=>{setTagEdit(true)}}
+        >
+          タグ登録
+        </Button>
       </div>
       <div 
         style={{
@@ -323,9 +404,21 @@ const TaskScreen = (props) => {
         <TaskEdit
          index={edit}
          task={tasks[edit]}
+         taskTags = {taskTags}
          taskEditClose={
            ()=>{
-            taskEditClose(edit)
+            taskEditClose(edit);
+           }
+         }
+        />
+      }
+      { tagEdit &&
+        <TagEdit
+         index={edit}
+         taskTags={taskTags}
+         taskTagEditClose={
+           ()=>{
+            taskTagEditClose();
            }
          }
         />

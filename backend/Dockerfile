@@ -1,5 +1,5 @@
 FROM node:16-alpine
 
-# WORKDIR /
+# WORKDIR ./
 
 # RUN npm install

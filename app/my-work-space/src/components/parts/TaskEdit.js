@@ -1,7 +1,7 @@
 import { useEffect, useState} from 'react';
 
 import Button from '@material-ui/core/Button';
-import TextField from "@material-ui/core/TextField";
+import {TextField, Select, MenuItem} from "@material-ui/core";
 
 import Images from "./getImagePath";
 
@@ -29,10 +29,12 @@ const TaskEdit = (props) => {
   const [detail, setDetail] = useState(props.task.task_detail);
   const [taskDate, setTaskDate] = useState(props.task.task_date);
   const [point, setPoint] = useState(props.task.task_point);
+  const [tag, setTag] = useState(props.task.task_tag_id);
 
   // フォームの内容を更新するメソッドをここに
   const taskEditPost = async(data) => {
     if(!data){
+      if(tag == 0){setTag(null)}
       data = {
         task_id:props.task.task_id,
         team_id:props.task.team_id,
@@ -41,7 +43,8 @@ const TaskEdit = (props) => {
         position_index:props.task.position_index,
         task_date:taskDate,
         task_detail:detail,
-        task_point:point
+        task_point:point,
+        task_tag_id:tag,
       }
     }
     console.log(data);
@@ -165,6 +168,29 @@ const TaskEdit = (props) => {
                 }
               }
           />
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            defaultValue={tag != null ? tag : 0}
+            label="タグ"
+            onChange={(event)=>{setTag(event.target.value)}}
+          >
+            <MenuItem 
+              value={0}
+            >
+              タグなし
+            </MenuItem>
+            {
+              props.taskTags.map((tag, index) =>
+                <MenuItem 
+                  value={tag.task_tag_id}
+                  key={index}
+                >
+                  {tag.task_tag_name}
+                </MenuItem>
+              )
+            }
+          </Select>
           <TextField
               type="number"
               // defaultValue={props.task.task_point}
