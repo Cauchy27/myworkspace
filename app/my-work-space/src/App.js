@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import TaskScreen from "./components/screen/TaskScreen";
 // import MenuBar from "./components/MenuBar"
 import TaskDetailSideBarTitle from"./components/parts/TaskDetailSideBarTitle";
-import LoginForm from "./components/parts/LoginForm";
 import MainScreen from "./components/screen/MainScreen";
 import DiaryScreen from "./components/screen/DiaryScreen";
 import CompileScreen from "./components/screen/CompileScreen";
@@ -11,15 +10,40 @@ import ConfigScreen from "./components/screen/ConfigScreen";
 import AccountScreen from "./components/screen/AccountScreen";
 import { useWindowDimensions } from './components/parts/useWindowDimensions';
 
+// Googleログイン
+import {LoginCheck,RegistToken,Logout} from "./components/parts/LoginCheck";
+
+import Button from '@material-ui/core/Button';
+
 const App = () => {
 
   const [menus, setMenus] = useState([]);
   const [pageStatus, setPageStatus] = useState(["タスク管理"]);
   const [taskBarWidth, setTaskBarWidth] = useState(25);
-
+  const [user, setUser] = useState([]);
+  const [email, setEmail] = useState([]);
 
   // 読み込み時の動作
   useEffect(() => {
+
+    // リダイレクトの場合
+    if (window.location.pathname === "/auth_code") {
+      RegistToken();
+    }
+    else{
+      // ログイン
+      LoginCheck()
+      .then((res)=>{
+        console.log("res",res);
+        setUser(res.name);
+        setEmail(res.email);
+      });
+    }
+  }, [user]);
+
+  // メニュー読み込み
+  useEffect(() => {
+    // メニュー読み込み
     getMenus();
   }, [menus]);
 
@@ -87,7 +111,17 @@ const App = () => {
         }}
       >
         {/* <p>※前日からのメッセージ欄</p> */}
-        <p>千羽さんテスト版</p>
+        {/* <p>ログインユーザー：{user}</p> */}
+        <p>アカウント：{email}</p>
+        <Button 
+            variant="contained" 
+            color="secondary"
+            onClick = {()=>{
+              Logout();
+            }}
+        >
+          ログアウト
+        </Button>
       </div>
 
       {/* メニューバー */}

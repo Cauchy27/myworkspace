@@ -200,7 +200,7 @@ const TaskScreen = (props) => {
   // タスク保存
   const taskEditClose = (index) => {
     setEdit();
-    taskSearch(date);
+    taskSearch(date,tag);
   }
   // タスクタグ保存
   const taskTagEditClose = () => {
@@ -211,13 +211,13 @@ const TaskScreen = (props) => {
   // 日付変更時にタスクを検索
   useEffect(() => {
     console.log("date",date);
-    taskSearch(date);
+    taskSearch(date,tag);
   }, [date]);
 
-  // 日付変更時にタスクを検索
+  // タグ更時にタスクを検索
   useEffect(() => {
     console.log("tag",tag);
-    taskSearch("",tag);
+    taskSearch(date,tag);
   }, [tag]);
 
   // タグの更新
