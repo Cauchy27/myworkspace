@@ -161,8 +161,8 @@ const TagEdit = (props) => {
                   margin="normal"
                   // multiline
                   variant="outlined"
-                  // value={tag.task_tag_name}
-                  defaultValue={tag.task_tag_name}
+                  value={tag.task_tag_name}
+                  // defaultValue={tag.task_tag_name}
                   placeholder="タグ名"
                   onBlur = {
                     (event) => {
