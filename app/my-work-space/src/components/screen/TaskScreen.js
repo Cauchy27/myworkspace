@@ -8,6 +8,9 @@ import Images from "../parts/getImagePath";
 import TaskEdit from "../parts/TaskEdit";
 import TagEdit from "../parts/TagEdit";
 
+// Googleログイン
+import {useDbToken} from "../parts/LoginCheck";
+
 const TaskScreen = (props) => {
 
   const today = new Date();
@@ -44,7 +47,8 @@ const TaskScreen = (props) => {
     console.log(deleteLock);
   }
 
-  const taskPost = (data) => {
+  const taskPost = async(data) => {
+    const token = await useDbToken();
     if(!data){
       // ここの改善は後で
       let tasks_position_index = tasks.map((value)=>{
@@ -52,10 +56,11 @@ const TaskScreen = (props) => {
       });
       console.log(tasks_position_index);
       data = {
+        token:token,
         task_id:null,
         team_id:null,
         task_name:"",
-        position_index:Math.max.apply(null, tasks_position_index),
+        position_index:null,
         task_date:null,
         task_detail:"",
         task_point:10,
@@ -80,7 +85,9 @@ const TaskScreen = (props) => {
 
   // フォームの内容を更新するメソッドをここに
   const taskCompletePost = async(index) => {
+    const token = await useDbToken();
     const data = {
+      token:token,
       task_id:tasks[index].task_id,
       team_id:tasks[index].team_id,
       user_id:tasks[index].user_id,
@@ -107,9 +114,10 @@ const TaskScreen = (props) => {
     })
   }
 
-  const taskDelete = (index) => {
+  const taskDelete = async(index) => {
+    const token = await useDbToken();
     if(deleteLock === "有効"){
-      const data = tasks[index];
+      const data = Object.assign(tasks[index],{token:token});
       console.log(JSON.stringify(data));
       fetch('/taskQueryDeletePostTest',{
         method: 'POST',
@@ -127,10 +135,13 @@ const TaskScreen = (props) => {
     }
   }
 
-  const taskSearch = (search_date,search_tag_id) => {
+  const taskSearch = async(search_date,search_tag_id) => {
+    const token = await useDbToken();
+    console.log("token",token);
     const data = {
       task_date:search_date,
       task_tag_id:search_tag_id,
+      token:token
     };
     console.log(JSON.stringify(data));
     fetch('/taskQuerySearch',{
@@ -147,9 +158,11 @@ const TaskScreen = (props) => {
       return res_data;
     })
   }
-  const taskTagSearch = () => {
+  const taskTagSearch = async() => {
+    const token = await useDbToken();
     const data = {
-      request:"search"
+      request:"search",
+      token:token
     }
     console.log(JSON.stringify(data));
     fetch('/tagPost',{
@@ -211,14 +224,15 @@ const TaskScreen = (props) => {
   // 日付変更時にタスクを検索
   useEffect(() => {
     console.log("date",date);
-    taskSearch(date,tag);
-  }, [date]);
-
-  // タグ更時にタスクを検索
-  useEffect(() => {
     console.log("tag",tag);
     taskSearch(date,tag);
-  }, [tag]);
+  }, [date,tag]);
+
+  // タグ更時にタスクを検索
+  // useEffect(() => {
+    // console.log("tag",tag);
+    // taskSearch(date,tag);
+  // }, [tag]);
 
   // タグの更新
   useEffect(() => {

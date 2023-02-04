@@ -5,6 +5,9 @@ import TextField from "@material-ui/core/TextField";
 
 import Images from "./getImagePath";
 
+// Googleログイン
+import {useDbToken} from "./LoginCheck";
+
 const TagEdit = (props) => {
 
   // 日付をYYYY-MM-DDの書式で返すメソッド
@@ -30,8 +33,10 @@ const TagEdit = (props) => {
   // タスクタグの作成・編集
   const taskTagPost = async(data) => {
     if(!data){
+      const token = await useDbToken();
       data = {
         dataArray:{
+          token:token,
           task_tag_id:null,
           task_tag_name:"タグ",
         },

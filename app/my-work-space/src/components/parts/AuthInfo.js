@@ -117,10 +117,17 @@ const getUserInfo = async(AuthInfo) => {
         deleteAuthInfo();
         window.location.href = "/";
       }
-      return(res_data);
+      return(Object.assign(res_data , AuthInfo));
     })
-    .catch((err)=>{console.log(err)}); 
-
+    .catch((err)=>{console.log(err)});
+  
+  await fetch('/userPost',{
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(response)
+  }).then(()=>{console.log("test1")},()=>{console.log("test2")});
   return response;
 
 }

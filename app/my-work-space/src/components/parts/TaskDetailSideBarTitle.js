@@ -2,7 +2,11 @@ import { useEffect, useState } from 'react';
 import Button from '@material-ui/core/Button';
 
 import TaskDetailSideBar from"./TaskDetailSideBar";
+
 import Images from "../parts/getImagePath";
+
+// Googleログイン
+import {useDbToken} from "../parts/LoginCheck";
 
 const TaskDetailSideBarTitle = (props) => {
 
@@ -22,8 +26,10 @@ const TaskDetailSideBarTitle = (props) => {
     fetchData();
   }, []);
 
-  const fetchData = () => {
+  const fetchData = async() => {
+    const token = await useDbToken();
     const data = {
+      token:token,
       task_date:formatDate(today),
     };
     console.log(JSON.stringify(data));

@@ -5,6 +5,9 @@ import {TextField, Select, MenuItem} from "@material-ui/core";
 
 import Images from "./getImagePath";
 
+// Googleログイン
+import {useDbToken} from "./LoginCheck";
+
 const TaskEdit = (props) => {
 
   // 日付をYYYY-MM-DDの書式で返すメソッド
@@ -35,7 +38,9 @@ const TaskEdit = (props) => {
   const taskEditPost = async(data) => {
     if(!data){
       if(tag == 0){setTag(null)}
+      const token = await useDbToken();
       data = {
+        token:token,
         task_id:props.task.task_id,
         team_id:props.task.team_id,
         user_id:props.task.user_id,

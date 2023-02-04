@@ -8,12 +8,23 @@ DROP TABLE IF EXISTS user;
 CREATE TABLE user
 (
   `user_id` int unsigned NOT NULL AUTO_INCREMENT COMMENT 'ユーザーID',
-  `first_name` VARCHAR(40),
-  `last_name` VARCHAR(40),
+  `user_name` VARCHAR(40),
   `login_id` VARCHAR(50),
-  `login_pwd` VARCHAR(50),
+  `token` VARCHAR(255),
   `last_login_date` DATE NOT NULL,
-  PRIMARY KEY (`user_id`)
+  PRIMARY KEY (`user_id`),
+  UNIQUE(`login_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS team;
+
+/*チーム*/
+CREATE TABLE team
+(
+  `team_id` int unsigned NOT NULL AUTO_INCREMENT COMMENT 'ユーザーID',
+  `team_name` VARCHAR(40),
+  PRIMARY KEY (`team_id`),
+  UNIQUE(`team_name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 /*タスク*/
@@ -24,7 +35,7 @@ CREATE TABLE task
   `team_id` int unsigned,
   `user_id` int unsigned,
   `task_name` VARCHAR(50),
-  `position_index` int unsigned NOT NULL,
+  `position_index` int unsigned ,
   `task_date` DATE NOT NULL,
   `task_tag_id` int unsigned,
   PRIMARY KEY (`task_id`)
@@ -63,8 +74,8 @@ CREATE TABLE task_index
 
 /*データ挿入*/
 /*ユーザー*/
-INSERT INTO user (user_id, first_name, last_name, login_id, login_pwd, last_login_date) VALUES (1, "Kohei", "Matsukawa", "k.matsukawa@dual.tokyo","abcd1234",NOW());
-INSERT INTO user (user_id, first_name, last_name, login_id, login_pwd, last_login_date) VALUES (2, "Test_First_Name", "Test_Last_Name", "test_id", "abcd1234",NOW());
+INSERT INTO user (user_id, user_name, login_id, last_login_date) VALUES (1, "Kohei", "k.matsukawa@test",NOW());
+INSERT INTO user (user_id, user_name, login_id, last_login_date) VALUES (2, "Test_User_Name", "test@abc",NOW());
 
 /*タスク*/
 INSERT INTO task (task_id, team_id, user_id,task_name,position_index,task_date,task_tag_id) VALUES (1, NULL, 1, "タスクテスト１", 1, NOW(), null);

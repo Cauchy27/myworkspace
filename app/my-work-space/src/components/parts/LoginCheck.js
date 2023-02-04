@@ -3,10 +3,10 @@ import {setAuthInfo,getAuthInfo,deleteAuthInfo,requestGCPAuthCode,getCode,getAut
 
 const LoginCheck = async() => {
   const info = getAuthInfo();
-  if(info == "undefined"){
-    // item = null;
-    deleteAuthInfo();
-  }
+  // if(info == "undefined"){
+  //   // item = null;
+  //   deleteAuthInfo();
+  // }
   // ローカルにログイン情報がない場合は認証トークンを取得
   if(!info){
     requestGCPAuthCode();
@@ -43,8 +43,14 @@ const Logout = () => {
   window.location.href = "/";
 }
 
+const useDbToken = async() => {
+  const info = await getAuthInfo();
+  return info.access_token;
+}
+
 export{
   LoginCheck,
   RegistToken,
   Logout,
+  useDbToken,
 };
