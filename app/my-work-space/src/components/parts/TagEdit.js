@@ -32,11 +32,11 @@ const TagEdit = (props) => {
 
   // タスクタグの作成・編集
   const taskTagPost = async(data) => {
+    const token = await useDbToken();
     if(!data){
-      const token = await useDbToken();
       data = {
+        token:token,
         dataArray:{
-          token:token,
           task_tag_id:null,
           task_tag_name:"タグ",
         },
@@ -45,9 +45,13 @@ const TagEdit = (props) => {
     }
     else if(data.request != "search") {
       data = {
+        token:token,
         dataArray:data,
         request:"update"
       }
+    }
+    else{
+      data = Object.assign(data,{token:token,})
     }
     console.log(data);
     console.log(JSON.stringify(data));
@@ -111,6 +115,10 @@ const TagEdit = (props) => {
     "display":"flex",
     "flexDirection": "column",
   }
+  const buttonStyle = {
+    "marginTop":"3%",
+    "marginBottom":"3%",
+  }
 
   return (
     <div 
@@ -120,8 +128,31 @@ const TagEdit = (props) => {
       }
     >
       <div style={taskDetailStyle}>
-        <div style={mainContents}>
-          <h3>タスクタグ編集</h3>
+        <div 
+          style={{
+            "marginTop":"3%",
+            "marginBottom":"3%",
+            "flexGrow":"1",
+          }}
+        >
+          <div style={{"display":"flex",}}>
+            <h3 style={{"flexGrow":"2",}}>タスクタグ編集</h3>
+            <Button 
+              style={buttonStyle}
+              variant="contained" 
+              color="inherit"
+              onClick = {()=>{
+                if(taskTags.length < 4){
+                  taskTagPost();
+                }
+                else{
+                  // console.log(taskTags.length)
+                }
+              }}
+            >
+              タグ新規作成
+            </Button>
+          </div>
           {
             taskTags.map((tag, index) =>
               <TextField
@@ -147,6 +178,7 @@ const TagEdit = (props) => {
         </div>
         <div style={subContents}>
           <Button 
+            style={buttonStyle}
             variant="contained" 
             color="primary"
             onClick = {()=>{
@@ -161,20 +193,7 @@ const TagEdit = (props) => {
             保存
           </Button>
           <Button 
-            variant="contained" 
-            color="inherit"
-            onClick = {()=>{
-              if(taskTags.length < 3){
-                taskTagPost();
-              }
-              else{
-                // console.log(taskTags.length)
-              }
-            }}
-          >
-            タグ新規作成
-          </Button>
-          <Button 
+            style={buttonStyle}
             variant="contained" 
             color="inherit"
             onClick = {()=>{

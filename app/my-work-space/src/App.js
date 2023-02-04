@@ -8,6 +8,9 @@ import DiaryScreen from "./components/screen/DiaryScreen";
 import CompileScreen from "./components/screen/CompileScreen";
 import ConfigScreen from "./components/screen/ConfigScreen";
 import AccountScreen from "./components/screen/AccountScreen";
+import RightTopBarScreen from "./components/screen/RightTopBarScreen";
+import MainTopBarScreen from "./components/screen/MainTopBarScreen";
+
 import { useWindowDimensions } from './components/parts/useWindowDimensions';
 
 // Googleログイン
@@ -82,17 +85,15 @@ const App = () => {
 
   const menuBarStyle = {
     "backgroundColor": "#FFFFFF",
-    "border":"solid 2px #555555",
-    "width":"100%",
-    "height":"100%",
-    "paddingTop":"1px",
-    "paddingBottom":"1px",
-    "marginTop":"1px",
-    "marginBottom":"1px",
-    "marginLeft":"1px",
-    "marginRight":"1px",
+    "border":"2px solid #acacac",
+    // "paddingTop":"1px",
+    // "paddingBottom":"1px",
+    // "marginTop":"1px",
+    // "marginBottom":"1px",
+    "marginLeft":"3%",
+    "marginRight":"3%",
     "textAlign":"center",
-    "justifyContent":"center",
+    "flexGrow":"1",
   }
 
   return (
@@ -106,39 +107,44 @@ const App = () => {
     >
       <div
         style={{
-          "backgroundColor": "#00FF00",
+          "backgroundColor": "#555455",
           "position": "absolute",
           "top":"0",
-          "left":"0",
+          "left":"75%",
+          "height":"10%",
+          "width":"25%",
+        }}
+      >
+        <RightTopBarScreen
+          email={email}
+          picture={picture}
+          Logout={()=>{Logout()}}     
+        />
+      </div>
+      <div
+        style={{
+          "backgroundColor": "#555455",
+          "position": "absolute",
+          "top":"0",
+          "left":"25%",
           "height":"10%",
           "width":"50%",
         }}
       >
-        {/* <p>※前日からのメッセージ欄</p> */}
-        {/* <p>ログインユーザー：{user}</p> */}
-        <p>アカウント：{email}</p>
-
-        <Button 
-            variant="contained" 
-            color="secondary"
-            onClick = {()=>{
-              Logout();
-            }}
-        >
-          ログアウト
-          {/* <img src={picture}/> */}
-        </Button>
+        <MainTopBarScreen
+          toTop={()=>{setPageStatus(["top"])}}    
+        />
       </div>
 
       {/* メニューバー */}
       <div
         style={{
-          "backgroundColor": "#FF9900",
+          "backgroundColor": "#555455",
           "position": "absolute",
           "top":"0%",
-          "left":"50%",
+          "left":"0%",
           "height":"10%",
-          "width":"50%",
+          "width":"25%",
           "display":"flex",
           "justifyContent":"center",
           "verticalAlign":"middle",
@@ -149,7 +155,7 @@ const App = () => {
             {
               "display":"flex",
               "flexDirection": 'row',
-              "width":"99%",
+              "width":"100%",
               "height":"auto",
               "justifyContent":"center",
               "marginTop":"auto",
@@ -161,6 +167,7 @@ const App = () => {
           }
         >
           {menus.map((menu, index) =>
+            menu.menu_active == 1 &&
             <div
               style={menuBarStyle}
               onClick={()=>setPageStatus(menu.title)}
@@ -202,9 +209,6 @@ const App = () => {
           { pageStatus == "タスク管理" &&
             <TaskScreen/>
           } 
-          { pageStatus == "top" &&
-            <MainScreen/>
-          }
           { pageStatus == "業務日誌" &&
             <DiaryScreen/>
           }
@@ -270,6 +274,12 @@ const App = () => {
           />
         </div> */}
       </div>
+      { pageStatus == "top" &&
+            <MainScreen
+              name={user}
+              picture={picture}
+            />
+          }
     </div>
   );
 }

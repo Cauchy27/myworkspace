@@ -4,15 +4,22 @@ const MainScreen = (props) => {
   
   const mainStyle ={
     "backgroundColor": "antiquewhite",
-    "position": "relative",
+    "position": "absolute",
+    "top":"10%",
     "width":"100%",
-    "height":"100%",
+    "height":"90%",
     "fontSize":"auto",
+  }
+  const mainContents = {
+    "margin":"10%",
   }
 
   return (
     <div class="main" style={mainStyle}>
-      <p>※トップ画面（ただいま開発中）</p>
+      <div style={mainContents}>
+        <p>ようこそ、{props.name}さん</p>
+        <div><img src={props.picture}/></div>
+      </div>
     </div>
   );
 }

@@ -337,27 +337,32 @@ app.get('/menuTest', (req, res) => {
       {
         id: 1,
         title:"業務日誌",
-        url: "test1"
+        url: "test1",
+        menu_active:2
       }, 
       {
         id: 2,
         title:"タスク管理",
-        url: "test2"
+        url: "test2",
+        menu_active:1
       }, 
       {
         id: 3,
         title:"集計・分析",
-        url: "test3"
+        url: "test3",
+        menu_active:2
       }, 
       {
         id: 4,
         title:"設定",
-        url: "test4"
+        url: "test4",
+        menu_active:2
       }, 
       {
         id: 5,
         title:"アカウント",
-        url: "test5"
+        url: "test5",
+        menu_active:2
       }, 
     ]);
   }

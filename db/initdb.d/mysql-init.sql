@@ -72,16 +72,22 @@ CREATE TABLE task_index
   PRIMARY KEY (`task_index_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
+/*メニュー*/
+DROP TABLE IF EXISTS menu;
+CREATE TABLE menu
+(
+  `menu_id` int unsigned NOT NULL AUTO_INCREMENT COMMENT 'タスクID',
+  `team_id` int unsigned,
+  `menu_name` VARCHAR(50),
+  `menu_active` int unsigned,
+  PRIMARY KEY (`menu_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
 /*データ挿入*/
-/*ユーザー*/
-INSERT INTO user (user_id, user_name, login_id, last_login_date) VALUES (1, "Kohei", "k.matsukawa@test",NOW());
-INSERT INTO user (user_id, user_name, login_id, last_login_date) VALUES (2, "Test_User_Name", "test@abc",NOW());
+/*チーム*/
+INSERT INTO team (team_id, team_name) VALUES (1, "default_team");
 
-/*タスク*/
-INSERT INTO task (task_id, team_id, user_id,task_name,position_index,task_date,task_tag_id) VALUES (1, NULL, 1, "タスクテスト１", 1, NOW(), null);
-INSERT INTO task (task_id, team_id, user_id, task_name,position_index,task_date,task_tag_id) VALUES (2, NULL, 1, "タスクテスト２", 2, NOW(), null);
-INSERT INTO task (task_id, team_id, user_id, task_name,position_index,task_date,task_tag_id) VALUES (3, NULL, 1, "タスクテスト３", 3, NOW(), null);
-
-INSERT INTO task_detail (task_id, task_detail, task_point) VALUES (1, "現在の開発状況をまとめる",0);
-INSERT INTO task_detail (task_id, task_detail, task_point) VALUES (2, "フロントエンドのタスク管理部分のデザインを調整する。\n 明後日までには完了したいです。 \n 優先度的には２番目です。",0);
-INSERT INTO task_detail (task_id, task_detail, task_point) VALUES (3, "ログイン画面の実装をする。\n 数日で完了予定。\n\n Googleアカウントを使いたいです。",0);
+/*メニュー*/
+INSERT INTO menu (menu_id,team_id,menu_name,menu_active) VALUES (1, 1, "メニュー１",1);
+INSERT INTO menu (menu_id,team_id,menu_name,menu_active) VALUES (2, 1, "メニュー２",1);
+INSERT INTO menu (menu_id,team_id,menu_name,menu_active) VALUES (3, 1, "メニュー３",1);

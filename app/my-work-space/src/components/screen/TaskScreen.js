@@ -277,7 +277,7 @@ const TaskScreen = (props) => {
     "flexDirection": "row",
   }
   const tagButton = {
-    "margin":"3%",
+    "margin":"1%",
     "flexGrow":"1"
   }
 

@@ -6,6 +6,7 @@ const Images = {
   under_arrow1: require('../images/under_arrow1.png'),
   upper_arrow1: require('../images/upper_arrow1.png'),
   gear1:require('../images/gear1.png'),
+  logo_center:require('../images/logo_center.png'),
 }
 
 export default Images;
