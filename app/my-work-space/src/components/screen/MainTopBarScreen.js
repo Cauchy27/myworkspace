@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Button from '@material-ui/core/Button';
 import Images from "../parts/getImagePath";
 
-const RightSideBarScreen = (props) => {
+const MainTopBarScreen = (props) => {
   
   const mainStyle ={
     // "backgroundColor": "antiquewhite",
@@ -37,4 +37,4 @@ const RightSideBarScreen = (props) => {
   );
 }
 
-export default RightSideBarScreen;
+export default MainTopBarScreen;

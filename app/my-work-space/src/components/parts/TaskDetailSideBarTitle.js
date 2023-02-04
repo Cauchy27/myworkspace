@@ -49,17 +49,19 @@ const TaskDetailSideBarTitle = (props) => {
   }
 
   const taskDetailSideBarTitleStyle = {
-    "backgroundColor": "#FF99FF",
+    "backgroundColor": "#FFDAB9",
+    "top":"0",
+    // "color":"#fefffe",
     // "paddingTop":"3%",
     // "paddingBottom":"3%",
     // "paddingLeft":"2%",
     // "paddingRight":"2%",
-    "border":"solid 2px #555555",
-    "width":"99%",
-    // "height":"30px",
+    "border": "2px solid #545454",
+    "width":"96%",
+    "height":"15%",
     "marginLeft":"auto",
     "marginRight":"auto",
-    "marginTop":props.marginTop,
+    "marginTop":"0",
     "marginBottom":"0%",
     "textAlign": "center",
     // "justifyContent": "center",
@@ -110,7 +112,7 @@ const TaskDetailSideBarTitle = (props) => {
   return (
     <div
         style={{
-          "backgroundColor": "#CCFFFF",
+          "backgroundColor": "#545454",
           "position": "relative",
           "height":"100%",
           "width":"100%",
@@ -123,7 +125,7 @@ const TaskDetailSideBarTitle = (props) => {
 
       <div
             style={{
-              "backgroundColor": "#FFFF00",
+              "backgroundColor": "#545454",
               "position": "relative",
               "height":"100%",
               "width":"100%",
@@ -148,11 +150,12 @@ const TaskDetailSideBarTitle = (props) => {
             "marginRight":"auto",
             "marginTop":"auto",
             "marginBottom":"auto",
+            "backgroundColor": "#545454",
           }}
         >
           <div style={{"width":"100%"}}>
             <div style={taskDetailSideBarTitleStyle}>
-              <h2>
+              <h2 style={{"margin":"0",}}>
                 {props.title}
                 <img src={Images[arrow]}
                   style={iconStyle}

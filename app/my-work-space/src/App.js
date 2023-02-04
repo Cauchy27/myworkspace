@@ -182,20 +182,22 @@ const App = () => {
       {/* メイン領域 */}
       <div
         style={{
-          "backgroundColor": "#FF0000",
+          "backgroundColor": "#F5DEB3",
           "position": "absolute",
           "top":"10%",
           "height":"90%",
           "width":`${100 - taskBarWidth}%`,
           "display":"flex",
           "justifyContent":"center",
+          "alignItems":"center",
         }}
       >
         <div
           style={{
-            "backgroundColor": "#FFFF00",
+            "backgroundColor": "antiquewhite",
+            "border": "5px solid #545454",
             "position": "relative",
-            "height":"90%",
+            "height":"95%",
             "width":"95%",
             "marginLeft":"auto",
             "marginRight":"auto",
@@ -227,7 +229,7 @@ const App = () => {
       {/* サイドバー */}
       <div
         style={{
-          "backgroundColor": "#808080",
+          "backgroundColor": "#898989",
           "position": "absolute",
           "left":"75%",
           "top":"10%",
@@ -239,7 +241,7 @@ const App = () => {
       >
         <div
         style={{
-          "backgroundColor": "#CCFFFF",
+          "backgroundColor": "#898989",
           "position": "relative",
           "height":"100%",//一旦メモを非表示にするので100
           "width":"100%",
