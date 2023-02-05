@@ -6,7 +6,7 @@ import TaskDetailSideBar from"./TaskDetailSideBar";
 import Images from "../parts/getImagePath";
 
 // Googleログイン
-import {useDbToken} from "../parts/LoginCheck";
+import {UseDbToken} from "../parts/LoginCheck";
 
 const TaskDetailSideBarTitle = (props) => {
 
@@ -27,7 +27,7 @@ const TaskDetailSideBarTitle = (props) => {
   }, []);
 
   const fetchData = async() => {
-    const token = await useDbToken();
+    const token = await UseDbToken();
     const data = {
       token:token,
       task_date:formatDate(today),

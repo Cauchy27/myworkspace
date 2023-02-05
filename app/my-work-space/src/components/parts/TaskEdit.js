@@ -6,7 +6,7 @@ import {TextField, Select, MenuItem} from "@material-ui/core";
 import Images from "./getImagePath";
 
 // Googleログイン
-import {useDbToken} from "./LoginCheck";
+import {UseDbToken} from "./LoginCheck";
 
 const TaskEdit = (props) => {
 
@@ -38,7 +38,7 @@ const TaskEdit = (props) => {
   const taskEditPost = async(data) => {
     if(!data){
       if(tag == 0){setTag(null)}
-      const token = await useDbToken();
+      const token = await UseDbToken();
       data = {
         token:token,
         task_id:props.task.task_id,

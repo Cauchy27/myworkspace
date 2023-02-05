@@ -42,7 +42,7 @@ const Logout = () => {
   // window.location.href = "/";
 }
 
-const useDbToken = async() => {
+const UseDbToken = async() => {
   const info = await getAuthInfo();
   return info.access_token;
 }
@@ -51,5 +51,5 @@ export{
   LoginCheck,
   RegistToken,
   Logout,
-  useDbToken,
+  UseDbToken,
 };

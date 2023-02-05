@@ -5,7 +5,7 @@ import {Button,TextField,Checkbox,FormControlLabel,Select,MenuItem,Alert,Snackba
 import Images from "../parts/getImagePath";
 
 // Googleログイン
-import {useDbToken} from "./LoginCheck";
+import {UseDbToken} from "./LoginCheck";
 
 const TasksDownLoad = (props) => {
 
@@ -39,7 +39,7 @@ const TasksDownLoad = (props) => {
   const afterDays = [1,2,3,4,5,6,7,8,9,10];
 
   const taskSearch = async(search_date_to) => {
-    const token = await useDbToken();
+    const token = await UseDbToken();
     console.log("token",token);
     const data = {
       task_date_to:search_date_to,

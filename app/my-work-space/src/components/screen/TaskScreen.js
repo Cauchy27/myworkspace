@@ -11,7 +11,7 @@ import TasksDownLoad from "../parts/TasksDownLoad";
 import TasksDownLoadTemplate from "../parts/TasksDownLoadTemplate";
 
 // Googleログイン
-import {useDbToken} from "../parts/LoginCheck";
+import {UseDbToken} from "../parts/LoginCheck";
 
 const TaskScreen = (props) => {
 
@@ -53,7 +53,7 @@ const TaskScreen = (props) => {
   }
 
   const taskPost = async(data) => {
-    const token = await useDbToken();
+    const token = await UseDbToken();
     if(!data){
       // ここの改善は後で
       let tasks_position_index = tasks.map((value)=>{
@@ -92,7 +92,7 @@ const TaskScreen = (props) => {
 
   // フォームの内容を更新するメソッドをここに
   const taskCompletePost = async(index) => {
-    const token = await useDbToken();
+    const token = await UseDbToken();
     const data = {
       token:token,
       task_id:tasks[index].task_id,
@@ -124,7 +124,7 @@ const TaskScreen = (props) => {
   }
 
   const taskDelete = async(index) => {
-    const token = await useDbToken();
+    const token = await UseDbToken();
     if(deleteLock === "有効"){
       const data = Object.assign(tasks[index],{token:token},{search_task_tag_id:tag,
         search_task_date:date});
@@ -146,7 +146,7 @@ const TaskScreen = (props) => {
   }
 
   const taskSearch = async(search_date,search_tag_id) => {
-    const token = await useDbToken();
+    const token = await UseDbToken();
     console.log("token",token);
     const data = {
       task_date:search_date,
@@ -170,7 +170,7 @@ const TaskScreen = (props) => {
   }
 
   const taskTagSearch = async() => {
-    const token = await useDbToken();
+    const token = await UseDbToken();
     const data = {
       request:"search",
       token:token
@@ -192,7 +192,7 @@ const TaskScreen = (props) => {
   }
 
   const outputConfigPost = async(request) => {
-    const token = await useDbToken();
+    const token = await UseDbToken();
     let data = {
       token:token,
       request:request,

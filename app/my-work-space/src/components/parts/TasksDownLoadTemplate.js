@@ -8,7 +8,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Images from "./getImagePath";
 
 // Googleログイン
-import {useDbToken} from "./LoginCheck";
+import {UseDbToken} from "./LoginCheck";
 
 const TasksDownLoadTemplate = (props) => {
 
@@ -44,7 +44,7 @@ const TasksDownLoadTemplate = (props) => {
   }
 
   const outputConfigPost = async(request) => {
-    const token = await useDbToken();
+    const token = await UseDbToken();
     let data = {
       token:token,
       request:request,

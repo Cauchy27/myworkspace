@@ -6,7 +6,7 @@ import TextField from "@material-ui/core/TextField";
 import Images from "./getImagePath";
 
 // Googleログイン
-import {useDbToken} from "./LoginCheck";
+import {UseDbToken} from "./LoginCheck";
 
 const TagEdit = (props) => {
 
@@ -32,7 +32,7 @@ const TagEdit = (props) => {
 
   // タスクタグの作成・編集
   const taskTagPost = async(data) => {
-    const token = await useDbToken();
+    const token = await UseDbToken();
     if(!data){
       data = {
         token:token,
