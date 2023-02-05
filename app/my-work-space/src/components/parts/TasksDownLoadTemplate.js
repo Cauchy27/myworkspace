@@ -199,6 +199,9 @@ const TasksDownLoadTemplate = (props) => {
     "display":"flex",
     "flexDirection": "column",
   }
+  const innerContents = {
+    "marginBottom":"3%",
+  }
 
   return (
     <div 
@@ -351,6 +354,7 @@ const TasksDownLoadTemplate = (props) => {
         </div>
         <div style={subContents}>
           <Button 
+            style={innerContents}
             variant="contained" 
             color="primary"
             onClick = {()=>{
@@ -361,6 +365,7 @@ const TasksDownLoadTemplate = (props) => {
             保存
           </Button>
           <Button 
+            style={innerContents}
             variant="contained" 
             color="inherit"
             onClick = {()=>{
