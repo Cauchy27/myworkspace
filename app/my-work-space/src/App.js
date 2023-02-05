@@ -22,7 +22,7 @@ const App = () => {
 
   const [menus, setMenus] = useState([]);
   const [pageStatus, setPageStatus] = useState(["top"]);
-  const [taskBarWidth, setTaskBarWidth] = useState(25);
+  const [taskBarWidth, setTaskBarWidth] = useState(20);
   const [user, setUser] = useState([]);
   const [email, setEmail] = useState([]);
   const [picture, setPicture] = useState("");
