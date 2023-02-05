@@ -431,11 +431,6 @@ const TaskScreen = (props) => {
                   taskEditOn(index);
                 }
               }
-              taskEditSave = {
-                ()=>{
-                  taskEditSave(index);
-                }
-              }
               taskCompletePost = {
                 ()=>{
                   taskCompletePost(index)
