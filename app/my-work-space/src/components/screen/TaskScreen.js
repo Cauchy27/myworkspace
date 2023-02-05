@@ -480,6 +480,7 @@ const TaskScreen = (props) => {
               "border": "3px solid #FF6347",
               "margin":"3%",
             }}
+            disabled={date==formatDate(today)?false:true}
             variant="contained" 
             color="primary"
             onClick = {()=>{
