@@ -182,9 +182,10 @@ const App = () => {
       {/* メイン領域 */}
       <div
         style={{
-          "backgroundColor": "#F5DEB3",
+          "backgroundColor": "#A9A9A9",
           "position": "absolute",
           "top":"10%",
+          "left":`${taskBarWidth}%`,
           "height":"90%",
           "width":`${100 - taskBarWidth}%`,
           "display":"flex",
@@ -195,7 +196,7 @@ const App = () => {
         <div
           style={{
             "backgroundColor": "antiquewhite",
-            "border": "5px solid #545454",
+            "border": "3px solid #545454",
             "position": "relative",
             "height":"95%",
             "width":"95%",
@@ -209,19 +210,29 @@ const App = () => {
         >
           {/* pageStatusで表示するコンテンツを切り替え。オプションでのカスタムリンクは要相談 */}
           { pageStatus == "タスク管理" &&
-            <TaskScreen/>
+            <TaskScreen
+              taskBarWidth={taskBarWidth}
+            />
           } 
           { pageStatus == "業務日誌" &&
-            <DiaryScreen/>
+            <DiaryScreen
+              taskBarWidth={taskBarWidth}
+            />
           }
           { pageStatus == "集計・分析" &&
-            <CompileScreen/>
+            <CompileScreen
+              taskBarWidth={taskBarWidth}
+            />
           }
           { pageStatus == "設定" &&
-            <ConfigScreen/>
+            <ConfigScreen
+              taskBarWidth={taskBarWidth}
+            />
           }
           { pageStatus == "アカウント" &&
-            <AccountScreen/>
+            <AccountScreen
+              taskBarWidth={taskBarWidth}
+            />
           }
         </div>
       </div>
@@ -231,7 +242,7 @@ const App = () => {
         style={{
           "backgroundColor": "#898989",
           "position": "absolute",
-          "left":"75%",
+          "left":`0%`,
           "top":"10%",
           "height":"90%",
           "width":`${taskBarWidth}%`,

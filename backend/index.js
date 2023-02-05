@@ -61,6 +61,10 @@ app.post('/userPost',(req, res) => {
   }
   catch(error){
     console.log(error);
+    res.json({
+      message:"failure",
+      detail:err
+    });
   }
 });
 
@@ -112,19 +116,51 @@ app.post('/taskQueryPostTest',(req, res) => {
             // if(err) throw err;
             if(error) console.log(error);
   
-            // リストを返す
-            const list_sql = `select t.task_id, t.team_id, t.task_name, t.position_index, CAST(t.task_date AS DATE) as task_date, td.task_detail, td.task_point, tg.task_tag_id, tg.task_tag_name from task t left join task_detail td using(task_id) left join task_tag tg using(task_tag_id) where t.user_id = ? ;`;
-              db.query(list_sql,user_id_test,(error, response) => {
-                // if(err) throw err;
-                if(error) console.log(error);
+            // タスク検索
+            if(req.body.search_task_date){
+              // タグの条件を整理
+              let tag_sql = "";
+              if(!req.body.search_task_tag_id){
+                data = [user_id_test,req.body.search_task_date];
+              }
+              else{
+                data = [user_id_test,req.body.search_task_date,req.body.search_task_tag_id];
+                tag_sql = " and tg.task_tag_id = ?";
+              }
+              const search_sql = `select t.task_id, t.team_id, t.task_name, t.position_index, CAST(t.task_date AS DATE) as task_date, td.task_detail, td.task_point, tg.task_tag_id, tg.task_tag_name from task t left join task_detail td using(task_id) left join task_tag tg using(task_tag_id) where t.user_id = ? and t.task_date = ?` + tag_sql + " order by tg.task_tag_id";
+              db.query(search_sql, data,(err, response) => {
+                if(err) console.log(err);
+                console.log(response);
                 res.json(response);
               });
+            }
+            else{
+              // タグの条件を整理
+              let tag_sql = "";
+              if(!req.body.search_task_tag_id){
+                data = [user_id_test];
+              }
+              else{
+                data = [user_id_test,req.body.search_task_tag_id];
+                tag_sql = " and tg.task_tag_id = ?";
+              }
+              const search_sql = `select t.task_id, t.team_id, t.task_name, t.position_index, CAST(t.task_date AS DATE) as task_date, td.task_detail, td.task_point, tg.task_tag_id, tg.task_tag_name from task t left join task_detail td using(task_id) left join task_tag tg using(task_tag_id) where t.user_id = ?` + tag_sql + " order by tg.task_tag_id";
+              db.query(search_sql,data,(err, response) => {
+                if(err) console.log(err);
+                console.log(response);
+                res.json(response);
+              });
+            }
           });
         });
       });
     }
   } catch (err) {
     console.log(err);
+    res.json({
+      message:"failure",
+      detail:err
+    });
   }
 });
 
@@ -156,19 +192,51 @@ app.post('/taskQueryDeletePostTest',(req, res) => {
             // if(err) throw err;
             if(err) console.log(err);
     
-            // リストを返す
-            const list_sql = `select t.task_id, t.team_id, t.task_name, t.position_index, CAST(t.task_date AS DATE) as task_date, td.task_detail, td.task_point, tg.task_tag_id, tg.task_tag_name from task t left join task_detail td using(task_id) left join task_tag tg using(task_tag_id) where t.user_id = ? ;`;
-            db.query(list_sql,user_id_test,(error, response) => {
-              // if(err) throw err;
-              if(error) console.log(error);
-              res.json(response);
-            });
+            // タスク検索
+            if(req.body.search_task_date){
+              // タグの条件を整理
+              let tag_sql = "";
+              if(!req.body.search_task_tag_id){
+                data = [user_id_test,req.body.search_task_date];
+              }
+              else{
+                data = [user_id_test,req.body.search_task_date,req.body.search_task_tag_id];
+                tag_sql = " and tg.task_tag_id = ?";
+              }
+              const search_sql = `select t.task_id, t.team_id, t.task_name, t.position_index, CAST(t.task_date AS DATE) as task_date, td.task_detail, td.task_point, tg.task_tag_id, tg.task_tag_name from task t left join task_detail td using(task_id) left join task_tag tg using(task_tag_id) where t.user_id = ? and t.task_date = ?` + tag_sql + " order by tg.task_tag_id";
+              db.query(search_sql, data,(err, response) => {
+                if(err) console.log(err);
+                console.log(response);
+                res.json(response);
+              });
+            }
+            else{
+              // タグの条件を整理
+              let tag_sql = "";
+              if(!req.body.search_task_tag_id){
+                data = [user_id_test];
+              }
+              else{
+                data = [user_id_test,req.body.search_task_tag_id];
+                tag_sql = " and tg.task_tag_id = ?";
+              }
+              const search_sql = `select t.task_id, t.team_id, t.task_name, t.position_index, CAST(t.task_date AS DATE) as task_date, td.task_detail, td.task_point, tg.task_tag_id, tg.task_tag_name from task t left join task_detail td using(task_id) left join task_tag tg using(task_tag_id) where t.user_id = ?` + tag_sql + " order by tg.task_tag_id";
+              db.query(search_sql,data,(err, response) => {
+                if(err) console.log(err);
+                console.log(response);
+                res.json(response);
+              });
+            }
           });
         });
       });
     }
   } catch (err) {
     console.log(err);
+    res.json({
+      message:"failure",
+      detail:err
+    });
   }
 });
 
@@ -197,55 +265,83 @@ app.post('/taskQuerySearch',(req, res) => {
           var d = ('00' + dt.getDate()).slice(-2);
           return (y + '-' + m + '-' + d);
         }
-        console.log(formatDate(today))
-  
-        // 未完了タスクの日付を今日に伸ばす
-        date_data=[formatDate(today),formatDate(today),user_id_test];
-        const task_date_update = `update task left join task_detail using(task_id) set task_date = ? where task_date < ? and ( task_point < 100 or task_point is null) and user_id = ?;`;
-        db.query(task_date_update, date_data,(error, update_task) => {
-          if(error) console.log(error);
-          console.log(update_task);
-        });
-  
-        // タスク検索
-        if(req.body.task_date){
-          // タグの条件を整理
-          let tag_sql = "";
-          if(!req.body.task_tag_id){
-            data = [user_id_test,req.body.task_date];
+        console.log(formatDate(today));
+
+        // 次回タスクの検索
+        if(req.body.request == "next_tasks"){
+          // タスク検索
+          if(req.body.task_date_to){
+            // タグの条件を整理
+            let tag_sql = "";
+            if(!req.body.task_tag_id){
+              data = [user_id_test,formatDate(today),req.body.task_date_to];
+            }
+            else{
+              data = [user_id_test,formatDate(today),req.body.task_date_to,req.body.task_tag_id];
+              tag_sql = " and tg.task_tag_id = ?";
+            }
+            const search_sql = `select t.task_name,  tg.task_tag_name from task t left join task_detail td using(task_id) left join task_tag tg using(task_tag_id) where t.user_id = ? and t.task_date >= ? and t.task_date <= ? and ( td.task_point < 100 or td.task_point is null ) ` + tag_sql + " order by tg.task_tag_id";
+            db.query(search_sql, data,(err, response) => {
+              if(err) console.log(err);
+              res.json(response);
+            });
           }
-          else{
-            data = [user_id_test,req.body.task_date,req.body.task_tag_id];
-            tag_sql = " and tg.task_tag_id = ?";
-          }
-          const search_sql = `select t.task_id, t.team_id, t.task_name, t.position_index, CAST(t.task_date AS DATE) as task_date, td.task_detail, td.task_point, tg.task_tag_id, tg.task_tag_name from task t left join task_detail td using(task_id) left join task_tag tg using(task_tag_id) where t.user_id = ? and t.task_date = ?` + tag_sql;
-          db.query(search_sql, data,(err, response) => {
-            if(err) console.log(err);
-            console.log(response);
-            res.json(response);
-          });
         }
+        // 通常検索
         else{
-          // タグの条件を整理
-          let tag_sql = "";
-          if(!req.body.task_tag_id){
-            data = [user_id_test];
+          // 未完了タスクの日付を今日に伸ばす
+          date_data=[formatDate(today),formatDate(today),user_id_test];
+          const task_date_update = `update task left join task_detail using(task_id) set task_date = ? where task_date < ? and ( task_point < 100 or task_point is null) and user_id = ?;`;
+          db.query(task_date_update, date_data,(error, update_task) => {
+            if(error) console.log(error);
+            console.log(update_task);
+          });
+    
+          // タスク検索
+          if(req.body.task_date){
+            // タグの条件を整理
+            let tag_sql = "";
+            if(!req.body.task_tag_id){
+              data = [user_id_test,req.body.task_date];
+            }
+            else{
+              data = [user_id_test,req.body.task_date,req.body.task_tag_id];
+              tag_sql = " and tg.task_tag_id = ?";
+            }
+            const search_sql = `select t.task_id, t.team_id, t.task_name, t.position_index, CAST(t.task_date AS DATE) as task_date, td.task_detail, td.task_point, tg.task_tag_id, tg.task_tag_name from task t left join task_detail td using(task_id) left join task_tag tg using(task_tag_id) where t.user_id = ? and t.task_date = ?` + tag_sql + " order by tg.task_tag_id";
+            db.query(search_sql, data,(err, response) => {
+              if(err) console.log(err);
+              console.log(response);
+              res.json(response);
+            });
           }
           else{
-            data = [user_id_test,req.body.task_tag_id];
-            tag_sql = " and tg.task_tag_id = ?";
+            // タグの条件を整理
+            let tag_sql = "";
+            if(!req.body.task_tag_id){
+              data = [user_id_test];
+            }
+            else{
+              data = [user_id_test,req.body.task_tag_id];
+              tag_sql = " and tg.task_tag_id = ?";
+            }
+            const search_sql = `select t.task_id, t.team_id, t.task_name, t.position_index, CAST(t.task_date AS DATE) as task_date, td.task_detail, td.task_point, tg.task_tag_id, tg.task_tag_name from task t left join task_detail td using(task_id) left join task_tag tg using(task_tag_id) where t.user_id = ?` + tag_sql + " order by tg.task_tag_id";
+            db.query(search_sql,data,(err, response) => {
+              if(err) console.log(err);
+              console.log(response);
+              res.json(response);
+            });
           }
-          const search_sql = `select t.task_id, t.team_id, t.task_name, t.position_index, CAST(t.task_date AS DATE) as task_date, td.task_detail, td.task_point, tg.task_tag_id, tg.task_tag_name from task t left join task_detail td using(task_id) left join task_tag tg using(task_tag_id) where t.user_id = ?` + tag_sql;;
-          db.query(search_sql,data,(err, response) => {
-            if(err) console.log(err);
-            console.log(response);
-            res.json(response);
-          });
         }
       });
+  
     }
   } catch (err) {
     console.log(err);
+    res.json({
+      message:"failure",
+      detail:err
+    });
   }
 });
 
@@ -292,7 +388,7 @@ app.post('/tagPost',(req, res) => {
         console.log("user",search_user_id);
         const user_id_test = search_user_id[0].user_id;
         
-        data = [req.body.dataArray.task_tag_id,         user_id_test, req.body.dataArray.task_tag_name];
+        data = [req.body.dataArray.task_tag_id,user_id_test, req.body.dataArray.task_tag_name];
         const task_tag_sql = "INSERT INTO task_tag ( task_tag_id, user_id, task_tag_name) values (?, ?, ?) ON DUPLICATE KEY UPDATE user_id = VALUES(user_id), task_tag_name = VALUES(task_tag_name);";
         db.query(task_tag_sql, data,(err, response) => {
           if(err) console.log(err);
@@ -328,6 +424,54 @@ app.post('/tagPost',(req, res) => {
   }
   catch(error){
     console.log(error);
+    res.json({
+      message:"failure",
+      detail:err
+    });
+  }
+});
+
+// 報告書出力設定の保存・検索
+app.post('/outputConfigPost',(req, res) => {
+  console.log("query_input", req.body.token);
+  try {
+    if(!req.body){
+      console.log("req.body.error");
+      // throw err;
+    }
+    else{
+
+      // ユーザーIDの認証
+      const user_search_data=[req.body.token];
+      const user_search_sql="select user_id from user where token = ? order by user_id;";
+      db.query(user_search_sql ,user_search_data, (err, search_user_id, fields) => {
+        console.log("user",search_user_id);
+        const user_id_test = search_user_id[0].user_id;
+
+        if(req.body.request == "get"){
+          const output_config_sql = "select * from output_config where user_id = ?;";
+          db.query(output_config_sql, user_id_test,(err, response) => {
+            if(err) console.log(err);
+            console.log("res:",response);
+            res.json(response);
+          });
+        }
+        else if(req.body.request == "update"){
+          const data = [req.body.dataArray.output_config_id,user_id_test, req.body.dataArray.outer_tag_start,req.body.dataArray.outer_tag_end,req.body.dataArray.title,req.body.dataArray.header_today,req.body.dataArray.header_tomorrow,req.body.dataArray.indent,req.body.dataArray.delimiter,req.body.dataArray.date_checked,req.body.dataArray.progress_checked];
+          const output_config_sql = "INSERT INTO output_config ( output_config_id, user_id, outer_tag_start, outer_tag_end, title, header_today, header_tomorrow, indent, delimiter, date_checked, progress_checked) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE output_config_id = VALUES(output_config_id), user_id = VALUES(user_id), outer_tag_start = VALUES(outer_tag_start), outer_tag_end = VALUES(outer_tag_end), title = VALUES(title), header_today = VALUES(header_today), header_tomorrow = VALUES(header_tomorrow), indent = VALUES(indent), delimiter = VALUES(delimiter), date_checked = VALUES(date_checked), progress_checked = VALUES(progress_checked);";
+          db.query(output_config_sql, data,(err, response) => {
+            if(err) console.log(err);
+            res.json(response);
+          });
+        }
+      });
+    }
+  } catch (err) {
+    console.log(err);
+    res.json({
+      message:"failure",
+      detail:err
+    });
   }
 });
 

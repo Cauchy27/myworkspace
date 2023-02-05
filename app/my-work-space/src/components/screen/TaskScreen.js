@@ -7,6 +7,8 @@ import TaskDetail from "../parts/TastDetail";
 import Images from "../parts/getImagePath";
 import TaskEdit from "../parts/TaskEdit";
 import TagEdit from "../parts/TagEdit";
+import TasksDownLoad from "../parts/TasksDownLoad";
+import TasksDownLoadTemplate from "../parts/TasksDownLoadTemplate";
 
 // Googleログイン
 import {useDbToken} from "../parts/LoginCheck";
@@ -28,6 +30,9 @@ const TaskScreen = (props) => {
   const [tag, setTag] = useState("");
   const [taskTags, setTaskTags] = useState([]);
   const [tagEdit, setTagEdit] = useState(false);
+  const [tasksDL, setTasksDL] = useState(false);
+  const [tasksDLTemp, setTasksDLTemp] = useState(false);
+  const [outputConfig, setOutputConfig] = useState([]);
 
   const [deleteLock, setDeleteLock] = useState("無効");
   const [deleteButtonColor, setDeleteButtonColor] = useState("inherit");
@@ -63,7 +68,9 @@ const TaskScreen = (props) => {
         position_index:null,
         task_date:null,
         task_detail:"",
-        task_point:10,
+        task_point:0,
+        search_task_tag_id:tag,
+        search_task_date:date,
       };
     }
     console.log(data);
@@ -95,7 +102,9 @@ const TaskScreen = (props) => {
       position_index:tasks[index].position_index,
       task_date:tasks[index].task_date,
       task_detail:tasks[index].task_detail,
-      task_point:100
+      task_point:100,
+      search_task_tag_id:tag,
+      search_task_date:date,
     }
     console.log(data);
     console.log(JSON.stringify(data));
@@ -117,7 +126,8 @@ const TaskScreen = (props) => {
   const taskDelete = async(index) => {
     const token = await useDbToken();
     if(deleteLock === "有効"){
-      const data = Object.assign(tasks[index],{token:token});
+      const data = Object.assign(tasks[index],{token:token},{search_task_tag_id:tag,
+        search_task_date:date});
       console.log(JSON.stringify(data));
       fetch('/taskQueryDeletePostTest',{
         method: 'POST',
@@ -158,6 +168,7 @@ const TaskScreen = (props) => {
       return res_data;
     })
   }
+
   const taskTagSearch = async() => {
     const token = await useDbToken();
     const data = {
@@ -177,6 +188,28 @@ const TaskScreen = (props) => {
       setTaskTags(res_data);
       console.log(res_data)
       return res_data;
+    })
+  }
+
+  const outputConfigPost = async(request) => {
+    const token = await useDbToken();
+    let data = {
+      token:token,
+      request:request,
+    };
+    console.log(data);
+    console.log(JSON.stringify(data));
+    fetch('/outputConfigPost',{
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then((res_data)=>{
+      console.log("conf>",res_data[0])
+      setOutputConfig(res_data[0]);
     })
   }
 
@@ -228,11 +261,10 @@ const TaskScreen = (props) => {
     taskSearch(date,tag);
   }, [date,tag]);
 
-  // タグ更時にタスクを検索
-  // useEffect(() => {
-    // console.log("tag",tag);
-    // taskSearch(date,tag);
-  // }, [tag]);
+  // 読み込み
+  useEffect(() => {
+    outputConfigPost("get");
+  }, []);
 
   // タグの更新
   useEffect(() => {
@@ -304,18 +336,18 @@ const TaskScreen = (props) => {
           <Button 
             style={searchButton} 
             variant="contained" 
-            color="primary"
+            color={date==formatDate(today) ? "primary":"inherit"}
             onClick = {()=>{setDate(formatDate(today))}}
           >当日表示</Button>
           <Button 
             style={searchButton} 
             variant="contained" 
-            color="primary"
+            color={date=="" ? "primary":"inherit"}
             onClick = {()=>{setDate("")}}
           >全日表示</Button>
         </div>
         <div style={subContents} >
-        <Button 
+          <Button 
             style={searchButton}
             variant="contained" 
             color={deleteButtonColor}
@@ -414,8 +446,52 @@ const TaskScreen = (props) => {
           ) 
         }
       </div>
+      <div 
+        style={{
+          "position":"fixed",
+          "left":`${props.sideBarWidth}%`,
+          "top":"84%",
+          "width":"10%",
+          "display":"flex",
+          "flexDirection": "column",
+          "alignItems":"center",
+          "justifyContent":"center",
+        }}
+      >
+          <Button 
+            style={{
+              // "height":"10%",
+              "borderRadius": "10%",
+              "border": "3px solid #FF6347",
+              "margin":"3%",
+            }}
+            variant="contained" 
+            color="primary"
+            onClick = {()=>{
+              setTasksDLTemp(true);
+            }}
+          >
+            出力を編集
+          </Button>
+          <Button 
+            style={{
+              // "height":"10%",
+              "borderRadius": "10%",
+              "border": "3px solid #FF6347",
+              "margin":"3%",
+            }}
+            variant="contained" 
+            color="primary"
+            onClick = {()=>{
+              setTasksDL(true);
+            }}
+          >
+            タスク出力
+          </Button>
+      </div>
       { Number.isInteger(edit) &&
         <TaskEdit
+          taskBarWidth={props.taskBarWidth}
          index={edit}
          task={tasks[edit]}
          taskTags = {taskTags}
@@ -428,13 +504,39 @@ const TaskScreen = (props) => {
       }
       { tagEdit &&
         <TagEdit
-         index={edit}
-         taskTags={taskTags}
-         taskTagEditClose={
+          taskBarWidth={props.taskBarWidth}
+          index={edit}
+          taskTags={taskTags}
+          taskTagEditClose={
            ()=>{
             taskTagEditClose();
            }
          }
+        />
+      }
+      { tasksDL &&
+        <TasksDownLoad
+          taskBarWidth={props.taskBarWidth}
+          tasks={tasks}
+          searchTag={tag}
+          outputConfig={outputConfig}
+          close={
+            ()=>{
+              setTasksDL(false);
+            }
+          }
+        />
+      }
+       { tasksDLTemp &&
+        <TasksDownLoadTemplate
+          taskBarWidth={props.taskBarWidth}
+          outputConfig={outputConfig}
+          close={
+            ()=>{
+              outputConfigPost("get");
+              setTasksDLTemp(false);
+            }
+          }
         />
       }
     </div>

@@ -114,8 +114,50 @@ const getUserInfo = async(AuthInfo) => {
     .then(res => res.json())
     .then((res_data)=>{
       if(res_data.error_description == "Invalid Credentials"){
-        deleteAuthInfo();
-        window.location.href = "/";
+
+        // // ここにリフレッシュトークンの記述を
+        // if(AuthInfo.refresh_token){
+        //   // アクセストークン取得
+        //   const params = {
+        //     client_id: authParams.clientId,
+        //     client_secret: authParams.clientSecret,
+        //     grant_type: "refresh_token",
+        //     refresh_token:AuthInfo.refresh_token,
+        //   };
+        //   fetch('https://www.googleapis.com/oauth2/v4/token',{
+        //     method: 'POST',
+        //     headers: {
+        //       'Content-Type': 'application/json'
+        //     },
+        //     body: JSON.stringify(params)
+        //   })
+        //   .then(res_re => res_re.json())
+        //   .then((auth_info)=>{
+
+        //     if(res_re_data.error_description == "Invalid Credentials"){
+        //       deleteAuthInfo();
+        //       window.location.href = "/";
+        //     }
+        //     else{
+        //       // 取得データの上書き
+        //       res_data =  res_re_data;
+  
+        //       // 認証情報のアクセストークンを上書き
+        //       AuthInfo.access_token =  auth_info.access_token;
+        //       AuthInfo.expires_in =  auth_info.expires_in;
+        //       AuthInfo.scope =  auth_info.scope;
+        //       AuthInfo.token_type =  auth_info.token_type;
+  
+        //       // 認証情報をローカルストレージに保存
+        //       deleteAuthInfo();
+        //       setAuthInfo(AuthInfo);
+        //     }
+        //   });
+        // }
+        // else{
+          deleteAuthInfo();
+          window.location.href = "/";
+        // }
       }
       return(Object.assign(res_data , AuthInfo));
     })
@@ -127,10 +169,14 @@ const getUserInfo = async(AuthInfo) => {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(response)
-  }).then(()=>{console.log("test1")},()=>{console.log("test2")});
+  }).then(
+    ()=>{console.log("test1")},
+    ()=>{console.log("test2")}
+  );
   return response;
 
 }
+
 
 export {
   setAuthInfo,

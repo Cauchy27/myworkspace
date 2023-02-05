@@ -72,9 +72,9 @@ const TaskEdit = (props) => {
   const overflowScreen = {
     "position":"fixed",
     "top":"10%",
-    "left":"0",
+    "left":`${props.taskBarWidth}%`,
     "height":"90%",
-    "width":"75%",
+    "width":`${100 - props.taskBarWidth}%`,
     "backgroundColor":"rgba(0,0,0,0.5)",
     "display":"flex",
     "alignItems":"center",
@@ -115,15 +115,12 @@ const TaskEdit = (props) => {
       <div style={taskDetailStyle}>
         <div style={mainContents}>
           <h3><TextField
-              // style = {searchDateForm}
+              fullWidth
               type="text"
               defaultValue={props.task.task_name}
-              // value = {props.task.task_point}
               margin="normal"
-              // id="task_tag_point"
               label="タスク名"
-              // name="task_tag_point"
-              onChange = {
+              onBlur = {
                 (event) => {
                   setName(event.target.value)
                 }
@@ -138,7 +135,7 @@ const TaskEdit = (props) => {
               variant="outlined"
               defaultValue={props.task.task_detail}
               placeholder="タスクの詳細を記載してください。"
-              onChange = {
+              onBlur = {
                 (event) => {
                   setDetail(event.target.value)
                 }

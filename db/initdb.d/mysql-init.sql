@@ -46,7 +46,7 @@ CREATE TABLE task_detail
 (
   `task_id` int unsigned NOT NULL COMMENT 'タスクID',
   `task_detail` VARCHAR(1023) COMMENT 'タスク内容',
-  `task_point` INT(3) NOT NULL DEFAULT 0,
+  `task_point` INT(3) DEFAULT 0,
 
   PRIMARY KEY (`task_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
@@ -76,11 +76,29 @@ CREATE TABLE task_index
 DROP TABLE IF EXISTS menu;
 CREATE TABLE menu
 (
-  `menu_id` int unsigned NOT NULL AUTO_INCREMENT COMMENT 'タスクID',
+  `menu_id` int unsigned NOT NULL AUTO_INCREMENT,
   `team_id` int unsigned,
   `menu_name` VARCHAR(50),
   `menu_active` int unsigned,
   PRIMARY KEY (`menu_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+/*出力設定*/
+DROP TABLE IF EXISTS output_config;
+CREATE TABLE output_config
+(
+  `output_config_id` int unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int unsigned NOT NULL,
+  `outer_tag_start` VARCHAR(50),
+  `outer_tag_end` VARCHAR(50),
+  `title` VARCHAR(50),
+  `header_today` VARCHAR(50),
+  `header_tomorrow` VARCHAR(50),
+  `indent` VARCHAR(50),
+  `delimiter` VARCHAR(50),
+  `date_checked` TINYINT(1) DEFAULT NULL,
+  `progress_checked` TINYINT(1) DEFAULT NULL,
+  PRIMARY KEY (`output_config_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 /*データ挿入*/

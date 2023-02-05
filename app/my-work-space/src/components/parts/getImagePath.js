@@ -7,6 +7,8 @@ const Images = {
   upper_arrow1: require('../images/upper_arrow1.png'),
   gear1:require('../images/gear1.png'),
   logo_center:require('../images/logo_center.png'),
+  left_arrow1:require('../images/left_arrow1.png'),
+  right_arrow1:require('../images/right_arrow1.png'),
 }
 
 export default Images;

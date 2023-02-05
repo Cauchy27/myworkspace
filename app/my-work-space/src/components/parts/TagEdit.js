@@ -83,9 +83,9 @@ const TagEdit = (props) => {
   const overflowScreen = {
     "position":"fixed",
     "top":"10%",
-    "left":"0",
+    "left":`${props.taskBarWidth}%`,
     "height":"90%",
-    "width":"75%",
+    "width":`${100 - props.taskBarWidth}%`,
     "backgroundColor":"rgba(0,0,0,0.5)",
     "display":"flex",
     "alignItems":"center",
@@ -161,8 +161,8 @@ const TagEdit = (props) => {
                   margin="normal"
                   // multiline
                   variant="outlined"
-                  value={tag.task_tag_name}
-                  // defaultValue={tag.task_tag_name}
+                  // value={tag.task_tag_name}
+                  defaultValue={tag.task_tag_name}
                   placeholder="タグ名"
                   onBlur = {
                     (event) => {
