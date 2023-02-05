@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import {Button,TextField,Checkbox,FormControlLabel,Select,MenuItem} from "@material-ui/core";
+import {Button,TextField,Checkbox,FormControlLabel,Select,MenuItem,Alert,Snackbar} from "@material-ui/core";
 
 import Images from "../parts/getImagePath";
 
@@ -22,6 +22,7 @@ const TasksDownLoad = (props) => {
   const [nextDay, setNextDay] = useState(formatDate(today,1));
   const [nextTasks, setNextTasks] = useState([]);
   const [tagChecked, setTagChecked] = useState(true);
+  const [message, setMessage] = useState("");
 
   const closeWithClickOutSideMethod = (e) => {
     // console.log("e.target", e.target);
@@ -271,11 +272,13 @@ const TasksDownLoad = (props) => {
             color="primary"
             onClick = {()=>{
               global.navigator.clipboard.writeText(output);
-
+              setMessage("クリップボードにコピーされました！本日もお疲れ様です！")
+              setTimeout(()=>{setMessage("")},10000)
             }}
           >
             内容をクリップボードにコピー
           </Button>
+          <p style={innerContents}><strong>{message}</strong></p>
         </div>
       </div>
     </div>
