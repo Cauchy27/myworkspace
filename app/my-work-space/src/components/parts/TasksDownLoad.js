@@ -93,7 +93,7 @@ const TasksDownLoad = (props) => {
               template += "\n";
             }
             if(task.task_tag_name){
-              template += "（" + task.task_tag_name + "）\n";
+              template += "< " + task.task_tag_name + " >\n";
               tag_name = task.task_tag_name;
             }
             else{
@@ -135,7 +135,7 @@ const TasksDownLoad = (props) => {
               template += "\n";
             }
             if(task.task_tag_name){
-              template += "（" + task.task_tag_name + "）\n";
+              template += "< " + task.task_tag_name + " >\n";
               tag_name = task.task_tag_name;
             }
             else{
