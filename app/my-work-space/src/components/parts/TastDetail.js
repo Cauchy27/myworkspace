@@ -19,37 +19,6 @@ const TaskDetail = (props) => {
       setBackGroundColor("#FFFFFF");
     }
   },[props.task.task_point]);
-
-  // フォームの内容を更新するメソッドをここに
-  const taskCompletePost = async(data) => {
-    if(!data){
-      data = {
-        task_id:props.task.task_id,
-        team_id:props.task.team_id,
-        user_id:props.task.user_id,
-        task_name:props.task.task_name,
-        position_index:props.task.position_index,
-        task_date:props.task.task_date,
-        task_detail:props.task.task_detail,
-        task_point:100
-      }
-    }
-    console.log(data);
-    console.log(JSON.stringify(data));
-    await fetch('/taskQueryPostTest',{
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    })
-    .then(res => res.json())
-    .then((res_data)=>{
-      // setTasks(res_data);
-      console.log(res_data)
-      return res_data;
-    })
-  }
   
   const taskDetailStyle = {
     "backgroundColor": backgroundColor,
@@ -73,11 +42,14 @@ const TaskDetail = (props) => {
     "display": "flex",
     "flexDirection":"column",
     "justifyContent":"center",
+    "marginTop":"3%",
+    // "border":"solid 1px #555555",
   }
   const mainContents = {
     "width":"75%",
     "flexGrow":"1",
-    "whiteSpace": 'pre-line'
+    "whiteSpace": 'pre-line',
+    "marginRight":"3%",
   }
   const subGraph = {
     "height":"80px"
@@ -118,8 +90,16 @@ const TaskDetail = (props) => {
       onDragOver={(event) => event.preventDefault()}
     >
       <div style={mainContents}>
-        <h3>{props.task.task_name} </h3>
-        <p>{props.task.task_detail}</p>
+        <h3 style={{"margin":"0"}}>{props.task.task_name} </h3>
+        <p style={{"marginTop":"0"}}>優先度：{props.task.task_priority} - {props.task.task_tag_name}</p>
+        <div 
+          style={{
+            // "border":"solid 1px #555555",
+            "paddingTop":"1%",
+            "paddingBottom":"1%",
+            "overflow":"scroll"
+          }}
+        >{props.task.task_detail}</div>
       </div>
       <div style={statusContents}>
         <Button 

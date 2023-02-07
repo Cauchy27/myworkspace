@@ -38,6 +38,8 @@ CREATE TABLE task
   `position_index` int unsigned ,
   `task_date` DATE NOT NULL,
   `task_tag_id` int unsigned,
+  `task_priority` int unsigned DEFAULT 100,
+
   PRIMARY KEY (`task_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 

@@ -69,7 +69,6 @@ app.post('/userPost',(req, res) => {
 });
 
 // タスク追加・更新
-// task, detail への実装のみで、tagへの実装はまだ
 app.post('/taskQueryPostTest',(req, res) => {
   // 日付の設定
   const today = new Date();
@@ -100,8 +99,8 @@ app.post('/taskQueryPostTest',(req, res) => {
         const user_id_test = search_user_id[0].user_id;
 
         // タスクの更新・Insert
-        data = [req.body.task_id, req.body.team_id, user_id_test, req.body.task_name, req.body.position_index,req.body.task_date,req.body.task_tag_id];
-        const update_sql = "INSERT INTO task ( task_id, team_id, user_id, task_name, position_index,task_date,task_tag_id) values (?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE team_id = VALUES(team_id), task_name = VALUES(task_name), position_index = VALUES(position_index), task_date = VALUES(task_date), task_tag_id = VALUES(task_tag_id);";
+        data = [req.body.task_id, req.body.team_id, user_id_test, req.body.task_name, req.body.position_index,req.body.task_date,req.body.task_tag_id,req.body.task_priority];
+        const update_sql = "INSERT INTO task ( task_id, team_id, user_id, task_name, position_index,task_date,task_tag_id,task_priority) values (?, ?, ?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE team_id = VALUES(team_id), task_name = VALUES(task_name), position_index = VALUES(position_index), task_date = VALUES(task_date), task_tag_id = VALUES(task_tag_id), task_priority = VALUES(task_priority);";
   
         console.log(data);
   
@@ -127,7 +126,7 @@ app.post('/taskQueryPostTest',(req, res) => {
                 data = [user_id_test,req.body.search_task_date,req.body.search_task_tag_id];
                 tag_sql = " and tg.task_tag_id = ?";
               }
-              const search_sql = `select t.task_id, t.team_id, t.task_name, t.position_index, CAST(t.task_date AS DATE) as task_date, td.task_detail, td.task_point, tg.task_tag_id, tg.task_tag_name from task t left join task_detail td using(task_id) left join task_tag tg using(task_tag_id) where t.user_id = ? and t.task_date = ?` + tag_sql + " order by tg.task_tag_id";
+              const search_sql = `select t.task_id, t.team_id, t.task_name, t.position_index, CAST(t.task_date AS DATE) as task_date, td.task_detail, td.task_point, tg.task_tag_id, tg.task_tag_name, t.task_priority from task t left join task_detail td using(task_id) left join task_tag tg using(task_tag_id) where t.user_id = ? and t.task_date = ?` + tag_sql + " order by tg.task_tag_id, t.task_priority";
               db.query(search_sql, data,(err, response) => {
                 if(err) console.log(err);
                 console.log(response);
@@ -144,7 +143,7 @@ app.post('/taskQueryPostTest',(req, res) => {
                 data = [user_id_test,req.body.search_task_tag_id];
                 tag_sql = " and tg.task_tag_id = ?";
               }
-              const search_sql = `select t.task_id, t.team_id, t.task_name, t.position_index, CAST(t.task_date AS DATE) as task_date, td.task_detail, td.task_point, tg.task_tag_id, tg.task_tag_name from task t left join task_detail td using(task_id) left join task_tag tg using(task_tag_id) where t.user_id = ?` + tag_sql + " order by tg.task_tag_id";
+              const search_sql = `select t.task_id, t.team_id, t.task_name, t.position_index, CAST(t.task_date AS DATE) as task_date, td.task_detail, td.task_point, tg.task_tag_id, tg.task_tag_name, t.task_priority from task t left join task_detail td using(task_id) left join task_tag tg using(task_tag_id) where t.user_id = ?` + tag_sql + " order by tg.task_tag_id, t.task_priority";
               db.query(search_sql,data,(err, response) => {
                 if(err) console.log(err);
                 console.log(response);
@@ -203,7 +202,7 @@ app.post('/taskQueryDeletePostTest',(req, res) => {
                 data = [user_id_test,req.body.search_task_date,req.body.search_task_tag_id];
                 tag_sql = " and tg.task_tag_id = ?";
               }
-              const search_sql = `select t.task_id, t.team_id, t.task_name, t.position_index, CAST(t.task_date AS DATE) as task_date, td.task_detail, td.task_point, tg.task_tag_id, tg.task_tag_name from task t left join task_detail td using(task_id) left join task_tag tg using(task_tag_id) where t.user_id = ? and t.task_date = ?` + tag_sql + " order by tg.task_tag_id";
+              const search_sql = `select t.task_id, t.team_id, t.task_name, t.position_index, CAST(t.task_date AS DATE) as task_date, td.task_detail, td.task_point, tg.task_tag_id, tg.task_tag_name, t.task_priority from task t left join task_detail td using(task_id) left join task_tag tg using(task_tag_id) where t.user_id = ? and t.task_date = ?` + tag_sql + " order by tg.task_tag_id, t.task_priority";
               db.query(search_sql, data,(err, response) => {
                 if(err) console.log(err);
                 console.log(response);
@@ -220,7 +219,7 @@ app.post('/taskQueryDeletePostTest',(req, res) => {
                 data = [user_id_test,req.body.search_task_tag_id];
                 tag_sql = " and tg.task_tag_id = ?";
               }
-              const search_sql = `select t.task_id, t.team_id, t.task_name, t.position_index, CAST(t.task_date AS DATE) as task_date, td.task_detail, td.task_point, tg.task_tag_id, tg.task_tag_name from task t left join task_detail td using(task_id) left join task_tag tg using(task_tag_id) where t.user_id = ?` + tag_sql + " order by tg.task_tag_id";
+              const search_sql = `select t.task_id, t.team_id, t.task_name, t.position_index, CAST(t.task_date AS DATE) as task_date, td.task_detail, td.task_point, tg.task_tag_id, tg.task_tag_name, t.task_priority from task t left join task_detail td using(task_id) left join task_tag tg using(task_tag_id) where t.user_id = ?` + tag_sql + " order by tg.task_tag_id, t.task_priority";
               db.query(search_sql,data,(err, response) => {
                 if(err) console.log(err);
                 console.log(response);
@@ -280,7 +279,7 @@ app.post('/taskQuerySearch',(req, res) => {
               data = [user_id_test,formatDate(today),req.body.task_date_to,req.body.task_tag_id];
               tag_sql = " and tg.task_tag_id = ?";
             }
-            const search_sql = `select t.task_name,  tg.task_tag_name from task t left join task_detail td using(task_id) left join task_tag tg using(task_tag_id) where t.user_id = ? and t.task_date >= ? and t.task_date <= ? and ( td.task_point < 100 or td.task_point is null ) ` + tag_sql + " order by tg.task_tag_id";
+            const search_sql = `select t.task_name,  tg.task_tag_name from task t left join task_detail td using(task_id) left join task_tag tg using(task_tag_id) where t.user_id = ? and t.task_date >= ? and t.task_date <= ? and ( td.task_point < 100 or td.task_point is null ) ` + tag_sql + " order by tg.task_tag_id,t.task_priority";
             db.query(search_sql, data,(err, response) => {
               if(err) console.log(err);
               res.json(response);
@@ -308,7 +307,7 @@ app.post('/taskQuerySearch',(req, res) => {
               data = [user_id_test,req.body.task_date,req.body.task_tag_id];
               tag_sql = " and tg.task_tag_id = ?";
             }
-            const search_sql = `select t.task_id, t.team_id, t.task_name, t.position_index, CAST(t.task_date AS DATE) as task_date, td.task_detail, td.task_point, tg.task_tag_id, tg.task_tag_name from task t left join task_detail td using(task_id) left join task_tag tg using(task_tag_id) where t.user_id = ? and t.task_date = ?` + tag_sql + " order by tg.task_tag_id";
+            const search_sql = `select t.task_id, t.team_id, t.task_name, t.position_index, CAST(t.task_date AS DATE) as task_date, td.task_detail, td.task_point, tg.task_tag_id, tg.task_tag_name, t.task_priority from task t left join task_detail td using(task_id) left join task_tag tg using(task_tag_id) where t.user_id = ? and t.task_date = ?` + tag_sql + " order by tg.task_tag_id, t.task_priority";
             db.query(search_sql, data,(err, response) => {
               if(err) console.log(err);
               console.log(response);
@@ -325,7 +324,7 @@ app.post('/taskQuerySearch',(req, res) => {
               data = [user_id_test,req.body.task_tag_id];
               tag_sql = " and tg.task_tag_id = ?";
             }
-            const search_sql = `select t.task_id, t.team_id, t.task_name, t.position_index, CAST(t.task_date AS DATE) as task_date, td.task_detail, td.task_point, tg.task_tag_id, tg.task_tag_name from task t left join task_detail td using(task_id) left join task_tag tg using(task_tag_id) where t.user_id = ?` + tag_sql + " order by tg.task_tag_id";
+            const search_sql = `select t.task_id, t.team_id, t.task_name, t.position_index, CAST(t.task_date AS DATE) as task_date, td.task_detail, td.task_point, tg.task_tag_id, tg.task_tag_name, t.task_priority from task t left join task_detail td using(task_id) left join task_tag tg using(task_tag_id) where t.user_id = ?` + tag_sql + " order by tg.task_tag_id, t.task_priority";
             db.query(search_sql,data,(err, response) => {
               if(err) console.log(err);
               console.log(response);

@@ -60,15 +60,19 @@ const TaskScreen = (props) => {
         return value.position_index;
       });
       console.log(tasks_position_index);
+      if(date==""){
+        date==formatDate(today);
+      }
       data = {
         token:token,
         task_id:null,
         team_id:null,
         task_name:"",
         position_index:null,
-        task_date:null,
+        task_date:date,
         task_detail:"",
         task_point:0,
+        task_tag_id:tag,
         search_task_tag_id:tag,
         search_task_date:date,
       };
@@ -403,7 +407,8 @@ const TaskScreen = (props) => {
                 "alignItems":"center",
                 "flexWrap":"wrap",
                 "overflow":"scroll",
-                "top":"10%"
+                "top":"10%",
+                "width":"100%",
         }}
       >
         {

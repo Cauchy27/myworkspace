@@ -33,23 +33,27 @@ const TaskEdit = (props) => {
   const [taskDate, setTaskDate] = useState(props.task.task_date);
   const [point, setPoint] = useState(props.task.task_point);
   const [tag, setTag] = useState(props.task.task_tag_id);
+  const [priority, setPriority] = useState(props.task.task_priority);
+
+  const priorityArray = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
 
   // フォームの内容を更新するメソッドをここに
   const taskEditPost = async(data) => {
     if(!data){
       if(tag == 0){setTag(null)}
       const token = await UseDbToken();
+      console.log("priority",priority);
       data = {
         token:token,
         task_id:props.task.task_id,
         team_id:props.task.team_id,
-        user_id:props.task.user_id,
         task_name:name,
         position_index:props.task.position_index,
         task_date:taskDate,
         task_detail:detail,
         task_point:point,
         task_tag_id:tag,
+        task_priority:priority,
       }
     }
     console.log(data);
@@ -173,7 +177,7 @@ const TaskEdit = (props) => {
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            defaultValue={tag != null ? tag : 0}
+            value={tag != null ? tag : 0}
             label="タグ"
             onChange={(event)=>{setTag(event.target.value)}}
           >
@@ -192,6 +196,30 @@ const TaskEdit = (props) => {
                 </MenuItem>
               )
             }
+          </Select>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={priority != null ? priority : 100}
+            label="優先度"
+            onChange={(event)=>{setPriority(event.target.value)}}
+          >
+            {
+              priorityArray.map((priority, index) =>
+                <MenuItem 
+                  value={priority}
+                  key={index}
+                >
+                  {priority}
+                </MenuItem>
+              )
+            }
+            <MenuItem 
+                  value={100}
+                  key={100}
+                >
+                  100
+            </MenuItem>
           </Select>
           <TextField
               type="number"
