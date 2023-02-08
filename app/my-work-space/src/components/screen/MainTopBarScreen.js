@@ -5,24 +5,19 @@ import Images from "../parts/getImagePath";
 const MainTopBarScreen = (props) => {
   
   const mainStyle ={
-    // "backgroundColor": "antiquewhite",
     "position": "absolute",
-    // "top":"10%",
     "width":"100%",
     "height":"100%",
     "fontSize":"auto",
     "display":"flex",
-    // "flexDirection": 'colmun',
+    "backgroundColor":props.mainColor,
   }
   const mainContents = {
-    // "marginLeft":"3%",
     "display":"flex",
     "justifyContent":"center",
     "verticalAlign":"middle",
     "alignItems":"center",
     "flexGrow":"1",
-    // "width":"100%"
-    
   }
 
   return (
@@ -31,7 +26,7 @@ const MainTopBarScreen = (props) => {
         style={mainContents}
         onClick={()=>{props.toTop()}}
       >
-        <img src={Images["logo_center"]} style={{"height":"100%","flexGrow":"0",}}/>
+        <img src={Images["logo_center_dark"]} style={{"height":"100%","flexGrow":"0",}}/>
       </div>
     </div>
   );

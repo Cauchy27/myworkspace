@@ -1,25 +1,20 @@
 import { useEffect, useState } from 'react';
+
 import Button from '@material-ui/core/Button';
 
 const RightTopBarScreen = (props) => {
   
   const mainStyle ={
-    // "backgroundColor": "antiquewhite",
     "position": "absolute",
-    // "top":"10%",
     "width":"100%",
     "height":"100%",
     "fontSize":"auto",
-    // "display":"flex",
-    // "flexDirection": 'colmun',
+    "backgroundColor":props.mainColor
   }
   const mainContents = {
-    // "marginLeft":"3%",
     "display":"flex",
     "justifyContent":"center",
-    // "verticalAlign":"middle",
     "alignItems":"center",
-    // "flexGrow":"1",
     "height":"100%"
     
   }
@@ -27,7 +22,6 @@ const RightTopBarScreen = (props) => {
     "marginLeft":"3%",
     "marginRight":"3%",
     "flexGrow":"1",
-    // "width":"30%",
     "height":"100%",
     "alignItems":"center",
   }
@@ -54,14 +48,17 @@ const RightTopBarScreen = (props) => {
           }}
           onClick={()=>{props.Logout()}}
         >
-          <img 
-            style={{
-              "height":"90%",
-              "borderRadius": "50%",
-              "border": "3px solid #fefffe"
-            }} 
-            src={props.picture}
-          />
+          {
+            props.picture &&
+            <img 
+              style={{
+                "height":"90%",
+                "borderRadius": "50%",
+                "border": "3px solid #fefffe"
+              }} 
+              src={props.picture}
+            />
+          }
         </div>
       </div>
     </div>

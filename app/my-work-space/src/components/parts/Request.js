@@ -15,6 +15,7 @@ const getMenu = (calFunc) => {
     });
 }
 
+// dataで、dateとtagは入力で調整して、新規作成の制御をする
 // タスク作成・更新 -> タスク表示
 const taskPost = async(data,calFunc) => {
   const token = await UseDbToken();

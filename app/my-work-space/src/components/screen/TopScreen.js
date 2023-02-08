@@ -3,10 +3,11 @@ import { useEffect, useState } from 'react';
 const MainScreen = (props) => {
   
   const mainStyle ={
-    "backgroundColor": "antiquewhite",
+    "backgroundColor": props.subColor,
     "position": "absolute",
     "top":"10%",
-    "width":"100%",
+    "left":`${props.taskBarWidth}%`,
+    "width":`${100 - props.taskBarWidth}%`,
     "height":"90%",
     "fontSize":"auto",
   }

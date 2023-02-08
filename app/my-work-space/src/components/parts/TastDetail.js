@@ -26,7 +26,7 @@ const TaskDetail = (props) => {
     "paddingBottom":"1%",
     "paddingLeft":"2%",
     "paddingRight":"2%",
-    "border":"solid 3px #555555",
+    "border":"solid 2px #555555",
     "margin":"1%",
     "width":"40%",
     "height":"30%",

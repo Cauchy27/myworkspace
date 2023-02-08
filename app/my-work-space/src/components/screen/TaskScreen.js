@@ -448,18 +448,24 @@ const TaskScreen = (props) => {
           "position":"fixed",
           "left":`${props.sideBarWidth}%`,
           "top":"84%",
-          "width":"10%",
-          "display":"flex",
-          "flexDirection": "column",
-          "alignItems":"center",
-          "justifyContent":"center",
+          "width":"12%",
         }}
       >
+        <div
+          style={{
+            "backgroundColor":props.accentColor,
+            "display":"flex",
+            "flexDirection": "column",
+            "alignItems":"center",
+            "justifyContent":"center",
+            "border": "2px solid #555555",
+          }}
+        >
           <Button 
             style={{
               // "height":"10%",
-              "borderRadius": "10%",
-              "border": "3px solid #FF6347",
+              // "borderRadius": "10%",
+              // "border": "1px solid #FF6347",
               "margin":"3%",
             }}
             variant="contained" 
@@ -473,8 +479,8 @@ const TaskScreen = (props) => {
           <Button 
             style={{
               // "height":"10%",
-              "borderRadius": "10%",
-              "border": "3px solid #FF6347",
+              // "borderRadius": "10%",
+              // "border": "3px solid #FF6347",
               "margin":"3%",
             }}
             disabled={date==formatDate(today)?false:true}
@@ -486,6 +492,7 @@ const TaskScreen = (props) => {
           >
             タスク出力
           </Button>
+        </div>
       </div>
       { Number.isInteger(edit) &&
         <TaskEdit

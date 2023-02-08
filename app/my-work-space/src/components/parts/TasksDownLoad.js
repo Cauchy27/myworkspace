@@ -143,7 +143,23 @@ const TasksDownLoad = (props) => {
             }
           }
         }
-        template += props.outputConfig.indent + task.task_name + "\n";
+        switch(task.task_priority){
+          case 1 :
+            template += props.outputConfig.indent + " ◎ " +task.task_name + "\n";
+            break;
+          
+          case 2 :
+            template += props.outputConfig.indent + " ○ " + task.task_name + "\n";
+            break;
+
+          case 3 :
+            template += props.outputConfig.indent + " △ " + task.task_name + "\n";
+            break;
+        
+          default:
+            template += props.outputConfig.indent + task.task_name + "\n";
+            break;
+        }
       });
   
       if(props.outputConfig.outer_tag_end != ""){

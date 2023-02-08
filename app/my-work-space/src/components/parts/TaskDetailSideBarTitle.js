@@ -49,13 +49,8 @@ const TaskDetailSideBarTitle = (props) => {
   }
 
   const taskDetailSideBarTitleStyle = {
-    "backgroundColor": "#FFDAB9",
+    "backgroundColor": props.accentColor,
     "top":"0",
-    // "color":"#fefffe",
-    // "paddingTop":"3%",
-    // "paddingBottom":"3%",
-    // "paddingLeft":"2%",
-    // "paddingRight":"2%",
     "border": "2px solid #545454",
     "width":"96%",
     "height":"15%",
@@ -112,7 +107,7 @@ const TaskDetailSideBarTitle = (props) => {
   return (
     <div
         style={{
-          "backgroundColor": "#545454",
+          "backgroundColor": props.mainColor,
           "position": "relative",
           "height":"100%",
           "width":"100%",
@@ -125,7 +120,7 @@ const TaskDetailSideBarTitle = (props) => {
 
       <div
             style={{
-              "backgroundColor": "#545454",
+              "backgroundColor": props.mainColor,
               "position": "relative",
               "height":"100%",
               "width":"100%",
@@ -150,7 +145,7 @@ const TaskDetailSideBarTitle = (props) => {
             "marginRight":"auto",
             "marginTop":"auto",
             "marginBottom":"auto",
-            "backgroundColor": "#545454",
+            "backgroundColor": props.mainColor,
           }}
         >
           <div style={{"width":"100%"}}>

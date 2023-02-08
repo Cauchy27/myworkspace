@@ -3,20 +3,20 @@ import { useEffect, useState } from 'react';
 import TaskScreen from "./components/screen/TaskScreen";
 // import MenuBar from "./components/MenuBar"
 import TaskDetailSideBarTitle from"./components/parts/TaskDetailSideBarTitle";
-import MainScreen from "./components/screen/MainScreen";
+import TopScreen from "./components/screen/TopScreen";
 import DiaryScreen from "./components/screen/DiaryScreen";
 import CompileScreen from "./components/screen/CompileScreen";
 import ConfigScreen from "./components/screen/ConfigScreen";
 import AccountScreen from "./components/screen/AccountScreen";
 import RightTopBarScreen from "./components/screen/RightTopBarScreen";
 import MainTopBarScreen from "./components/screen/MainTopBarScreen";
-
 import { useWindowDimensions } from './components/parts/useWindowDimensions';
 
 // Googleログイン
 import {LoginCheck,RegistToken,Logout,useDbToken} from "./components/parts/LoginCheck";
 
 import Button from '@material-ui/core/Button';
+import {DarkTheme,SetDarkTheme} from "./components/parts/Theme";
 
 const App = () => {
 
@@ -26,6 +26,10 @@ const App = () => {
   const [user, setUser] = useState([]);
   const [email, setEmail] = useState([]);
   const [picture, setPicture] = useState("");
+
+  const [mainColor,setMainColor] = useState(DarkTheme.mainColor);
+  const [baseColor,setBaseColor] = useState(DarkTheme.baseColor);
+  const [accentColor,setAccentColor] = useState(DarkTheme.accentColor);
 
   // 読み込み時の動作
   useEffect(() => {
@@ -99,7 +103,7 @@ const App = () => {
   return (
     <div
       style={{
-        "backgroundColor": "#EEEEEE",
+        "backgroundColor": mainColor,
         "position": "absolute",
         "height":"100%",
         "width":"100%",
@@ -107,7 +111,7 @@ const App = () => {
     >
       <div
         style={{
-          "backgroundColor": "#555455",
+          "backgroundColor": mainColor,
           "position": "absolute",
           "top":"0",
           "left":"75%",
@@ -118,12 +122,15 @@ const App = () => {
         <RightTopBarScreen
           email={email}
           picture={picture}
-          Logout={()=>{Logout()}}     
+          Logout={()=>{Logout()}}  
+          mainColor={mainColor}
+          baseColor={baseColor}
+          accentColor={accentColor}   
         />
       </div>
       <div
         style={{
-          "backgroundColor": "#555455",
+          "backgroundColor": mainColor,
           "position": "absolute",
           "top":"0",
           "left":"25%",
@@ -132,14 +139,17 @@ const App = () => {
         }}
       >
         <MainTopBarScreen
-          toTop={()=>{setPageStatus(["top"])}}    
+          toTop={()=>{setPageStatus(["top"])}}  
+          mainColor={mainColor}
+          baseColor={baseColor}
+          accentColor={accentColor}  
         />
       </div>
 
       {/* メニューバー */}
       <div
         style={{
-          "backgroundColor": "#555455",
+          "backgroundColor": mainColor,
           "position": "absolute",
           "top":"0%",
           "left":"0%",
@@ -182,7 +192,7 @@ const App = () => {
       {/* メイン領域 */}
       <div
         style={{
-          "backgroundColor": "#A9A9A9",
+          "backgroundColor": baseColor,
           "position": "absolute",
           "top":"10%",
           "left":`${taskBarWidth}%`,
@@ -195,11 +205,11 @@ const App = () => {
       >
         <div
           style={{
-            "backgroundColor": "antiquewhite",
-            "border": "3px solid #545454",
+            "backgroundColor": baseColor,
+            // "border": `2px solid ${accentColor}`,
             "position": "relative",
-            "height":"95%",
-            "width":"95%",
+            "height":"100%",
+            "width":"100%",
             "marginLeft":"auto",
             "marginRight":"auto",
             "marginTop":"5%",
@@ -212,26 +222,41 @@ const App = () => {
           { pageStatus == "タスク管理" &&
             <TaskScreen
               taskBarWidth={taskBarWidth}
+              mainColor={mainColor}
+              baseColor={baseColor}
+              accentColor={accentColor}
             />
           } 
           { pageStatus == "業務日誌" &&
             <DiaryScreen
               taskBarWidth={taskBarWidth}
+              mainColor={mainColor}
+              baseColor={baseColor}
+              accentColor={accentColor}
             />
           }
           { pageStatus == "集計・分析" &&
             <CompileScreen
               taskBarWidth={taskBarWidth}
+              mainColor={mainColor}
+              baseColor={baseColor}
+              accentColor={accentColor}
             />
           }
           { pageStatus == "設定" &&
             <ConfigScreen
               taskBarWidth={taskBarWidth}
+              mainColor={mainColor}
+              baseColor={baseColor}
+              accentColor={accentColor}
             />
           }
           { pageStatus == "アカウント" &&
             <AccountScreen
               taskBarWidth={taskBarWidth}
+              mainColor={mainColor}
+              baseColor={baseColor}
+              accentColor={accentColor}
             />
           }
         </div>
@@ -240,7 +265,7 @@ const App = () => {
       {/* サイドバー */}
       <div
         style={{
-          "backgroundColor": "#898989",
+          "backgroundColor": mainColor,
           "position": "absolute",
           "left":`0%`,
           "top":"10%",
@@ -252,7 +277,7 @@ const App = () => {
       >
         <div
         style={{
-          "backgroundColor": "#898989",
+          "backgroundColor": mainColor,
           "position": "relative",
           "height":"100%",//一旦メモを非表示にするので100
           "width":"100%",
@@ -267,6 +292,9 @@ const App = () => {
             pageStatus != "top" &&
               <TaskDetailSideBarTitle
                 title = "タスク一覧"
+                mainColor={mainColor}
+                baseColor={baseColor}
+                accentColor={accentColor}
               />
           }
         </div>
@@ -288,9 +316,13 @@ const App = () => {
         </div> */}
       </div>
       { pageStatus == "top" &&
-            <MainScreen
+            <TopScreen
               name={user}
               picture={picture}
+              mainColor={mainColor}
+              baseColor={baseColor}
+              accentColor={accentColor}
+              taskBarWidth={taskBarWidth}
             />
           }
     </div>
