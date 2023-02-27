@@ -63,6 +63,8 @@ const taskCompletePost = async(task,tag,date,calFunc) => {
     task_date:task.task_date,
     task_detail:task.task_detail,
     task_point:100,
+    task_priority:task.task_priority,
+    task_tag_id:task.task_tag_id,
     search_task_tag_id:tag,
     search_task_date:date,
   }

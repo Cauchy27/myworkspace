@@ -172,7 +172,7 @@ const TaskDetailSideBarTitle = (props) => {
             </div>
             <div style={{"overflow":"scroll",}}>
               {memos.map((memo, index) =>
-              
+                (memo.task_point < 100 || !memo.task_point )  &&
                 <TaskDetailSideBar 
                   memo = {memo}
                   displayStatus = {memo.displayStatus}

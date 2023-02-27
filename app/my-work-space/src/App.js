@@ -16,7 +16,7 @@ import { useWindowDimensions } from './components/parts/useWindowDimensions';
 import {LoginCheck,RegistToken,Logout,useDbToken} from "./components/parts/LoginCheck";
 
 import Button from '@material-ui/core/Button';
-import {DarkTheme,SetDarkTheme} from "./components/parts/Theme";
+import {Theme,SetDarkTheme} from "./components/parts/Theme";
 
 const App = () => {
 
@@ -27,9 +27,9 @@ const App = () => {
   const [email, setEmail] = useState([]);
   const [picture, setPicture] = useState("");
 
-  const [mainColor,setMainColor] = useState(DarkTheme.mainColor);
-  const [baseColor,setBaseColor] = useState(DarkTheme.baseColor);
-  const [accentColor,setAccentColor] = useState(DarkTheme.accentColor);
+  const [mainColor,setMainColor] = useState(Theme.mainColor);
+  const [baseColor,setBaseColor] = useState(Theme.baseColor);
+  const [accentColor,setAccentColor] = useState(Theme.accentColor);
 
   // 読み込み時の動作
   useEffect(() => {
@@ -291,7 +291,7 @@ const App = () => {
           {
             pageStatus != "top" &&
               <TaskDetailSideBarTitle
-                title = "タスク一覧"
+                title = "残りタスク一覧"
                 mainColor={mainColor}
                 baseColor={baseColor}
                 accentColor={accentColor}
@@ -324,7 +324,7 @@ const App = () => {
               accentColor={accentColor}
               taskBarWidth={taskBarWidth}
             />
-          }
+      }
     </div>
   );
 }

@@ -42,6 +42,7 @@ const TasksDownLoad = (props) => {
     const token = await UseDbToken();
     console.log("token",token);
     const data = {
+      // task_date:formatDate(today),
       task_date_to:search_date_to,
       task_tag_id:props.searchTag,
       token:token,
@@ -65,108 +66,137 @@ const TasksDownLoad = (props) => {
     return response;
   }
 
+  const todayTaskSearch = async() => {
+    const token = await UseDbToken();
+    const data = {
+      task_date:formatDate(today),
+      task_tag_id:props.searchTag,
+      token:token,
+      request:"today_tasks",
+    };
+    let response = [];
+    await fetch('/taskQuerySearch',{
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then((res_data)=>{
+      console.log(res_data)
+      response = res_data;
+    });
+    return response;
+  }
+
   // 出力更新
   useEffect(() => {
     setOutput("test");
-    taskSearch(nextDay).then((next) => {
-      console.log("tasks",props.tasks);
-      let template = "";
-      if(props.outputConfig.outer_tag_start != ""){
-        template += props.outputConfig.outer_tag_start + "\n";
-      }
-      if(props.outputConfig.title != ""){
-        template += props.outputConfig.title + "\n";
-      }
-      if(props.outputConfig.header_today != "" || props.outputConfig.date_checked != ""){
-        template += "【";
-        template += props.outputConfig.header_today ;
-        if(props.outputConfig.date_checked == 1){
-          template += "：" + formatDate(today);
+    taskSearch(nextDay)
+    .then((next) => {
+      todayTaskSearch()
+      .then((today_tasks) => {
+        // console.log("tasks",props.tasks);
+        let template = "";
+        if(props.outputConfig.outer_tag_start != ""){
+          template += props.outputConfig.outer_tag_start + "\n";
         }
-        template += "】\n";
-      }
-      let tag_name = "undefined_init";
-      props.tasks.map((task, index) =>{
-        if(tagChecked){
-          if(tag_name != task.task_tag_name){
-            if(tag_name != "undefined_init"){
-              template += "\n";
+        if(props.outputConfig.title != ""){
+          template += props.outputConfig.title + "\n";
+        }
+        if(props.outputConfig.header_today != "" || props.outputConfig.date_checked != ""){
+          template += "【";
+          template += props.outputConfig.header_today ;
+          if(props.outputConfig.date_checked == 1){
+            template += "：" + formatDate(today);
+          }
+          template += "】\n";
+        }
+        let tag_name = "undefined_init";
+        today_tasks.map((task, index) =>{
+          if(tagChecked){
+            if(tag_name != task.task_tag_name){
+              if(tag_name != "undefined_init"){
+                template += "\n";
+              }
+              if(task.task_tag_name){
+                template += "< " + task.task_tag_name + " >\n";
+                tag_name = task.task_tag_name;
+              }
+              else{
+                tag_name = task.task_tag_name;
+              }
             }
-            if(task.task_tag_name){
-              template += "< " + task.task_tag_name + " >\n";
-              tag_name = task.task_tag_name;
+          }
+          template += props.outputConfig.indent + task.task_name;
+          if(props.outputConfig.progress_checked == 1){
+            if(task.task_point != null){
+              template += "：" + task.task_point + "%";
             }
             else{
-              tag_name = task.task_tag_name;
+              template += "：0%";
             }
           }
-        }
-        template += props.outputConfig.indent + task.task_name;
-        if(props.outputConfig.progress_checked == 1){
-          if(task.task_point != null){
-            template += "：" + task.task_point + "%";
-          }
-          else{
-            template += "：0%";
-          }
+          template += "\n";
+        });
+    
+        if(props.outputConfig.delimiter != ""){
+          template += props.outputConfig.delimiter;
         }
         template += "\n";
-      });
-  
-      if(props.outputConfig.delimiter != ""){
-        template += props.outputConfig.delimiter;
-      }
-      template += "\n";
-  
-      if(props.outputConfig.header_tomorrow != "" || props.outputConfig.date_checked != ""){
-        template += "【";
-        template += props.outputConfig.header_tomorrow ;
-        if(props.outputConfig.date_checked == 1){
-          template += "：" + nextDay;
+    
+        if(props.outputConfig.header_tomorrow != "" || props.outputConfig.date_checked != ""){
+          template += "【";
+          template += props.outputConfig.header_tomorrow ;
+          if(props.outputConfig.date_checked == 1){
+            template += "：" + nextDay;
+          }
+          template += "】\n";
         }
-        template += "】\n";
-      }
-  
-      tag_name = "undefined_init";
-      next.map((task, index) =>{
-        if(tagChecked){
-          if(tag_name != task.task_tag_name){
-            if(tag_name != "undefined_init"){
-              template += "\n";
-            }
-            if(task.task_tag_name){
-              template += "< " + task.task_tag_name + " >\n";
-              tag_name = task.task_tag_name;
-            }
-            else{
-              tag_name = task.task_tag_name;
+    
+        tag_name = "undefined_init";
+        next.map((task, index) =>{
+          if(tagChecked){
+            if(tag_name != task.task_tag_name){
+              if(tag_name != "undefined_init"){
+                template += "\n";
+              }
+              if(task.task_tag_name){
+                template += "< " + task.task_tag_name + " >\n";
+                tag_name = task.task_tag_name;
+              }
+              else{
+                tag_name = task.task_tag_name;
+              }
             }
           }
-        }
-        switch(task.task_priority){
-          case 1 :
-            template += props.outputConfig.indent + " ◎ " +task.task_name + "\n";
-            break;
+          switch(task.task_priority){
+            case 1 :
+              template += props.outputConfig.indent + " ◎ " +task.task_name + "\n";
+              break;
+            
+            case 2 :
+              template += props.outputConfig.indent + " ○ " + task.task_name + "\n";
+              break;
+  
+            case 3 :
+              template += props.outputConfig.indent + " △ " + task.task_name + "\n";
+              break;
           
-          case 2 :
-            template += props.outputConfig.indent + " ○ " + task.task_name + "\n";
-            break;
-
-          case 3 :
-            template += props.outputConfig.indent + " △ " + task.task_name + "\n";
-            break;
-        
-          default:
-            template += props.outputConfig.indent + task.task_name + "\n";
-            break;
+            default:
+              template += props.outputConfig.indent + task.task_name + "\n";
+              break;
+          }
+        });
+    
+        if(props.outputConfig.outer_tag_end != ""){
+          template += props.outputConfig.outer_tag_end;
         }
-      });
-  
-      if(props.outputConfig.outer_tag_end != ""){
-        template += props.outputConfig.outer_tag_end;
-      }
-  
-      setOutput(template);
+    
+        setOutput(template);
+
+      })
     });
   }, [nextDay,tagChecked]);
 

@@ -104,6 +104,8 @@ const TaskScreen = (props) => {
       task_date:tasks[index].task_date,
       task_detail:tasks[index].task_detail,
       task_point:100,
+      task_priority:tasks[index].task_priority,
+      task_tag_id:tasks[index].task_tag_id,
       search_task_tag_id:tag,
       search_task_date:date,
     }
@@ -447,7 +449,8 @@ const TaskScreen = (props) => {
         style={{
           "position":"fixed",
           "left":`${props.sideBarWidth}%`,
-          "top":"84%",
+          "top":"88%",
+          "height":"10%",
           "width":"12%",
         }}
       >
@@ -522,7 +525,7 @@ const TaskScreen = (props) => {
       { tasksDL &&
         <TasksDownLoad
           taskBarWidth={props.taskBarWidth}
-          tasks={tasks}
+          // tasks={tasks}
           searchTag={tag}
           outputConfig={outputConfig}
           close={
