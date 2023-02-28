@@ -15,7 +15,65 @@ const TasksDownLoad = (props) => {
     var y = dt.getFullYear();
     var m = ('00' + (dt.getMonth()+1)).slice(-2);
     var d = ('00' + (dt.getDate()+ add_d)).slice(-2);
+
+    if(add_d > 0){
+
+      // 次月へ
+      if(m == "02"){
+        if(leapDayChecker(y)){
+          d = Number(d) - 29;
+          if(d < 10){
+            d = "0"+d;
+          }
+          m = Number(m) + 1 ;
+          if(m < 10){
+            m = "0"+m;
+          }
+        }
+        else{
+          d = Number(d) - 28;
+          if(d < 10){
+            d = "0"+d;
+          }
+          m = Number(m) + 1 ;
+          if(m < 10){
+            m = "0"+m;
+          }
+        }
+      }
+      else{
+        d = Number(d) - 30;
+        if(m == "01" || m == "03" || m == "05" || m == "07" || m == "08" || m == "10" || m == "12" ){
+          d = d -1;
+        }
+        if(d < 10){
+          d = "0"+d;
+        }
+        m = Number(m) + 1 ;
+        if(m < 10){
+          m = "0"+m;
+        }
+      }
+  
+      // 次年へ
+      if(m == "13"){
+        y = Number(y) + 1;
+        y = y.toFixed();
+      }
+    }
+
     return (y + '-' + m + '-' + d);
+  }
+
+  // 閏年判定
+  const leapDayChecker = (year) => {
+    if(year % 100 === 0 && year % 400 !== 0){
+      return false;
+    }
+    if(year % 4 === 0){
+      return true;
+    }
+    return false;
   }
 
   const [output, setOutput] = useState("");
@@ -42,7 +100,6 @@ const TasksDownLoad = (props) => {
     const token = await UseDbToken();
     console.log("token",token);
     const data = {
-      // task_date:formatDate(today),
       task_date_to:search_date_to,
       task_tag_id:props.searchTag,
       token:token,
@@ -195,8 +252,9 @@ const TasksDownLoad = (props) => {
         }
     
         setOutput(template);
+        console.log("output",templete);
 
-      })
+      });
     });
   }, [nextDay,tagChecked]);
 
