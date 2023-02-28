@@ -268,8 +268,10 @@ app.post('/taskQuerySearch',(req, res) => {
 
         // 当日タスクの検索
         if(req.body.request == "today_tasks"){
+          // console.log("today!!!!!")
+          // return false;
           // タスク検索
-          if(req.body.task_date_to){
+          if(req.body.task_date){
             // タグの条件を整理
             let tag_sql = "";
             if(!req.body.task_tag_id){
@@ -288,7 +290,7 @@ app.post('/taskQuerySearch',(req, res) => {
         }
 
         // 次回タスクの検索
-        if(req.body.request == "next_tasks"){
+        else if(req.body.request == "next_tasks"){
           // タスク検索
           if(req.body.task_date_to){
             // タグの条件を整理

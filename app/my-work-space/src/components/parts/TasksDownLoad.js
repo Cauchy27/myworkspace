@@ -141,7 +141,7 @@ const TasksDownLoad = (props) => {
     })
     .then(res => res.json())
     .then((res_data)=>{
-      console.log(res_data)
+      console.log("today",res_data)
       response = res_data;
     });
     return response;
@@ -252,7 +252,6 @@ const TasksDownLoad = (props) => {
         }
     
         setOutput(template);
-        console.log("output",templete);
 
       });
     });
