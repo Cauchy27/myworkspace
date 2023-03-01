@@ -20,7 +20,7 @@ const TasksDownLoad = (props) => {
 
       // 次月へ
       if(m == "02"){
-        if(leapDayChecker(y)){
+        if(leapDayChecker(y) && Number(d) > 29){
           d = Number(d) - 29;
           if(d < 10){
             d = "0"+d;
@@ -30,7 +30,7 @@ const TasksDownLoad = (props) => {
             m = "0"+m;
           }
         }
-        else{
+        else if(Number(d) > 28){
           d = Number(d) - 28;
           if(d < 10){
             d = "0"+d;
@@ -42,16 +42,25 @@ const TasksDownLoad = (props) => {
         }
       }
       else{
-        d = Number(d) - 30;
-        if(m == "01" || m == "03" || m == "05" || m == "07" || m == "08" || m == "10" || m == "12" ){
-          d = d -1;
+        if((m == "04" || m == "06" || m == "09" || m == "11" ) && Number(d) > 30){
+          d = Number(d) - 30;
+          if(d < 10){
+            d = "0"+d;
+          }
+          m = Number(m) + 1 ;
+          if(m < 10){
+            m = "0"+m;
+          }
         }
-        if(d < 10){
-          d = "0"+d;
-        }
-        m = Number(m) + 1 ;
-        if(m < 10){
-          m = "0"+m;
+        if((m == "01" || m == "03" || m == "05" || m == "07" || m == "08" || m == "10" || m == "12" ) && Number(d) > 31){
+          d = Number(d) - 31;
+          if(d < 10){
+            d = "0"+d;
+          }
+          m = Number(m) + 1 ;
+          if(m < 10){
+            m = "0"+m;
+          }
         }
       }
   
