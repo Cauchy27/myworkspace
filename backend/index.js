@@ -281,7 +281,7 @@ app.post('/taskQuerySearch',(req, res) => {
               data = [user_id_test,formatDate(today),req.body.task_date,req.body.task_tag_id];
               tag_sql = " and tg.task_tag_id = ?";
             }
-            const search_sql = `select t.task_name,  tg.task_tag_name,t.task_priority from task t left join task_detail td using(task_id) left join task_tag tg using(task_tag_id) where t.user_id = ? and t.task_date = ? ` + tag_sql + " order by tg.task_tag_id, t.task_priority";
+            const search_sql = `select t.task_name,  tg.task_tag_name, td.task_point ,t.task_priority from task t left join task_detail td using(task_id) left join task_tag tg using(task_tag_id) where t.user_id = ? and t.task_date = ? ` + tag_sql + " order by tg.task_tag_id, t.task_priority";
             db.query(search_sql, data,(err, response) => {
               if(err) console.log(err);
               res.json(response);
