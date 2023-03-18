@@ -1,6 +1,8 @@
 version: '3.9'
 
 networks:
+  22apps_proxy_nw:
+    external: true
   app_network:
     driver: bridge
   backend_network:
@@ -19,10 +21,17 @@ services:
     restart: always
     environment:
       - TZ=${TZ}
+      - VIRTUAL_HOST=22apps.jp/myworkspace,22apps.myworkspace # nginx-proxyのホスト設定 ※本番ではlocalhost部分を「example.com,www.example.com」等にする
+      - LETSENCRYPT_HOST=22apps.jp/myworkspace,22apps.myworkspace # Let's Encryptのホスト設定 ※本番ではlocalhost部分を「example.com,www.example.com」等にする
+      - LETSENCRYPT_EMAIL=k.matsukawa@dual.tokyo # Let's Encryptのメール設定
+      - LETSENCRYPT_TEST=true # Let's Encryptのテストかどうかのフラグ 本番ではfalseにする (指定しないとテスト扱いになる)
+      - CERT_NAME=default # ローカルで認証局を立てるときに使う ※本番ではLet's Encryptから直接取得するのでコメントアウトする
+      - HTTPS_METHOD=noredirect # リダイレクトを無効にする
     command: sh -c "cd my-work-space && yarn start"
     ports:
       - "3001:3000"
     networks:
+      - 22apps_proxy_nw
       - app_network
     depends_on:
         - backend
@@ -41,6 +50,7 @@ services:
     ports:
       - 3002:3000
     networks:
+      - 22apps_proxy_nw
       - app_network
       - backend_network
     depends_on:
@@ -66,4 +76,5 @@ services:
     ports:
       - '3306:3306'
     networks:
+      - 22apps_proxy_nw
       - backend_network
